@@ -8,12 +8,13 @@
 class Dresseur
 {
 public:
-	Dresseur();
+	Dresseur(float);
 	~Dresseur();
-	void update(std::vector<bool>, int); //une fonction membre
+	void update(std::vector<bool> collision, int pas, float x); //une fonction membre
 	sf::Sprite d_sprite;
 	Pokemonstock d_getpokemon(int n);
 	Pokemonstock d_getequipe();
+	void healequipe();
 private:
 	sf::Texture d_texture_down;
 	sf::Texture d_texture_down_1;

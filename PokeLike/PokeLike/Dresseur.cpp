@@ -1,6 +1,6 @@
 #include "Dresseur.h"
 
-Dresseur::Dresseur()
+Dresseur::Dresseur(float x)
 {
 	d_texture_down.loadFromFile("Sprite/sprites.png", sf::IntRect(0, 0, 34, 56));
 	d_texture_down_1.loadFromFile("Sprite/sprites.png", sf::IntRect(64, 0, 34, 56));
@@ -15,16 +15,16 @@ Dresseur::Dresseur()
 	d_texture_right_1.loadFromFile("Sprite/sprites.png", sf::IntRect(64, 133, 34, 56));
 	d_texture_right_2.loadFromFile("Sprite/sprites.png", sf::IntRect(192, 133, 34, 56));
 	d_sprite.setTexture(d_texture_down);
-	d_sprite.setPosition(600 + 50, 600 + 50);
+	d_sprite.setScale(x, x);
+	d_sprite.setPosition(x * 650, x * 650);
 }
 
 
 Dresseur::~Dresseur()
 {
-
 }
 
-void Dresseur::update(std::vector<bool> collision, int pas)//Définition de la fonction update (qui est maintenant une fonction  membre de la classe "Dresseur")
+void Dresseur::update(std::vector<bool> collision, int pas, float x)//Définition de la fonction update (qui est maintenant une fonction  membre de la classe "Dresseur")
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) // Vérifie si la flèche "Down" du clavier est appuyé
 	{
@@ -37,7 +37,7 @@ void Dresseur::update(std::vector<bool> collision, int pas)//Définition de la fo
 		else if (pas < 20)
 			d_sprite.setTexture(d_texture_down_2);
 		if (!collision[3])
-			d_sprite.move(0, 2);// Dans le cas ou la condition du "if" est vérifiée La fonction "move" déplace le sprite selon le vecteur (x,y) sachant que l'axe -y est dirigé vers le bas et l'axe -x vers la droite
+			d_sprite.move(x * 0, x * 2);// Dans le cas ou la condition du "if" est vérifiée La fonction "move" déplace le sprite selon le vecteur (x,y) sachant que l'axe -y est dirigé vers le bas et l'axe -x vers la droite
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
 	{
@@ -50,7 +50,7 @@ void Dresseur::update(std::vector<bool> collision, int pas)//Définition de la fo
 		else if (pas < 20)
 			d_sprite.setTexture(d_texture_left_2);
 		if (!collision[0])
-			d_sprite.move(-2, 0);
+			d_sprite.move(x * (-2), x * 0);
 	}
 
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
@@ -64,7 +64,7 @@ void Dresseur::update(std::vector<bool> collision, int pas)//Définition de la fo
 		else if (pas < 20)
 			d_sprite.setTexture(d_texture_right_2);
 		if (!collision[1])
-			d_sprite.move(2, 0);
+			d_sprite.move(x * 2, x * 0);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
 	{
@@ -77,9 +77,11 @@ void Dresseur::update(std::vector<bool> collision, int pas)//Définition de la fo
 		else if (pas < 20)
 			d_sprite.setTexture(d_texture_up_2);
 		if (!collision[2])
-			d_sprite.move(0, -2);
+			d_sprite.move(x * 0, x * (-2));
 	}
+
 }
+
 Pokemonstock Dresseur::d_getpokemon(int n)
 {
 	return d_equipe[n];
@@ -87,4 +89,11 @@ Pokemonstock Dresseur::d_getpokemon(int n)
 Pokemonstock Dresseur::d_getequipe()
 {
 	return *d_equipe;
+}
+void Dresseur::healequipe()
+{
+	for (int i = 0; i < 6; i++)
+	{
+		d_equipe[i].ps_heal();
+	}
 }

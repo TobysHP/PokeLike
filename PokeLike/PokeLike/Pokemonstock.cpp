@@ -50,3 +50,7 @@ void Pokemonstock::ps_fincombat(Pokemonstock cepokemon, Pokemonstock ciblevaincu
 		ps_pvrestant = 0;//pas de pvs sous 0
 	}
 }
+void Pokemonstock::ps_heal()
+{
+	ps_pvrestant = p_pvmax;
+}

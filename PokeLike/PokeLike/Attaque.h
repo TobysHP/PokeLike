@@ -23,10 +23,10 @@ private:
 	std::string a_nom;
 	std::string a_type;
 	int a_nombretype;
-	int a_puissanceoff;
-	int a_puissanceset;
-	std::string a_stataffecteeoff;//def(spe), atk(spe), vit, precis, crit????
-	std::string a_stataffecteeset;
+	int a_puissanceoff;//dégats infligé
+	int a_puissanceset;//coef du set
+	std::string a_stataffecteeoff;//atk(spe)
+	std::string a_stataffecteeset;//atk(spe), def(spe), vit
 	float a_precision;
 	int a_statut;//1 : degats simple, 2 un setupself, 3 setup ennemi, 4 = 1+2, 5 = 1+3
 	//pourquoi ne pas créer une variable booléen par type d'attaque au lieu du typecode, niveau mémoire c'est un peu mieux qu'un gros int
@@ -48,7 +48,7 @@ private:
 	bool a_dragon;
 	bool a_ghost;
 	bool a_dark;
-	bool asteel;
+	bool a_steel;
 
 };
 
