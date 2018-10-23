@@ -33,22 +33,22 @@ private:
 //genre un truc ainsi, qui serait stocké dans la database, au lieu du typecode,  des interrupteurs différents???
 	//peut-être faire une table de bool
 	bool a_normalok;
-	bool a_fireok;
-	bool a_fightingok;
-	bool a_waterok;
-	bool a_flyingok;
-	bool a_grassok;
-	bool a_poison;
-	bool a_electric;
-	bool a_ground;
-	bool a_psychic;
-	bool a_rock;
-	bool a_ice;
-	bool a_bug;
-	bool a_dragon;
-	bool a_ghost;
-	bool a_dark;
-	bool a_steel;
+	bool a_feuok;
+	bool a_eauok;
+	bool a_planteok;
+	bool a_electrikok;
+	bool a_glaceok;
+	bool a_combatok;
+	bool a_poisonok;
+	bool a_solok;
+	bool a_volok;
+	bool a_psyok;
+	bool a_insecteok;
+	bool a_rocheok;
+	bool a_spectreok;
+	bool a_dragonok;
+	bool a_tenebresok;
+	bool a_acierok;
 
 };
 
