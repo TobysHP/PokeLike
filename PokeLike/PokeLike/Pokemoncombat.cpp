@@ -51,7 +51,7 @@ void Pokemoncombat::pc_getdegats(Attaque lattaque, float matricecoef[17][17], Po
 	}
 	//std::cout<<"pv restant :"<<ps_pvrestant<<std::endl;
 }
-void Pokemoncombat::pc_setupself(Attaque lattaque)//multiplier la stat affecté par le boost par le coef
+void Pokemoncombat::pc_setupself(Attaque lattaque)//multiplier la stat affect� par le boost par le coef
 {
 	if (lattaque.a_getstataffecteeset() == "atk")
 	{
@@ -73,4 +73,12 @@ void Pokemoncombat::pc_setupself(Attaque lattaque)//multiplier la stat affecté 
 	{
 		pc_vitcombat *= lattaque.a_getpuissanceset();
 	}
+}
+std::vector<sf::String> Pokemoncombat::pc_getnomattaques()
+{
+	std::vector<sf::String> x;
+	for (int i = 0; i < 4; i++) {
+		x.push_back(pc_attaques[i].a_getnom());
+	}
+	return x;
 }
