@@ -5,6 +5,7 @@
 Pokemon::Pokemon()
 {
 	//lire les variables dans database + condition pour les attaques (en link direct 4)
+	//80 par 80 pour le sprite
 }
 
 

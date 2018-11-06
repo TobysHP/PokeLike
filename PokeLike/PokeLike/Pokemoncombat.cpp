@@ -33,12 +33,12 @@ int Pokemoncombat::pc_getvitcombat()
 }
 void Pokemoncombat::pc_getdegats(Attaque lattaque, float matricecoef[17][17], Pokemoncombat attaquant)
 {
-	int coef;
+	float coef;
 	coef = matricecoef[(*this).p_getnombretype()][lattaque.a_getnombretype()];
 	int pvperdu;
 	if (lattaque.a_getstataffecteeoff() == "atk")//atk phys
 	{
-		pvperdu = coef*(attaquant.pc_getatkcombat()* lattaque.a_getpuissanceoff() / ((*this).pc_getdefcombat()));
+		pvperdu = coef*(attaquant.pc_getatkcombat()* lattaque.a_getpuissanceoff() / ((*this).pc_getdefcombat()));//float to int ok car valeur arrondies ! 
 	}
 	else//atk spe
 	{
