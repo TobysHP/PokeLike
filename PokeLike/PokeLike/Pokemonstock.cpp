@@ -6,6 +6,41 @@ Pokemonstock::Pokemonstock()
 {
 
 }
+Pokemonstock::Pokemonstock(int ID, std:: string nom, std :: string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int rare, int evdonne, std:: string typeev, int pvrestant, Attaque attaque1, Attaque attaque2, Attaque attaque3, Attaque attaque4)
+{
+	
+	Pokemon::Pokemon(ID, nom, type, posx, posy, pvmax, atk, atkspe, def, defspe, vit, rare, evdonne, typeev);
+	if (evdonne != 0)//j'ai un nouveau pokemon
+	{
+		ps_pvrestant = pvmax;
+	}
+	ps_listeatq[0] = attaque1;
+	ps_listeatq[1] = attaque2;
+	ps_listeatq[2] = attaque3;
+	ps_listeatq[3] = attaque4;
+}
+Pokemonstock::Pokemonstock(int ID, std::string nom, std::string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int rare, int evdonne, std::string typeev, int pvrestant)
+{
+	Pokemon::Pokemon(ID, nom, type, posx, posy, pvmax, atk, atkspe, def, defspe, vit, rare, evdonne, typeev);
+	if (evdonne != 0)//j'ai un nouveau pokemon
+	{
+		ps_pvrestant = pvmax;
+	}
+
+}
+Pokemonstock::Pokemonstock(Pokemon acopier)
+{
+	Pokemon::Pokemon(acopier.p_getid(), acopier.p_getnom(), acopier.p_gettype(), acopier.p_getposx(), acopier.p_getposy(), acopier.p_getpvmax(), acopier.p_getatk(), acopier.p_getatkspe(),
+		acopier.p_getdef(), acopier.p_getdefspe(), acopier.p_getvit(), acopier.p_getrare(), acopier.p_getevdonne(), acopier.p_gettypeev());
+	ps_pvrestant = acopier.p_getpvmax();
+}
+void Pokemonstock::ps_setatq(Attaque attaque1, Attaque attaque2, Attaque attaque3, Attaque attaque4)
+{
+	ps_listeatq[0] = attaque1;
+	ps_listeatq[1] = attaque2;
+	ps_listeatq[2] = attaque3;
+	ps_listeatq[3] = attaque4;
+}
 Pokemonstock :: ~Pokemonstock()
 {
 

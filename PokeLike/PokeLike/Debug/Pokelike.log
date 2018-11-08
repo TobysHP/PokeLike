@@ -1,0 +1,24 @@
+﻿  Main.cpp
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(30): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(335): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(337): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(339): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(341): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(414): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(415): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(425): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(426): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(436): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(437): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(447): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(448): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\documents\onedrive\onedrive - umons\polytech\bab3 ig\big data base de données\projet\pokelike\pokelike\main.cpp(509): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
+Main.obj : warning LNK4006: "class std::vector<bool,class std::allocator<bool> > __cdecl Collision(class sf::Rect<float>,class sf::Rect<float>)" (?Collision@@YA?AV?$vector@_NV?$allocator@_N@std@@@std@@V?$Rect@M@sf@@0@Z) already defined in Dresseur.obj; second definition ignored
+Main.obj : warning LNK4006: "void __cdecl showSQLError(unsigned int,void * const &)" (?showSQLError@@YAXIABQAX@Z) already defined in Dresseur.obj; second definition ignored
+D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Données\Projet\Pokelike\Debug\Pokelike.exe : warning LNK4088: image being generated due to /FORCE option; image may not run
+  Pokelike.vcxproj -> D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Données\Projet\Pokelike\Debug\Pokelike.exe

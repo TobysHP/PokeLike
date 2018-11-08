@@ -38,16 +38,19 @@
     <ClInclude Include="Attaque.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Combat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Dresseur.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fctsql.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Fonctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pokemon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Combat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pokemoncombat.h">

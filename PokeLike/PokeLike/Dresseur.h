@@ -5,6 +5,9 @@
 #include "Pokemon.h"
 #include "Pokemonstock.h"
 #include "Pokemoncombat.h"
+
+#ifndef DRESSEUR_H_INCLUDED
+#define DRESSEUR_H_INCLUDED
 class Dresseur
 {
 public:
@@ -14,7 +17,7 @@ public:
 	sf::Sprite d_sprite;
 	Pokemonstock d_getpokemon(int n);
 	Pokemonstock d_getequipe();
-	void healequipe();
+	void d_healequipe();
 private:
 	sf::Texture d_texture_down;
 	sf::Texture d_texture_down_1;
@@ -31,3 +34,4 @@ private:
 	Pokemonstock d_equipe[6];
 	std::vector<Pokemonstock> d_boite;
 };
+#endif
