@@ -1,3 +1,4 @@
+#pragma once
 #include "Attaque.h"
 Attaque::Attaque()
 {

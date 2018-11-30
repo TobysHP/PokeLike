@@ -1,3 +1,4 @@
+#pragma once
 #include "Pokemoncombat.h"
 
 Pokemoncombat::Pokemoncombat()
@@ -7,7 +8,7 @@ Pokemoncombat::Pokemoncombat()
 Pokemoncombat::Pokemoncombat(Pokemonstock acopier)
 {
 	Pokemonstock::Pokemonstock(acopier.p_getid(), acopier.p_getnom(), acopier.p_gettype(), acopier.p_getposx(), acopier.p_getposy(), acopier.p_getpvmax(), acopier.p_getatk(), acopier.p_getatkspe(),
-		acopier.p_getdef(), acopier.p_getdefspe(), acopier.p_getvit(), acopier.p_getrare(), acopier.p_getevdonne(), acopier.p_gettypeev(), acopier.ps_getpvrestant(), acopier.ps_getattaque(0),
+		acopier.p_getdef(), acopier.p_getdefspe(), acopier.p_getvit(), acopier.p_getevdonne(), acopier.p_gettypeev(), acopier.ps_getpvrestant(), acopier.ps_getattaque(0),
 		acopier.ps_getattaque(1), acopier.ps_getattaque(2), acopier.ps_getattaque(3));
 	pc_atkcombat=p_atk;
 	pc_atkspecombat=p_atkspe;

@@ -22,19 +22,31 @@
 
 //https://www.youtube.com/watch?v=1g_Xng_uH2w&t=364s //le dieu italien :O 
 
-int main()
+
+//main
+//int const sizemot = 20;
+
+int main() {
+	//creerDresseurEtBoite();//marche bien
+	//std::vector<Pokemon> lePokedex=chargerLePokedex();
+	Dresseur monDresseur = chargerDresseur(1, 0.75);
+	monDresseur.d_chargerEquipe();
+	system("pause");
+	return 0;
+}
+
+int pasmain()
 {
-	//début main
-	setlocale(LC_ALL, "");
 	float x = 0.75; // facteur graphique
 	sf::RenderWindow maFenetre(sf::VideoMode(x * 1200, x * 1200), "PokeLike");
 	maFenetre.setFramerateLimit(60);// nombre de frames par seconde
-
-									//instantiation d'un objet qui appartient à la classe Warrior
-									/////////ici
+	std::vector<Pokemon> Pokedex;
+	//chargerLePokedex(Pokedex);
 	Dresseur dres(x);
 	int pas = 0;
+
 	std::chrono::milliseconds dura(150);
+
 	// setup de la carte
 	sf::Sprite background_sprite;
 	sf::Texture background;
@@ -173,15 +185,44 @@ int main()
 			}
 			if (compt == 70) compt = 0;
 			compt++;
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) boo = false;
-
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) return 0;//ainsi l'utilsateur sait fermer le jeu depuis le jeu
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)&&option==1) boo = false;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && option == 0)
+			{
+				std::cout << "selection dresseur" << std::endl;
+				std::string tableauDesNoms[4];
+				int tableauDesId[4];
+				for (int i = 0; i < 4; i++)
+				{
+					tableauDesNoms[i] = "pas de dresseur";
+					tableauDesId[i] = 0;
+					std::cout << tableauDesNoms[i] << std::endl;//a supprimer ou comemtner c'est pour moi test
+				}
+				//charger les noms des dresseurs
+				chargerIdsNomsDresseurs(tableauDesId,tableauDesNoms);//charger les noms des dresseurs
+				std::cout << "retour dans le main, j'affiche mes noms" << std::endl;
+				for (int i = 0; i < 4; i++)
+				{
+					std::cout <<"id : "<<tableauDesId[i]<<"\tnom : "<< tableauDesNoms[i] << std::endl;
+				}
+				/*std::cout << "veuillez sélectionner le dresseur à charger" << std::endl;
+				int choix = 0;
+				while (choix < 1 || choix>4)
+				{
+					std::cin >> choix;
+				}
+				choix--;
+				Dresseur monDresseur=Dresseur(x, tableauDesId[choix], tableauDesNoms[choix]);*/
+				//creerDresseurEtBoite();
+				boo = false;
+			}
 			menu_sprite.setScale(x, x);
 
 			maFenetre.draw(menu_sprite);
 
 			maFenetre.display();
 		}
-		
+
 		while (endmap) { // boucle liée à la map
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
@@ -285,13 +326,14 @@ int main()
 
 
 			// mon poke
-			Pokemoncombat mon_pokemon = Pokemoncombat(dres.d_getpokemon(i));
+			Pokemoncombat mon_pokemon = Pokemoncombat(dres.d_getPokemonEquipe(i));
 			/*std::string nom = "Pikachu";
 			int tab[4] = { 0,0, 131, 138 };
 			Pokemon mon_pokemon;//(nom, tab);
 			mon_pokemon.p_sprite.setPosition(326, 409);*/
+
 			// poke sauvage
-			Pokemoncombat pokemon_sauvage = Pokemoncombat(dres.d_getpokemon(i + 1));
+			Pokemoncombat pokemon_sauvage = Pokemoncombat(dres.d_getPokemonEquipe(i + 1));
 			/*std::string nom2 = "Goten";
 			int tab2[4] = { 0,0, 109, 142 };
 			Pokemon pokemon_sauvage;// (nom2, tab2);
@@ -522,7 +564,7 @@ int main()
 								std::cout << "Mon Pokémon ko !" << std::endl;
 								for (int c = 0; i < 6; i++)
 								{
-									if (dres.d_getpokemon(c).ps_getpvrestant() == 0)
+									if (dres.d_getPokemonEquipe(c).ps_getpvrestant() == 0)
 									{
 										i++;
 									}
@@ -537,7 +579,7 @@ int main()
 								//if yes, switch p = true, je charge un autre
 								if (switchp == true)
 								{
-									dres.d_getpokemon(i).ps_fincombat(mon_pokemon, pokemon_sauvage, win);
+									dres.d_getPokemonEquipe(i).ps_fincombat(mon_pokemon, pokemon_sauvage, win);
 									std::cout << "quel pokemon selectionner?" << std::endl;
 									/*do {
 									//selection dans sous menu
@@ -560,7 +602,7 @@ int main()
 								std::cout << "Mon Pokémon ko !" << std::endl;
 								for (int c = 0; i < 6; i++)
 								{
-									if (dres.d_getpokemon(c).ps_getpvrestant() == 0)
+									if (dres.d_getPokemonEquipe(c).ps_getpvrestant() == 0)
 									{
 										i++;
 									}
@@ -575,7 +617,7 @@ int main()
 								//if yes, switch p = true, je charge un autre
 								if (switchp == true)
 								{
-									dres.d_getpokemon(i).ps_fincombat(mon_pokemon, pokemon_sauvage, win);
+									dres.d_getPokemonEquipe(i).ps_fincombat(mon_pokemon, pokemon_sauvage, win);
 									std::cout << "quel pokemon selectionner?" << std::endl;
 									/*do {
 									//selection dans sous menu

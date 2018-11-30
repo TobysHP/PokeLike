@@ -11,13 +11,26 @@
 class Dresseur
 {
 public:
+	Dresseur();
 	Dresseur(float);
+	Dresseur(float, int idDresseur, std::string nomDresseur);
+	int d_getId();
+	std::string d_getNom();
 	~Dresseur();
 	void update(std::vector<bool> collision, int pas, float x); //une fonction membre
 	sf::Sprite d_sprite;
-	Pokemonstock d_getpokemon(int n);
-	Pokemonstock d_getequipe();
+	Pokemonstock d_getPokemonEquipe(int n);
+	Pokemonstock d_getPokemonBoite(int n);
 	void d_healequipe();
+	int d_getIDEquipe();
+	int d_getIDBoite();
+	void d_setIDEquipe(int idequipe);
+	void d_setIDBoite(int idboite);
+	//pour ces 2 fcts, on suppose que le numéro de boite et d'équipe du dresseur a bien été chargé
+	//ces méthodes étant des fct qui font des requetes sql, elles sont définies dans fctsql.h
+	void d_chargerEquipe();
+	void d_chargerBoite();
+	
 private:
 	sf::Texture d_texture_down;
 	sf::Texture d_texture_down_1;
@@ -31,7 +44,11 @@ private:
 	sf::Texture d_texture_right;
 	sf::Texture d_texture_right_1;
 	sf::Texture d_texture_right_2;
-	Pokemonstock d_equipe[6];
+	int d_id;
+	std::string d_nom;
+	int d_idBoite;
+	int d_idEquipe;
+	std::vector<Pokemonstock> d_equipe;
 	std::vector<Pokemonstock> d_boite;
 };
 #endif

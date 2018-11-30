@@ -1,3 +1,4 @@
+#pragma once
 #include "Pokemon.h"
 
 
@@ -6,7 +7,7 @@ Pokemon::Pokemon()
 {
 	
 }
-Pokemon::Pokemon(int ID, std:: string nom, std:: string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int rare, int evdonne, std:: string typeev)
+Pokemon::Pokemon(int ID, std:: string nom, std:: string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit,  int evdonne, std:: string typeev)
 {
 	p_ID = p_ID;
 	p_nom = p_nom;
@@ -19,13 +20,14 @@ Pokemon::Pokemon(int ID, std:: string nom, std:: string type, int posx, int posy
 	p_def = def;
 	p_defspe = defspe;
 	p_vit = vit;
-	p_rare = 1;//je met çà pour le moment à défaut de mieux x) 
+	//p_rare = 1;//on en aura pas besoin
 	p_evdonne = evdonne;
 	p_typeev = typeev; 
-	sf::Sprite p_sprite;
+	/*sf::Sprite p_sprite;
 	sf::Texture p_texture;
 	p_texture.loadFromFile("Sprite/4g_sprite_pokemon.png", sf::IntRect(p_posx, p_posy, 80, 80));
-	p_sprite.setTexture(p_texture);
+	p_sprite.setTexture(p_texture);*/
+	//on va le charger sur une autre fonciton pour les temps de calcul lors de chargement
 	if (type=="normal") {
 		p_nombretype = 0;
 	}
@@ -124,10 +126,10 @@ int Pokemon::p_getvit()
 {
 	return p_vit;
 }
-int Pokemon::p_getrare()
+/*int Pokemon::p_getrare()
 {
 	return p_rare;
-}
+}*/
 int Pokemon::p_getevdonne()
 {
 	return p_evdonne;
@@ -146,5 +148,11 @@ int Pokemon::p_getid()
 }
 sf::Sprite Pokemon::p_getsprite() {
 	return p_sprite;
+}
+void Pokemon::p_setsprite() {
+	sf::Sprite p_sprite;
+	sf::Texture p_texture;
+	p_texture.loadFromFile("Sprite/4g_sprite_pokemon.png", sf::IntRect(p_posx, p_posy, 80, 80));
+	p_sprite.setTexture(p_texture);
 }
 
