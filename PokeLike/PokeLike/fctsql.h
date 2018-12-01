@@ -984,14 +984,226 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 } 
 
-void chargerPokemonDresseur(Dresseur &leDresseur)
+/*void chargerPokemonDresseur(Dresseur &leDresseur)
 {
 	//va devenir 2 méthodes de dresseur : chargerEquipe et chargerBoite
-}
-void chargerAttaquePokemonDresseur(Dresseur &leDresseur)
+}*/
+/*void chargerAttaquePokemonDresseur(Dresseur &leDresseur)
 {
 	//chaque pokémon aura une méthode chargerAttaque
 	//il suffira de l'appeler quand nécéssaire, ou au chargement des pokémons (! de bien fermer une requete avant d'en faire une autre, donc de charger d'abord les pkmns betement, puis pour chacun load ses attaques
+} */
+// ! l'id chargé temporairement est celle du pokedex ! si on save ce pokemon, il recevra une nouvelle id de la part du sgbd=> sera nécéssaire pour l'insertion des attaques ! 
+//faire donc très attention dans inserrer dans DB par la suite !!!!!
+Pokemonstock creerUnPokemonRandom()
+{
+	int rarete = (rand() % 3) + 1;
+	Pokemonstock lePokemon;
+	//premièrement get un pokemon random, le paramètre est géré dans le main, ou pas et il suffit de le faire ici
+	//std::string SQLQuery = "Select TOP 1 * from pokemonpokedex where ppx_rarete =" + std::to_string(rarete) + " ORDER BY rnd(pokemonpokedex.ppx_idpokemon)";//old query
+	std::string SQLQuery = "Select TOP 1 * from pokemonpokedex where ppx_rarete =" + std::to_string(rarete) + " ORDER BY rnd(INT(NOW*pokemonpokedex.ppx_idpokemon) - NOW * pokemonpokedex.ppx_idpokemon)";
+	SQLHANDLE SQLEnvHandle = NULL;
+	SQLHANDLE SQLConnectionHandle = NULL;
+	SQLHANDLE SQLStatementHandle = NULL;
+	SQLRETURN retCode = 0;
+	do
+	{
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
+		{
+			break;
+		}
+
+		if (SQL_SUCCESS != SQLSetEnvAttr(SQLEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, SQLEnvHandle, &SQLConnectionHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLSetConnectAttr(SQLConnectionHandle, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0))
+		{
+			break;
+		}
+		SQLCHAR retConString[1024];
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Données\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		{
+		case SQL_SUCCESS:
+			break;
+		case SQL_SUCCESS_WITH_INFO:
+			break;
+		case SQL_NO_DATA_FOUND:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_INVALID_HANDLE:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_ERROR:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		default:
+			break;
+		}
+		if (retCode == -1)
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, SQLConnectionHandle, &SQLStatementHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
+		{
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+			break;
+		}
+		else//c'est ici que je get mes données !
+		{
+			int const sizemot = 20;
+			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS)
+			{
+				int id;
+				char name[sizemot];
+				char type[sizemot];
+				int xsprite;
+				int ysprite;
+				int pvmax;
+				int atk;
+				int def;
+				int atkspe;
+				int defspe;
+				int vit;
+				int evdonne;
+				char typeev[sizemot];
+				SQLGetData(SQLStatementHandle, 1, SQL_INTEGER, &id, sizeof(id), NULL);
+				SQLGetData(SQLStatementHandle, 2, SQL_CHAR, &name, sizeof(name), NULL);
+				SQLGetData(SQLStatementHandle, 3, SQL_CHAR, &type, sizeof(type), NULL);
+				SQLGetData(SQLStatementHandle, 4, SQL_INTEGER, &xsprite, sizeof(xsprite), NULL);
+				SQLGetData(SQLStatementHandle, 5, SQL_INTEGER, &ysprite, sizeof(ysprite), NULL);
+				SQLGetData(SQLStatementHandle, 6, SQL_INTEGER, &pvmax, sizeof(pvmax), NULL);
+				SQLGetData(SQLStatementHandle, 7, SQL_INTEGER, &atk, sizeof(atk), NULL);
+				SQLGetData(SQLStatementHandle, 8, SQL_INTEGER, &def, sizeof(def), NULL);
+				SQLGetData(SQLStatementHandle, 9, SQL_INTEGER, &atkspe, sizeof(atkspe), NULL);
+				SQLGetData(SQLStatementHandle, 10, SQL_INTEGER, &defspe, sizeof(defspe), NULL);
+				SQLGetData(SQLStatementHandle, 11, SQL_INTEGER, &vit, sizeof(vit), NULL);
+				SQLGetData(SQLStatementHandle, 12, SQL_INTEGER, &evdonne, sizeof(evdonne), NULL);
+				SQLGetData(SQLStatementHandle, 13, SQL_CHAR, &typeev, sizeof(typeev), NULL);
+				std::string leName(name);
+				std::string leType(type);
+				std::string leTypeEv(typeev);
+				Pokemonstock unPokemon(id, leName, leType, xsprite, ysprite, pvmax, atk, atkspe, def, defspe, vit, evdonne, leTypeEv, pvmax);//pv actif = pvmax qunad on rencontre un pokemon
+				lePokemon = unPokemon;
+				//SQL_C_DEFAULT
+				//SQL_VARBINARY vs SQL_C_BINARY : type dans sql vs type dans c
+				//SQL_INTEGER, 
+			}
+		}
+	} while (FALSE);//do required to break loop if pb happens*/
+	//mnt libérer les ressources
+	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
+	SQLDisconnect(SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
+	//maintenant mettre des attaques
+	//SQLQuery = "SELECT TOP 4 * FROM attaquepokedex WHERE ap_" + lePokemon.p_gettype() + "ok= 1  ORDER BY rnd(attaquepokedex.ap_valdegat)";
+	SQLQuery = "SELECT TOP 4 * FROM attaquepokedex WHERE ap_" + lePokemon.p_gettype() + "ok= 1  ORDER BY rnd(INT(NOW*attaquepokedex.ap_valdegat)-NOW*attaquepokedex.ap_valdegat)";
+	int compteur = 0;
+	do
+	{
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
+		{
+			break;
+		}
+
+		if (SQL_SUCCESS != SQLSetEnvAttr(SQLEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, SQLEnvHandle, &SQLConnectionHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLSetConnectAttr(SQLConnectionHandle, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0))
+		{
+			break;
+		}
+		SQLCHAR retConString[1024];
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))
+		{
+		case SQL_SUCCESS:
+			break;
+		case SQL_SUCCESS_WITH_INFO:
+			break;
+		case SQL_NO_DATA_FOUND:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_INVALID_HANDLE:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_ERROR:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		default:
+			break;
+		}
+		if (retCode == -1)
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, SQLConnectionHandle, &SQLStatementHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
+		{
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+			break;
+		}
+		else//c'est ici que je get mes données !
+		{
+			//std::cout << "je rentre ici" << std::endl;
+			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS && compteur < 4)
+			{
+				//std::cout << "je charge mes datas" << std::endl;
+				char name[sizemot];
+				char type[sizemot];
+				int valdeg;
+				char natdeg[sizemot];
+				int coefset;
+				char natset[sizemot];
+				int statut;
+				float precision;
+				SQLGetData(SQLStatementHandle, 1, SQL_CHAR, &name, sizeof(name), NULL);
+				SQLGetData(SQLStatementHandle, 2, SQL_CHAR, &type, sizeof(type), NULL);
+				SQLGetData(SQLStatementHandle, 3, SQL_INTEGER, &valdeg, sizeof(valdeg), NULL);
+				SQLGetData(SQLStatementHandle, 4, SQL_CHAR, &natdeg, sizeof(natdeg), NULL);
+				SQLGetData(SQLStatementHandle, 5, SQL_INTEGER, &coefset, sizeof(coefset), NULL);
+				SQLGetData(SQLStatementHandle, 6, SQL_CHAR, &natset, sizeof(natset), NULL);
+				SQLGetData(SQLStatementHandle, 7, SQL_CHAR, &statut, sizeof(statut), NULL);
+				SQLGetData(SQLStatementHandle, 8, SQL_FLOAT, &precision, sizeof(precision), NULL);
+				std::string lename(name);
+				std::string letype(type);
+				std::string lenatdeg(natdeg);
+				std::string lenatset(natset);
+				Attaque rajouter(lename, letype, valdeg, coefset, lenatdeg, lenatset, precision, statut);
+				lePokemon.ps_setUneAttaque(rajouter, compteur);
+				//std::cout << "l'attaque est : " << lePokemon.ps_getattaque(compteur).a_getnom() << std::endl;
+				compteur++;
+			}
+		}
+	} while (FALSE);//do required to break loop if pb happens*/
+	//mnt libérer les ressources
+	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
+	SQLDisconnect(SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
+	return lePokemon;
 } 
 
 
@@ -1348,17 +1560,14 @@ void Pokemonstock::ps_chargerAttaques()
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 }  
-
-Pokemonstock creerUnPokemonRandom()
+void Pokemonstock::ps_updateDansDB(int boiteOuEquipe)//update les caractéristiques d'un pokemon dans la db ! 
 {
-	int rarete = (rand() % 3) + 1;
-	Pokemonstock lePokemon;
-	//premièrement get un pokemon random, le paramètre est géré dans le main, ou pas et il suffit de le faire ici
-	std::string SQLQuery = "Select TOP 1 * from pokemonpokedex where ppx_rarete =" +std::to_string(rarete) + " ORDER BY rnd(pokemonpokedex.ppx_idpokemon)";
 	SQLHANDLE SQLEnvHandle = NULL;
 	SQLHANDLE SQLConnectionHandle = NULL;
 	SQLHANDLE SQLStatementHandle = NULL;
 	SQLRETURN retCode = 0;
+	std::string SQLQuery = "UPDATE pokeunique SET pu_nompokemon = '"+p_nom +"', pu_pvmax = "+ std::to_string(p_pvmax)+ ", pu_attaque = "+std::to_string(p_atk)+", pu_defense = "+std::to_string(p_def)+", pu_attaquespe = "+std::to_string(p_atkspe)+", pu_defensespe = "+std::to_string(p_defspe)+", pu_vitesse = "+std::to_string(p_vit)+", pu_pvactif = "+std::to_string(ps_pvrestant)+", b_idboite = "+std::to_string(boiteOuEquipe)+" WHERE pu_idpokeunique = "+std::to_string(p_ID);
+
 	do
 	{
 		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
@@ -1413,151 +1622,241 @@ Pokemonstock creerUnPokemonRandom()
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			break;
 		}
-		else//c'est ici que je get mes données !
+		else
 		{
-			int const sizemot = 20;
+			std::cout << "update du pokemon réussie dans la DB !" << std::endl;
+			//system("pause");
+		}
+	} while (false);
+	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
+	SQLDisconnect(SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
+} 
+void Pokemonstock::ps_insererDansDb(int boiteOuEquipe)
+{
+	//! id pokemonunique créé à l'insertion ! => je dois la read, update le pokemon avec, puis faire la suite !
+	//mais d'abord le facile : insertion ! 
+	// 
+	SQLHANDLE SQLEnvHandle = NULL;
+	SQLHANDLE SQLConnectionHandle = NULL;
+	SQLHANDLE SQLStatementHandle = NULL;
+	SQLRETURN retCode = 0;
+	std::string SQLQuery = "INSERT INTO pokeunique(pu_nompokemon, pu_type, pu_xsprite, pu_ysprite, pu_pvmax, pu_attaque, pu_defense, pu_attaquespe, pu_defensespe, pu_vitesse, pu_ev, pu_typeev, pu_pvactif, b_idboite) values('"+p_nom+"', '"+p_type+"', "+std::to_string(p_posx)+", "+ std::to_string(p_posy) +", "+std::to_string(p_pvmax)+", "+std::to_string(p_atk)+", "+ std::to_string(p_def) +", "+ std::to_string(p_atkspe) +", "+ std::to_string(p_defspe) +", "+std::to_string(p_vit) +", "+ std::to_string(p_evdonne) +", '"+p_typeev+"', "+ std::to_string(ps_pvrestant) +", "+ std::to_string(boiteOuEquipe) +")";
+	do
+	{
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
+		{
+			break;
+		}
+
+		if (SQL_SUCCESS != SQLSetEnvAttr(SQLEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, SQLEnvHandle, &SQLConnectionHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLSetConnectAttr(SQLConnectionHandle, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0))
+		{
+			break;
+		}
+		SQLCHAR retConString[1024];
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Données\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		{
+		case SQL_SUCCESS:
+			break;
+		case SQL_SUCCESS_WITH_INFO:
+			break;
+		case SQL_NO_DATA_FOUND:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_INVALID_HANDLE:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_ERROR:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		default:
+			break;
+		}
+		if (retCode == -1)
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, SQLConnectionHandle, &SQLStatementHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
+		{
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+			break;
+		}
+		else
+		{
+			std::cout << "insertion pokemon réussie  dans la DB!";
+		}
+	} while (false);
+	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
+	SQLDisconnect(SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
+	//mnt récupérer l'id du pokemon créé par la DB
+	std::cout << "mnt je vais chercher ma nouvelle id" << std::endl;
+	SQLQuery = "SELECT MAX(pu_idpokeunique) FROM pokeunique";//le pokémon qui vient d'être inséré a l'id la plus haute => je cherche l'id max des pokéunique !
+	do
+	{
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
+		{
+			break;
+		}
+
+		if (SQL_SUCCESS != SQLSetEnvAttr(SQLEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, SQLEnvHandle, &SQLConnectionHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLSetConnectAttr(SQLConnectionHandle, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0))
+		{
+			break;
+		}
+		SQLCHAR retConString[1024];
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Données\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		{
+		case SQL_SUCCESS:
+			break;
+		case SQL_SUCCESS_WITH_INFO:
+			break;
+		case SQL_NO_DATA_FOUND:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_INVALID_HANDLE:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_ERROR:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		default:
+			break;
+		}
+		if (retCode == -1)
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, SQLConnectionHandle, &SQLStatementHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
+		{
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+			break;
+		}
+		else
+		{
+			//je get ma data
+			int newID=0;
+			//std::cout << "avant lecture, mon id vaut : " << newID << std::endl;
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS)
 			{
-				int id;
-				char name[sizemot];
-				char type[sizemot];
-				int xsprite;
-				int ysprite;
-				int pvmax;
-				int atk;
-				int def;
-				int atkspe;
-				int defspe;
-				int vit;
-				int evdonne;
-				char typeev[sizemot];
-				SQLGetData(SQLStatementHandle, 1, SQL_INTEGER, &id, sizeof(id), NULL);
-				SQLGetData(SQLStatementHandle, 2, SQL_CHAR, &name, sizeof(name), NULL);
-				SQLGetData(SQLStatementHandle, 3, SQL_CHAR, &type, sizeof(type), NULL);
-				SQLGetData(SQLStatementHandle, 4, SQL_INTEGER, &xsprite, sizeof(xsprite), NULL);
-				SQLGetData(SQLStatementHandle, 5, SQL_INTEGER, &ysprite, sizeof(ysprite), NULL);
-				SQLGetData(SQLStatementHandle, 6, SQL_INTEGER, &pvmax, sizeof(pvmax), NULL);
-				SQLGetData(SQLStatementHandle, 7, SQL_INTEGER, &atk, sizeof(atk), NULL);
-				SQLGetData(SQLStatementHandle, 8, SQL_INTEGER, &def, sizeof(def), NULL);
-				SQLGetData(SQLStatementHandle, 9, SQL_INTEGER, &atkspe, sizeof(atkspe), NULL);
-				SQLGetData(SQLStatementHandle, 10, SQL_INTEGER, &defspe, sizeof(defspe), NULL);
-				SQLGetData(SQLStatementHandle, 11, SQL_INTEGER, &vit, sizeof(vit), NULL);
-				SQLGetData(SQLStatementHandle, 12, SQL_INTEGER, &evdonne, sizeof(evdonne), NULL);
-				SQLGetData(SQLStatementHandle, 13, SQL_CHAR, &typeev, sizeof(typeev), NULL);
-				std::string leName(name);
-				std::string leType(type);
-				std::string leTypeEv(typeev);
-				Pokemonstock unPokemon(id, leName, leType, xsprite, ysprite, pvmax, atk, atkspe, def, defspe, vit, evdonne, leTypeEv, pvmax);//pv actif = pvmax qunad on rencontre un pokemon
-				lePokemon = unPokemon;
-				//SQL_C_DEFAULT
-				//SQL_VARBINARY vs SQL_C_BINARY : type dans sql vs type dans c
-				//SQL_INTEGER, 
+				SQLGetData(SQLStatementHandle, 1, SQL_INTEGER, &newID, sizeof(newID), NULL);
 			}
+			//std::cout << "après lecture et avant allocation, mon id vaut : " << newID << std::endl;
+			this->ps_setID(newID);
 		}
-	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libérer les ressources
+	} while (false);
+	//std::cout << "ma nouvelle id est " << p_getid() << std::endl;
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-	//maintenant mettre des attaques
-	SQLQuery = "SELECT TOP 4 * FROM attaquepokedex WHERE ap_" +lePokemon.p_gettype()+"ok= 1  ORDER BY rnd(attaquepokedex.ap_valdegat)";
-	int compteur = 0;
-	do
-	{
-		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
-		{
-			break;
-		}
-
-		if (SQL_SUCCESS != SQLSetEnvAttr(SQLEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
-		{
-			break;
-		}
-		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, SQLEnvHandle, &SQLConnectionHandle))
-		{
-			break;
-		}
-		if (SQL_SUCCESS != SQLSetConnectAttr(SQLConnectionHandle, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0))
-		{
-			break;
-		}
-		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Données\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
-		{
-		case SQL_SUCCESS:
-			break;
-		case SQL_SUCCESS_WITH_INFO:
-			break;
-		case SQL_NO_DATA_FOUND:
-			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
-			retCode = -1;
-			break;
-		case SQL_INVALID_HANDLE:
-			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
-			retCode = -1;
-			break;
-		case SQL_ERROR:
-			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
-			retCode = -1;
-			break;
-		default:
-			break;
-		}
-		if (retCode == -1)
-		{
-			break;
-		}
-		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, SQLConnectionHandle, &SQLStatementHandle))
-		{
-			break;
-		}
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
-			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
-			break;
-		}
-		else//c'est ici que je get mes données !
-		{
-			//std::cout << "je rentre ici" << std::endl;
-			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS && compteur < 1)
-			{
-				//std::cout << "je charge mes datas" << std::endl;
-				char name[sizemot];
-				char type[sizemot];
-				int valdeg;
-				char natdeg[sizemot];
-				int coefset;
-				char natset[sizemot];
-				int statut;
-				float precision;
-				SQLGetData(SQLStatementHandle, 1, SQL_CHAR, &name, sizeof(name), NULL);
-				SQLGetData(SQLStatementHandle, 2, SQL_CHAR, &type, sizeof(type), NULL);
-				SQLGetData(SQLStatementHandle, 3, SQL_INTEGER, &valdeg, sizeof(valdeg), NULL);
-				SQLGetData(SQLStatementHandle, 4, SQL_CHAR, &natdeg, sizeof(natdeg), NULL);
-				SQLGetData(SQLStatementHandle, 5, SQL_INTEGER, &coefset, sizeof(coefset), NULL);
-				SQLGetData(SQLStatementHandle, 6, SQL_CHAR, &natset, sizeof(natset), NULL);
-				SQLGetData(SQLStatementHandle, 7, SQL_CHAR, &statut, sizeof(statut), NULL);
-				SQLGetData(SQLStatementHandle, 8, SQL_FLOAT, &precision, sizeof(precision), NULL);
-				std::string lename(name);
-				std::string letype(type);
-				std::string lenatdeg(natdeg);
-				std::string lenatset(natset);
-				Attaque rajouter(lename, letype, valdeg, coefset, lenatdeg, lenatset, precision, statut);
-				lePokemon.ps_setUneAttaque(rajouter, compteur);
-				compteur++;
-			}
-		}
-	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libérer les ressources
-	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
-	SQLDisconnect(SQLConnectionHandle);
-	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
-	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-	return lePokemon;
+	//plus qu'à écrire les attaques => j'appelle la fct qui fait çà !
+	this->ps_savelesattaques();
 }
+void Pokemonstock::ps_savelesattaques()//fct qui enregistre les attaques d'un pokémon dans la db
+{
+	
+	SQLHANDLE SQLEnvHandle = NULL;
+	SQLHANDLE SQLConnectionHandle = NULL;
+	SQLHANDLE SQLStatementHandle = NULL;
+	SQLRETURN retCode = 0;
+	for (int compteur = 0; compteur < 4; compteur++)
+	{
+		std::string SQLQuery = "INSERT INTO attaquepokeunique(a_nomattaque, pu_idpokeunique) values('"+ps_getattaque(compteur).a_getnom()+"', "+std::to_string(p_getid())+")";
+		std::cout << "nom attaque : " << ps_getattaque(compteur).a_getnom() << std::endl;
+		do
+		{
+			if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
+			{
+				break;
+			}
 
-
-
-
-
+			if (SQL_SUCCESS != SQLSetEnvAttr(SQLEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
+			{
+				break;
+			}
+			if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, SQLEnvHandle, &SQLConnectionHandle))
+			{
+				break;
+			}
+			if (SQL_SUCCESS != SQLSetConnectAttr(SQLConnectionHandle, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0))
+			{
+				break;
+			}
+			SQLCHAR retConString[1024];
+			switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Données\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+			{
+			case SQL_SUCCESS:
+				break;
+			case SQL_SUCCESS_WITH_INFO:
+				break;
+			case SQL_NO_DATA_FOUND:
+				showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+				retCode = -1;
+				break;
+			case SQL_INVALID_HANDLE:
+				showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+				retCode = -1;
+				break;
+			case SQL_ERROR:
+				showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+				retCode = -1;
+				break;
+			default:
+				break;
+			}
+			if (retCode == -1)
+			{
+				break;
+			}
+			if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, SQLConnectionHandle, &SQLStatementHandle))
+			{
+				break;
+			}
+			if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
+			{
+				showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+				break;
+			}
+			else
+			{
+				std::cout << "insertion attaque "<<compteur<<" réussie" << std::endl;
+			}
+		} while (false);
+		SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
+		SQLDisconnect(SQLConnectionHandle);
+		SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
+		SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
+	}
+}

@@ -5,6 +5,7 @@ class Pokemoncombat : public Pokemonstock {
 public : 
 	Pokemoncombat();
 	Pokemoncombat(Pokemonstock acopier);
+	Pokemoncombat(int ID, std::string nom, std::string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int evdonne, std::string typeev, int pvrestant, Attaque atq1, Attaque atq2, Attaque atq3, Attaque atq4);
 	~Pokemoncombat();
 	int pc_getatkcombat();
 	int pc_getatkspecombat();

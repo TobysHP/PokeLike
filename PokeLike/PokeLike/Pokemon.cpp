@@ -9,13 +9,14 @@ Pokemon::Pokemon()
 }
 Pokemon::Pokemon(int ID, std:: string nom, std:: string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit,  int evdonne, std:: string typeev)
 {
-	p_ID = p_ID;
-	p_nom = p_nom;
+	p_ID = ID;
+	std::cout << p_ID << std::endl;
+	p_nom = nom;
 	p_type = type;
 	p_posx = posx;
 	p_posy = posy;
 	p_pvmax = pvmax;
-	p_atk = p_atk;
+	p_atk = atk;
 	p_atkspe = atkspe;
 	p_def = def;
 	p_defspe = defspe;
