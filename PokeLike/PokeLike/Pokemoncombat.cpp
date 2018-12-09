@@ -7,10 +7,82 @@ Pokemoncombat::Pokemoncombat()
 }
 Pokemoncombat::Pokemoncombat(Pokemonstock acopier)
 {
-	Pokemonstock::Pokemonstock(acopier.p_getid(), acopier.p_getnom(), acopier.p_gettype(), acopier.p_getposx(), acopier.p_getposy(), acopier.p_getpvmax(), acopier.p_getatk(), acopier.p_getatkspe(),
+	/*Pokemonstock::Pokemonstock(acopier.p_getid(), acopier.p_getnom(), acopier.p_gettype(), acopier.p_getposx(), acopier.p_getposy(), acopier.p_getpvmax(), acopier.p_getatk(), acopier.p_getatkspe(),
 		acopier.p_getdef(), acopier.p_getdefspe(), acopier.p_getvit(), acopier.p_getevdonne(), acopier.p_gettypeev(), acopier.ps_getpvrestant(), acopier.ps_getattaque(0),
-		acopier.ps_getattaque(1), acopier.ps_getattaque(2), acopier.ps_getattaque(3));
-
+		acopier.ps_getattaque(1), acopier.ps_getattaque(2), acopier.ps_getattaque(3));*/
+	ps_pvrestant = acopier.ps_getpvrestant();
+	p_ID = acopier.p_getid();
+	std::cout << p_ID << std::endl;
+	p_nom = acopier.p_getnom();
+	p_type = acopier.p_gettype();
+	p_posx = acopier.p_getposx();
+	p_posy = acopier.p_getposy();
+	p_pvmax = acopier.p_getpvmax();
+	p_atk = acopier.p_getatk();
+	p_atkspe = acopier.p_getatkspe();
+	p_def = acopier.p_getdef();
+	p_defspe = acopier.p_getdefspe();
+	p_vit = acopier.p_getvit();
+	//p_rare = 1;//on en aura pas besoin
+	p_evdonne = acopier.p_getevdonne();
+	p_typeev = acopier.p_gettypeev();
+	std::string type = acopier.p_gettype();
+	//on va le charger sur une autre fonciton pour les temps de calcul lors de chargement
+	if (type == "normal") {
+		p_nombretype = 0;
+	}
+	if (type == "feu") {
+		p_nombretype = 1;
+	}
+	if (type == "eau") {
+		p_nombretype = 2;
+	}
+	if (type == "plante") {
+		p_nombretype = 3;
+	}
+	if (type == "electrik") {
+		p_nombretype = 4;
+	}
+	if (type == "glace") {
+		p_nombretype = 5;
+	}
+	if (type == "combat") {
+		p_nombretype = 6;
+	}
+	if (type == "poison") {
+		p_nombretype = 7;
+	}
+	if (type == "sol") {
+		p_nombretype = 8;
+	}
+	if (type == "vol") {
+		p_nombretype = 9;
+	}
+	if (type == "psy") {
+		p_nombretype = 10;
+	}
+	if (type == "insecte") {
+		p_nombretype = 11;
+	}
+	if (type == "roche") {
+		p_nombretype = 12;
+	}
+	if (type == "spectre") {
+		p_nombretype = 13;
+	}
+	if (type == "dragon") {
+		p_nombretype = 14;
+	}
+	if (type == "tenebres") {
+		p_nombretype = 15;
+	}
+	if (type == "acier") {
+		p_nombretype = 16;
+	}
+	for (int i = 0; i<4; i++)
+	{
+		ps_listeatq[i] = acopier.ps_getattaque(i);
+	}
 	pc_atkcombat=p_atk;
 	pc_atkspecombat=p_atkspe;
 	pc_defcombat=p_def;
@@ -124,6 +196,7 @@ void Pokemoncombat::pc_getdegats(Attaque lattaque, float matricecoef[17][17], Po
 {
 	float coef;
 	coef = matricecoef[(*this).p_getnombretype()][lattaque.a_getnombretype()];
+	//coef = matricecoef[1][1];
 	int pvperdu;
 	if (lattaque.a_getstataffecteeoff() == "physique")//atk phys
 	{

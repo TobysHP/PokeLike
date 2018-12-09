@@ -9,11 +9,75 @@ Pokemonstock::Pokemonstock()
 Pokemonstock::Pokemonstock(int ID, std:: string nom, std :: string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int evdonne, std:: string typeev, int pvrestant, Attaque attaque1, Attaque attaque2, Attaque attaque3, Attaque attaque4)
 {
 	
-	Pokemon::Pokemon(ID, nom, type, posx, posy, pvmax, atk, atkspe, def, defspe, vit, evdonne, typeev);
-	/*if (evdonne != 0)//j'ai un nouveau pokemon
-	{
-		ps_pvrestant = pvmax;
-	}*/
+	//Pokemon::Pokemon(ID, nom, type, posx, posy, pvmax, atk, atkspe, def, defspe, vit, evdonne, typeev);
+	ps_pvrestant = pvrestant;
+	p_ID = ID;
+	std::cout << p_ID << std::endl;
+	p_nom = nom;
+	p_type = type;
+	p_posx = posx;
+	p_posy = posy;
+	p_pvmax = pvmax;
+	p_atk = atk;
+	p_atkspe = atkspe;
+	p_def = def;
+	p_defspe = defspe;
+	p_vit = vit;
+	//p_rare = 1;//on en aura pas besoin
+	p_evdonne = evdonne;
+	p_typeev = typeev;
+	//on va le charger sur une autre fonciton pour les temps de calcul lors de chargement
+	if (type == "normal") {
+		p_nombretype = 0;
+	}
+	if (type == "feu") {
+		p_nombretype = 1;
+	}
+	if (type == "eau") {
+		p_nombretype = 2;
+	}
+	if (type == "plante") {
+		p_nombretype = 3;
+	}
+	if (type == "electrik") {
+		p_nombretype = 4;
+	}
+	if (type == "glace") {
+		p_nombretype = 5;
+	}
+	if (type == "combat") {
+		p_nombretype = 6;
+	}
+	if (type == "poison") {
+		p_nombretype = 7;
+	}
+	if (type == "sol") {
+		p_nombretype = 8;
+	}
+	if (type == "vol") {
+		p_nombretype = 9;
+	}
+	if (type == "psy") {
+		p_nombretype = 10;
+	}
+	if (type == "insecte") {
+		p_nombretype = 11;
+	}
+	if (type == "roche") {
+		p_nombretype = 12;
+	}
+	if (type == "spectre") {
+		p_nombretype = 13;
+	}
+	if (type == "dragon") {
+		p_nombretype = 14;
+	}
+	if (type == "tenebres") {
+		p_nombretype = 15;
+	}
+	if (type == "acier") {
+		p_nombretype = 16;
+	}
 	ps_listeatq[0] = attaque1;
 	ps_listeatq[1] = attaque2;
 	ps_listeatq[2] = attaque3;

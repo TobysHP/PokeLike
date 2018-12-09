@@ -5,7 +5,7 @@
 #include"Attaque.h"
 #include"Dresseur.h"
 
-template <class a> void deroulementattaque(a lattaquant, a quisubit, int atqselect, float matricecoef[17][17])//c'est une seule partie : une phase d'attaque, à dupliquer pour contre attaque
+ void deroulementattaque(Pokemoncombat &lattaquant, Pokemoncombat &quisubit, int atqselect, float matricecoef[17][17])//c'est une seule partie : une phase d'attaque, à dupliquer pour contre attaque
 {
 	//1 : degats simple, 2 un setupself, 3 setup ennemi, 4 = 1+2, 5 = 1+3
 	if (lattaquant.ps_getattaque(atqselect).a_getstatut() == 1)//que dégats

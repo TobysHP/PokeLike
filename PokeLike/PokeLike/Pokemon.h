@@ -25,7 +25,8 @@ public:
 	//int p_getrare();
 	int p_getevdonne();
 	std::string p_gettypeev();
-	void p_setsprite();
+	void p_setsprite(int x);
+	void p_setSpritePosition(float x, float y, float facteurG);
 	sf::Sprite p_getsprite();
 	//friend class Attaque;
 
