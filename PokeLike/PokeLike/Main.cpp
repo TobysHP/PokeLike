@@ -26,89 +26,17 @@
 //main
 //int const sizemot = 20;
 
-int pasmain() {
-	//LePokedex();
-	//creerDresseurEtBoite();//marche bien
-	//std::vector<Pokemon> lePokedex=chargerLePokedex();
-	/*for (int i = 0; i < 2; i++)
-	{
-		Pokemonstock test = creerUnPokemonRandom();
-		test.ps_insererDansDb(1);
-	}*/
-	/*Pokemonstock letest = creerUnPokemonRandom();
-	Pokemoncombat testfinal(letest);
-	std::cout << "le pokemonstock a comme nom : " << letest.p_getnom() << std::endl;
-	std::cout << "le pokemon combat a comme nom : " << testfinal.p_getnom() << std::endl;
-	std::cout<<"l'attaque a le nom : "<<testfinal.ps_getattaque(0).a_getnom()<<"ceci marche !!!!";*/
-	/*float matricecoef[17][17] = { { 1,1,1,1,1,1,2,1,1,1,1,1,1,0,1,1,1 },
-			{ 1,0.5,2,0.5,1,0.5,1,1,2,1,1,0.5,2,1,1,1,0.5 },
-			{ 1,0.5,0.5,2,2,0.5,1,1,1,1,1,1,1,1,1,1,0.5 },
-			{ 1,2,0.5,0.5,0.5,2,1,2,0.5,2,1,2,1,1,1,1,1 },
-			{ 1,1,1,1,0.5,1,1,1,2,0.5,1,1,1,1,1,1,1 },
-			{ 1,2,1,1,1,0.5,2,1,1,1,1,1,2,1,1,1,2 },
-			{ 1,1,1,1,1,1,1,1,1,2,2,0.5,0.5,1,1,0.5,1 },
-			{ 1,1,1,0.5,1,1,0.5,0.5,2,1,2,0.5,1,1,1,1,1 },
-			{ 1,1,2,2,0,2,1,0.5,1,1,1,1,0.5,1,1,1,1 },
-			{ 1,1,1,0.5,2,2,0.5,1,0,1,1,0.5,2,1,1,1,1 },
-			{ 1,1,1,1,1,1,0.5,1,1,1,0.5,2,1,2,1,2,1 },
-			{ 1,2,1,0.5,1,1,0.5,1,0.5,2,1,1,2,1,1,1,1 },
-			{ 0.5,0.5,2,2,1,1,2,0.5,2,0.5,1,1,1,1,1,1,2 },
-			{ 0,1,1,1,1,1,0,0.5,1,1,1,0.5,1,2,1,2,1 },
-			{ 1,0.5,0.5,0.5,0.5,2,1,1,1,1,1,1,1,1,2,1,1 },
-			{ 1,1,1,1,1,1,2,1,1,1,0,2,1,0.5,1,0.5,1 },
-			{ 0.5,2,1,0.5,1,0.5,2,0,2,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5 } };
-	Pokemonstock letest = creerUnPokemonRandom();
-	Pokemoncombat testfinal(letest);
-	Pokemoncombat testfinal2(letest);
-	Pokemon untest(1, "alphamon", "normal", 0, 0, 2, 1,1,1,1,1,1, "normal");
-	std::cout << "nombre type poke" << untest.p_getnombretype() << std::endl;
-	std::cout << "nombre type pokestock" << letest.p_getnombretype();
-	std::cout << "nombre type pokecombat" << testfinal.p_getnombretype() << std::endl;
-	deroulementattaque(testfinal, testfinal2, 0, matricecoef);*/
-	float y = 0.75;
-	Pokemonstock letest = creerUnPokemonRandom();
-	//std::cout << "posx : " << letest.p_getposx() << "   posy = " << letest.p_getposy() << std::endl;
-	letest.p_setsprite(y);
-	letest.p_setSpritePosition(80,80,y);
-	sf::Sprite test_sprite;
-	sf::Texture test;
-	test.loadFromFile("Sprite/4g_sprite_pokemon.png", sf::IntRect(0, 0, 80, 80));
-	test_sprite.setTexture(test);
-	//test_sprite.setPosition(y* 80, y * 80);
-	test_sprite.setScale(2*y, 2*y);
-	Pokemon untest(1, "alphamon", "normal", 240, 0, 2, 1, 1, 1, 1, 1, 1, "normal");
-	untest.p_setsprite(y);
-	untest.p_setSpritePosition(80, 80, y);
-
-	sf::RenderWindow maFenetre(sf::VideoMode(800, 800), "Fentre SFML"); 
-	while (true) { 
-		/*maFenetre.clear(); 
-		test_sprite.setPosition(y * 80, y * 80);
-		maFenetre.draw(test_sprite);
-		maFenetre.display();*/
-		//letest.p_getsprite().setPosition(y*0,y*0);
-		//maFenetre.draw(letest.p_getsprite());
-		maFenetre.clear();
-		maFenetre.draw(letest.p_getsprite());
-		maFenetre.display();
-	} 
-	return 0;
-	system("pause");
-	return 0;
-}
-
 int main()
 {
-	float x = 0.75; // facteur graphique
+	float x = 1.5; // facteur graphique
 	sf::RenderWindow maFenetre(sf::VideoMode(x * 1200, x * 1200), "PokeLike");
 	maFenetre.setFramerateLimit(60);// nombre de frames par seconde
 
-									//instantiation d'un objet qui appartient à la classe Warrior
+									//instantiation d'un objet qui appartient Ã  la classe Warrior
 									/////////ici
 	Dresseur dres(x);
 	int pas = 0;
 
-	std::chrono::milliseconds dura(150);
 
 	// setup de la carte
 	sf::Sprite background_sprite;
@@ -117,27 +45,27 @@ int main()
 	background_sprite.setScale(x, x);
 	background_sprite.setTexture(background);
 	// gestions des hautes herbes
-	sf::FloatRect hauteHerbes1(x * 160, x * 80, x * 280, x * 360); //hh en haut à gauche
+	sf::FloatRect hauteHerbes1(x * 160, x * 80, x * 280, x * 360); //hh en haut Ã  gauche
 	sf::FloatRect hauteHerbes2(x * 360, x * 640, x * 160, x * 200); //hh au milieu
-	sf::FloatRect hauteHerbes3(x * 680, x * 760, x * 360, x * 240); //hh en bas à droite
+	sf::FloatRect hauteHerbes3(x * 680, x * 760, x * 360, x * 240); //hh en bas Ã  droite
 	sf::FloatRect hauteHerbes4(x * 880, x * 1000, x * 160, x * 80);
 	sf::FloatRect hauteHerbes5(x * 560, x * 1080, x * 480, x * 40);
 	// gestion des collisions
-	sf::FloatRect mur1(x * 0, x * 0, x * 80, x * 1200); // ligne d'arbres à gauche
-	sf::FloatRect mur2(x * 80, x * 0, x * 80, x * 376); // arbres à gauche des hh en haut
+	sf::FloatRect mur1(x * 0, x * 0, x * 80, x * 1200); // ligne d'arbres Ã  gauche
+	sf::FloatRect mur2(x * 80, x * 0, x * 80, x * 376); // arbres Ã  gauche des hh en haut
 	sf::FloatRect mur3(x * 80, x * 560, x * 200, x * 360); // partie haute du lac bas
-	sf::FloatRect mur4(x * 280, x * 560, x * 80, x * 216); // 3 arbres à droite du lac bas
+	sf::FloatRect mur4(x * 280, x * 560, x * 80, x * 216); // 3 arbres Ã  droite du lac bas
 	sf::FloatRect mur5(x * 260, x * 920, x * 220, x * 80); // partie basse du lac bas
-	sf::FloatRect mur6(x * 480, x * 960, x * 80, x * 160); // 2 arbes en bas à droite du lac bas
-	sf::FloatRect mur7(x * 560, x * 1120, x * 640, x * 80); // ligne d'arbres en bas des hh à droite
-	sf::FloatRect mur8(x * 1040, x * 800, x * 160, x * 400); // ligne d'arbres à droite des hh
-	sf::FloatRect mur9(x * 1120, x * 0, x * 80, x * 1200); // ligne d'arbres à droites
+	sf::FloatRect mur6(x * 480, x * 960, x * 80, x * 160); // 2 arbes en bas Ã  droite du lac bas
+	sf::FloatRect mur7(x * 560, x * 1120, x * 640, x * 80); // ligne d'arbres en bas des hh Ã  droite
+	sf::FloatRect mur8(x * 1040, x * 800, x * 160, x * 400); // ligne d'arbres Ã  droite des hh
+	sf::FloatRect mur9(x * 1120, x * 0, x * 80, x * 1200); // ligne d'arbres Ã  droites
 	sf::FloatRect mur10(x * 760, x * 330, x * 280, x * 6); // lac haut
-	sf::FloatRect mur11(x * 1040, x * 0, x * 80, x * 420); // arbres à droite du lac haut
-	sf::FloatRect mur12(x * 720, x * 300, x * 40, x * 76); // aie à droite de l'arène 
-	sf::FloatRect mur13(x * 440, x * 0, x * 40, x * 376); // aie à gauche de l'arène
+	sf::FloatRect mur11(x * 1040, x * 0, x * 80, x * 420); // arbres Ã  droite du lac haut
+	sf::FloatRect mur12(x * 720, x * 300, x * 40, x * 76); // aie Ã  droite de l'arÃ¨ne 
+	sf::FloatRect mur13(x * 440, x * 0, x * 40, x * 376); // aie Ã  gauche de l'arÃ¨ne
 	sf::FloatRect mur14(x * 0, x * 0, x * 440, x * 56); // arbres en haut des hh haut
-	sf::FloatRect arena(x * 480, x * (-100), x * 240, x * 416); // arène
+	sf::FloatRect arena(x * 480, x * (-100), x * 240, x * 416); // arÃ¨ne
 	sf::FloatRect hopital(x * 760, x * 600, x * 160, x * 56); // pokestop
 	sf::FloatRect shop(x * 960, x * 440, x * 160, x * 56); // pokeshop
 	sf::FloatRect mur_centre_1(x * 550, x * 390, x * 10, x * 290); // murs interne pokecentre
@@ -148,7 +76,7 @@ int main()
 	sf::FloatRect mur_centre_4(x * 1120, x * 390, x * 10, x * 290); // murs interne pokecentre
 	sf::FloatRect mur_centre_5(x * 720, x * 360, x * 240, x * 100); // murs interne pokecentre
 	sf::FloatRect mur_centre_table(x * 1000, x * 560, x * 80, x * 52); // murs interne pokecentre
-	//setup batiments
+																	   //setup batiments
 	sf::Sprite pokestop_sprite;
 	sf::Texture pokestop;
 	pokestop.loadFromFile("Sprite/pokestop.png", sf::IntRect(0, 0, 162, 154));
@@ -292,7 +220,7 @@ int main()
 
 	bool boo = TRUE;
 
-	while (maFenetre.isOpen()) // première boucle
+	while (maFenetre.isOpen()) // premiÃ¨re boucle
 	{
 		bool endmap = TRUE;
 		bool endcombat = FALSE;
@@ -358,7 +286,7 @@ int main()
 		save2text = tableauDesNoms[1] + "\n" + sf::String(std::to_string(tableauDesId[1]));
 		save2.setString(save2text);
 		save2.setPosition(x*653.5, x * 286);
-		
+
 		save3text = tableauDesNoms[2] + "\n" + sf::String(std::to_string(tableauDesId[2]));
 		save3.setString(save3text);
 		save3.setPosition(x*168.5, x * 772);
@@ -366,35 +294,32 @@ int main()
 		save4text = tableauDesNoms[3] + "\n" + sf::String(std::to_string(tableauDesId[3]));
 		save4.setString(save4text);
 		save4.setPosition(x*653.5, x * 772);
-		
+
 		while (option && play) {
 			maFenetre.display();
 			maFenetre.draw(save_board_sprite);
 
 			maFenetre.draw(save1);
 			maFenetre.draw(save2);
-			//maFenetre.draw(save3);
-			//maFenetre.draw(save4);
+			maFenetre.draw(save3);
+			maFenetre.draw(save4);
 
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
 				save_select_tab[0] = 1;
-				Dresseur dres = chargerDresseur(tableauDesId[0], x);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
 				save_select_tab[0] = 0;
-				Dresseur dres = chargerDresseur(tableauDesId[1], x);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
 				save_select_tab[1] = 1;
-				Dresseur dres = chargerDresseur(tableauDesId[2], x);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
 				save_select_tab[1] = 0;
-				Dresseur dres = chargerDresseur(tableauDesId[3], x);
 			}
 
-			// on dessine la séléction de sélection au bon endroit
+
+			// on dessine la sÃ©lÃ©ction de sÃ©lection au bon endroit
 
 			if (!save_select_tab[0])
 				xsave_select = 130;
@@ -407,11 +332,25 @@ int main()
 			save_select_sprite.setPosition(x*ysave_select, x*xsave_select);
 			maFenetre.draw(save_select_sprite);
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) play = 0;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+				play = 0;
+				if (save_select_tab[0] && save_select_tab[1]) {
+					Dresseur dres = chargerDresseur(tableauDesId[3], x);
+				}
+				else if (save_select_tab[0] && !save_select_tab[1]) {
+					Dresseur dres = chargerDresseur(tableauDesId[2], x);
+				}
+				if (!save_select_tab[0] && save_select_tab[1]) {
+					Dresseur dres = chargerDresseur(tableauDesId[1], x);
+				}
+				else if (!save_select_tab[0] && !save_select_tab[1]) {
+					Dresseur dres = chargerDresseur(tableauDesId[0], x);
+				}
+			}
 		}
 
-		while (endmap) { // boucle liée à la map
-
+		while (endmap) { // boucle liÃ©e Ã  la map
+			
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
 			std::vector<bool> detectcoll;
 			// appel de la fonction membre "update" pour faire bouger l'objet
@@ -570,7 +509,7 @@ int main()
 			//int nmax = 17;
 			//int selection = 0;//1 = combat, 2 : ball,  3 switch, 4 fuite
 			int attaquejoueur = 4;//vaudra0,1,2 ou 3 pour se balader dans le tableau des attaques du pkmn du dresseur
-			//bool fuite = false;
+								  //bool fuite = false;
 			bool switchp = false;
 			int nombre;
 			bool win = false;
@@ -596,21 +535,21 @@ int main()
 
 			/*while (dres.d_getpokemon(i).ps_getpvrestant() == 0)//faudra s'assurer que quand tout les pkmn du dress sont ko, c'est game over et pokecentre instant
 			{
-				i++;
+			i++;
 			}*/
 
 
 			// mon poke
 			Pokemoncombat mon_pokemon(creerUnPokemonRandom());
-			std::cout << "le nom: " << mon_pokemon.p_getnom() << std::endl;
+			std::cout << "le nom: " << mon_pokemon.p_getnom()<< std::endl;
 			mon_pokemon.p_setsprite(x);
-			mon_pokemon.p_getsprite().setPosition(326, 409);
+			mon_pokemon.p_setSpritePosition(310, 390, x);
 
 			// poke sauvage
 			Pokemoncombat pokemon_sauvage(creerUnPokemonRandom());
 			std::cout << "la nom: " << pokemon_sauvage.p_getnom() << std::endl;
-			mon_pokemon.p_setsprite(x);
-			pokemon_sauvage.p_getsprite().setPosition(763, 390);
+			pokemon_sauvage.p_setsprite(x);
+			pokemon_sauvage.p_setSpritePosition(730, 390, x);
 
 			// interface combat selection
 			sf::Sprite combat_selection_sprite;
@@ -629,7 +568,7 @@ int main()
 			combat_attaque_sprite.setScale(x, x);
 			bool attaque = 0;
 
-			// flèche de sélection
+			// flÃ¨che de sÃ©lection
 			float xa, ya;
 			sf::Sprite arrow_sprite;
 			sf::Texture arrow;
@@ -667,7 +606,7 @@ int main()
 			bdv1.setFillColor(sf::Color::Red);
 			bdv2.setFillColor(sf::Color::Red);
 
-			while (endcombat) { // boucle lié à un combat
+			while (endcombat) { // boucle liÃ© Ã  un combat
 				maFenetre.display();
 
 				maFenetre.draw(backcombat_sprite); //pour l'arene
@@ -676,7 +615,7 @@ int main()
 				maFenetre.draw(combat_selection_sprite);
 				maFenetre.draw(bdv1);
 				maFenetre.draw(bdv2);
-				// on regarde la sélection
+				// on regarde la sÃ©lection
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
 					arrow_tab[0] = 1;
 				}
@@ -690,7 +629,7 @@ int main()
 					arrow_tab[1] = 0;
 				}
 
-				// on dessine la flèche de sélection au bon endroit
+				// on dessine la flÃ¨che de sÃ©lection au bon endroit
 
 				if (arrow_tab[0])
 					xa = 1107;
@@ -718,7 +657,7 @@ int main()
 						attaque = 1;
 						capture = 0;
 
-						
+
 						sf::String att1text;
 						//att1text = "CHARGE";
 						att1text = mon_pokemon.ps_getattaque(0).a_getnom();
@@ -766,10 +705,10 @@ int main()
 							att4.setPosition(x * 950, x * 1105 + x * 3.5*(att4text.getSize() - 6));
 							att4.setCharacterSize(x * 300 / att4text.getSize());
 						}
-						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) { std::cout << 2; }
+						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) { }
 					}
 
-					if (arrow_tab[0] && !arrow_tab[1]) // si on est sur équipe
+					if (arrow_tab[0] && !arrow_tab[1]) // si on est sur Ã©quipe
 					{
 					}
 				}
@@ -830,16 +769,16 @@ int main()
 							{
 								std::cout << "Pokemon vaincu !" << std::endl;
 								win = true;
-								//le pokemon qui s'est battu gagne des points dépendant des evs de la cible vaincue
+								//le pokemon qui s'est battu gagne des points dÃ©pendant des evs de la cible vaincue
 								endcombat = false;
 							}
-							//si encore en vie, l'autre pokémon contre attaque ! 
-							nombre = (rand() % 4);//l'autre pokémon doit sélectionner une attaque
+							//si encore en vie, l'autre pokÃ©mon contre attaque ! 
+							nombre = (rand() % 4);//l'autre pokÃ©mon doit sÃ©lectionner une attaque
 							deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef);
 							std::cout << "pv mon poke : " << mon_pokemon.ps_getpvrestant() << "pv ennemi : " << pokemon_sauvage.ps_getpvrestant();
-							if (mon_pokemon.ps_getpvrestant() == 0)//créer un attribut + méthode pv actuel dans pokemon//donc mnt si il est ko le combat s'arrête ! 
+							if (mon_pokemon.ps_getpvrestant() == 0)//crÃ©er un attribut + mÃ©thode pv actuel dans pokemon//donc mnt si il est ko le combat s'arrÃªte ! 
 							{
-								std::cout << "Mon Pokémon ko !" << std::endl;
+								std::cout << "Mon PokÃ©mon ko !" << std::endl;
 								for (int c = 0; i < 6; i++)
 								{
 									if (dres.d_getPokemonEquipe(c).ps_getpvrestant() == 0)
@@ -871,14 +810,14 @@ int main()
 								}
 							}
 						}
-						else//meme boucle de dégats à l'envers, c'est donc le pokémon sauvage le plus rapide
+						else//meme boucle de dÃ©gats Ã  l'envers, c'est donc le pokÃ©mon sauvage le plus rapide
 						{
-							nombre = (rand() % 4);//l'autre pokémon doit sélectionner une attaque
+							nombre = (rand() % 4);//l'autre pokÃ©mon doit sÃ©lectionner une attaque
 							deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef);//degats s'infligent
 							std::cout << "pv mon poke : " << mon_pokemon.ps_getpvrestant() << "pv ennemi : " << pokemon_sauvage.ps_getpvrestant();
-							if (mon_pokemon.ps_getpvrestant() == 0)//créer un attribut + méthode pv actuel dans pokemon//donc mnt si il est ko le combat s'arrête ! 
+							if (mon_pokemon.ps_getpvrestant() == 0)//crÃ©er un attribut + mÃ©thode pv actuel dans pokemon//donc mnt si il est ko le combat s'arrÃªte ! 
 							{
-								std::cout << "Mon Pokémon ko !" << std::endl;
+								std::cout << "Mon PokÃ©mon ko !" << std::endl;
 								for (int c = 0; i < 6; i++)
 								{
 									if (dres.d_getPokemonEquipe(c).ps_getpvrestant() == 0)
@@ -909,14 +848,14 @@ int main()
 									endcombat = false;
 								}
 							}
-							//çà va avoir un comportement bizzare çà, à fix ! 
-							//si encore en vie, l'autre pokémon contre attaque ! 
+							//Ã§Ã  va avoir un comportement bizzare Ã§Ã , Ã  fix ! 
+							//si encore en vie, l'autre pokÃ©mon contre attaque ! 
 							deroulementattaque(mon_pokemon, pokemon_sauvage, attaquejoueur, matricecoef);
 							if (pokemon_sauvage.ps_getpvrestant() == 0)
 							{
 								std::cout << "Pokemon vaincu !" << std::endl;
 								win = true;
-								//le pokemon qui s'est battu gagne des points dépendant des evs de la cible vaincue
+								//le pokemon qui s'est battu gagne des points dÃ©pendant des evs de la cible vaincue
 								endcombat = false;
 							}
 						}
@@ -924,7 +863,6 @@ int main()
 						attaquejoueur = 4;
 					}
 				}
-				std::cout << "1";
 			}
 		}
 	}
