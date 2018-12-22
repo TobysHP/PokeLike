@@ -561,52 +561,59 @@ int main()
 								else
 									boiteText[i].setFillColor(sf::Color::White);
 							}
-							std::cout << positionDansLaListeBoite << std::endl;
-							int j = 0;
-							switch (positionDansLaListeBoite) {
-							case 0:
-								for (int i = indexPokemonSelectedBoite; i < indexPokemonSelectedBoite + 6; i++) {
-									boiteText[i].setPosition(x*60,x*( 35 + 188 * (j + 1) - 188 / 2));
-									j++;
+							if (boiteText.size() > 6) {
+								int j = 0;
+								switch (positionDansLaListeBoite) {
+								case 0:
+									for (int i = indexPokemonSelectedBoite; i < indexPokemonSelectedBoite + 6; i++) {
+										boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(boiteText[i]);
+									}
+									break;
+								case 1:
+									for (int i = indexPokemonSelectedBoite - 1; i < indexPokemonSelectedBoite + 5; i++) {
+										boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(boiteText[i]);
+									}
+									break;
+								case 2:
+									for (int i = indexPokemonSelectedBoite - 2; i < indexPokemonSelectedBoite + 4; i++) {
+										boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(boiteText[i]);
+									}
+									break;
+								case 3:
+									for (int i = indexPokemonSelectedBoite - 3; i < indexPokemonSelectedBoite + 3; i++) {
+										boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(boiteText[i]);
+									}
+									break;
+								case 4:
+									for (int i = indexPokemonSelectedBoite - 4; i < indexPokemonSelectedBoite + 2; i++) {
+										boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(boiteText[i]);
+									}
+									break;
+								case 5:
+									for (int i = indexPokemonSelectedBoite - 5; i < indexPokemonSelectedBoite + 1; i++) {
+										boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(boiteText[i]);
+									}
+									break;
+								}
+							}
+							else {
+								for (int i = 0; i < boiteText.size(); i++) {
+									boiteText[i].setPosition(x * 60, x*(35 + 188 * (i + 1) - 188 / 2));
 									maFenetre.draw(boiteText[i]);
 								}
-								break;
-							case 1:
-								for (int i = indexPokemonSelectedBoite - 1; i < indexPokemonSelectedBoite + 5; i++) {
-									boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
-									j++;
-									maFenetre.draw(boiteText[i]);
-								}
-								break;
-							case 2:
-								for (int i = indexPokemonSelectedBoite - 2; i < indexPokemonSelectedBoite + 4; i++) {
-									boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
-									j++;
-									maFenetre.draw(boiteText[i]);
-								}
-								break;
-							case 3:
-								for (int i = indexPokemonSelectedBoite - 3; i < indexPokemonSelectedBoite + 3; i++) {
-									boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
-									j++;
-									maFenetre.draw(boiteText[i]);
-								}
-								break;
-							case 4:
-								for (int i = indexPokemonSelectedBoite - 4; i < indexPokemonSelectedBoite + 2; i++) {
-									boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
-									j++;
-									maFenetre.draw(boiteText[i]);
-								}
-								break;
-							case 5:
-								for (int i = indexPokemonSelectedBoite - 5; i < indexPokemonSelectedBoite + 1; i++) {
-									boiteText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
-									j++;
-									maFenetre.draw(boiteText[i]);
-								}
-								break;
-						    }
+							}
 							std::string textPoke = dres.d_getPokemonBoite(indexPokemonSelectedBoite).ps_getAffichage();
 							Pokemonstock pokestock = dres.d_getPokemonBoite(indexPokemonSelectedBoite);
 							pokestock.p_setsprite(1.5*x);
