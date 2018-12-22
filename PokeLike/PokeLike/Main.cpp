@@ -107,7 +107,7 @@ int main()
 	sf::Texture pokeball;
 	pokeball.loadFromFile("Sprite/all_pokeballs.png", sf::IntRect(168, 4, 19, 32));
 	pokeball_sprite.setTexture(pokeball);
-	pokeball_sprite.setScale(x, x);
+	pokeball_sprite.setScale(2*x, 2*x);
 	int anim_poke = 0;
 
 	// setup du centre
@@ -742,7 +742,6 @@ int main()
 			while (endcombat) { // boucle lié à un combat
 				bdv1.setSize(sf::Vector2f(x * 470 * mon_pokemon.ps_getpvrestant() / mon_pokemon.p_getpvmax(), x * 79));
 				bdv2.setSize(sf::Vector2f(x * 470 * pokemon_sauvage.ps_getpvrestant() / pokemon_sauvage.p_getpvmax(), x * 79));
-
 				maFenetre.display();
 
 				maFenetre.draw(backcombat_sprite); //pour l'arene
@@ -782,9 +781,11 @@ int main()
 				// si on appuie sur enter
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && attaque == 0 && capture == 0) {
-					if (arrow_tab[0] && arrow_tab[1]) // si on est sur fuite
+					if (arrow_tab[0] && arrow_tab[1]) { // si on est sur fuite
 						endcombat = 0;
-
+						mon_pokemon.ps_fincombat(mon_pokemon, pokemon_sauvage, win);
+						dres.d_setPokemonEquipe(mon_pokemon, position);
+					}
 					if (!arrow_tab[0] && arrow_tab[1]) // si on est sur capturer
 						capture = 1;
 
@@ -850,6 +851,7 @@ int main()
 					}
 				}
 				if (capture) {
+					std::cout << anim_poke << std::endl;
 					if (anim_poke <= 71) {
 						pokeball_sprite.setPosition(x * 800, x * 238 + x * 4 * anim_poke);
 						maFenetre.draw(pokeball_sprite);
@@ -861,18 +863,57 @@ int main()
 						anim_poke++;
 					}
 					else if (anim_poke <= 83) {
-						pokeball_sprite.setPosition(x * 800, x * 238 + x * 511 - x * 2 * (anim_poke - 77));
+						pokeball_sprite.setPosition(x * 800, x * 238 + x * 270 - x * 2 * (anim_poke - 77));
 						maFenetre.draw(pokeball_sprite);
 						anim_poke++;
 					}
 					else if (anim_poke <= 90) {
-						pokeball_sprite.setPosition(x * 800, x * 238 + x * 499 - x * 1 * (anim_poke - 83));
+		     			pokeball_sprite.setPosition(x * 800, x * 238 + x * 263 - x * 1 * (anim_poke - 83));
 						maFenetre.draw(pokeball_sprite);
 						anim_poke++;
 					}
-					else if (anim_poke >= 90) {
+					if (anim_poke == 91) {
 						anim_poke = 0;
-						capture = 0;
+						capture = false;
+						int nbrandom = rand() % 100;
+						float seuil = 100 * (1 - pokemon_sauvage.ps_getpvrestant() / pokemon_sauvage.p_getpvmax());
+						if (nbrandom < seuil) {
+							pokemon_sauvage.ps_insererDansDb(dres.d_getIDBoite());
+							dres.d_chargerBoite();
+							endcombat = false;
+							mon_pokemon.ps_fincombat(mon_pokemon, pokemon_sauvage, win);
+							dres.d_setPokemonEquipe(mon_pokemon, position);
+						}
+						else {
+							nombre = (rand() % 4);//l'autre pokémon doit sélectionner une attaque
+							deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef);//degats s'infligent
+							std::cout << "pv mon poke : " << mon_pokemon.ps_getpvrestant() << "pv ennemi : " << pokemon_sauvage.ps_getpvrestant();
+							if (mon_pokemon.ps_getpvrestant() == 0)
+							{
+								bdv1.setSize(sf::Vector2f(0, x * 79));
+								std::cout << "Mon Pokémon ko !" << std::endl;
+								//ICI restocker le pokemon dans l'équipe du pokemostock avec ses pvs mis à jour
+								//Puis le save dans la DB actualisé ainsi, çà sera fait dans la fct setpokemonequipe
+								mon_pokemon.ps_fincombat(mon_pokemon, pokemon_sauvage, win);
+								dres.d_setPokemonEquipe(mon_pokemon, position);
+								if (dres.d_getPokePasKO().size() == 0)
+								{
+									std::cout << "gameover" << std::endl;
+									//afficher game over
+									//soigner toute l'équipe 
+									dres.d_healequipe();
+									endcombat = false;
+								}
+								else
+								{//sinon j'ai le droit de switch de pokémon ou de fuir!
+									position = dres.d_getPokePasKO()[0];
+									mon_pokemon = Pokemonstock(dres.d_getPokemonEquipe(position));
+									mon_pokemon.p_setsprite(2 * x);
+									mon_pokemon.p_setSpritePosition(310 - 40, 390, x);
+									attaque = false;
+								}
+							}
+						}
 					}
 				}
 				if (attaque) {
@@ -992,6 +1033,7 @@ int main()
 								}
 							}
 						}
+						attaque = false;
 					}
 				}
 			}
