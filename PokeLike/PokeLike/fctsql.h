@@ -102,7 +102,7 @@ void chargerIdsNomsDresseurs(int tableauDesId[], std::string tableauDesNoms[]) {
 				lenom = nom;
 				tableauDesNoms[i] = lenom;
 				std::cout << tableauDesNoms[i] << std::endl;
-				std::cout << "itÈrÈ" << i << std::endl;
+				std::cout << "it√©r√©" << i << std::endl;
 				i++;
 			}
 		}
@@ -142,7 +142,7 @@ std::vector<Pokemon> chargerLePokedex(std::string SQLQuery)
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -178,7 +178,7 @@ std::vector<Pokemon> chargerLePokedex(std::string SQLQuery)
 		}
 
 
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
 			std::cout << "Chargement du Pokedex, veuillez patientez" << std::endl;
 			int const sizemot = 20;
@@ -222,18 +222,18 @@ std::vector<Pokemon> chargerLePokedex(std::string SQLQuery)
 			std::cout << "Fin Chargement" << std::endl;
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	
 
-	std::system("pause");
+	//std::system("pause");
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 	return lePokedex;
 } 
-//charge le sprite du dresseur, initialise l'id, charge le numÈro boite et equipe
-Dresseur chargerDresseur(int idDresseurACharger, int facteurGraphique)
+//charge le sprite du dresseur, initialise l'id, charge le num√©ro boite et equipe
+Dresseur chargerDresseur(int idDresseurACharger, float facteurGraphique)
 {
 	SQLHANDLE SQLEnvHandle = NULL;
 	SQLHANDLE SQLConnectionHandle = NULL;
@@ -262,7 +262,7 @@ Dresseur chargerDresseur(int idDresseurACharger, int facteurGraphique)
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -296,7 +296,7 @@ Dresseur chargerDresseur(int idDresseurACharger, int facteurGraphique)
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			break;
 		}
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
 			//std::cout << "je rentre ici" << std::endl;
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS && compteur < 1)
@@ -312,16 +312,15 @@ Dresseur chargerDresseur(int idDresseurACharger, int facteurGraphique)
 			}
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 
-	//je vais charger ensuite son numÈro de boite et d'Èquipe
-	compteur = 0;
+	//je vais charger ensuite son num√©ro de boite et d'√©quipe
 	SQLQuery = "SELECT b_idboite FROM boite WHERE d_iddresseur = " + std::to_string(idDresseurACharger) + " ORDER BY b_idboite";
-	//order by car quand on crÈe les boites, on sait que la premiËre sera toujours l'Èquipe et la seconde la boite
+	//order by car quand on cr√©e les boites, on sait que la premi√®re sera toujours l'√©quipe et la seconde la boite
 	do
 	{
 		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
@@ -342,7 +341,7 @@ Dresseur chargerDresseur(int idDresseurACharger, int facteurGraphique)
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -376,38 +375,40 @@ Dresseur chargerDresseur(int idDresseurACharger, int facteurGraphique)
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			break;
 		}
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
 			std::cout << "je rentre ici" << std::endl;
-			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS && compteur < 1)
+			int temp[2];
+			compteur = 0;
+			int tempi=0;
+			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS && compteur < 2)
 			{
-				int idequipe;
-				int idboite;
-				SQLGetData(SQLStatementHandle, 1, SQL_INTEGER, &idequipe, sizeof(idequipe), NULL);
-				SQLGetData(SQLStatementHandle, 2, SQL_INTEGER, &idboite, sizeof(idboite), NULL);
-				monDresseur.d_setIDEquipe(idequipe);
-				monDresseur.d_setIDBoite(idboite);
-				compteur = 1;
+				SQLGetData(SQLStatementHandle, 1, SQL_INTEGER, &tempi, sizeof(tempi), NULL);
+				temp[compteur] = tempi;
+				compteur++;
 			}
+			monDresseur.d_setIDEquipe(temp[0]);
+			monDresseur.d_setIDBoite(temp[1]);
+		
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 	return monDresseur;
 } 
-//crÈer les nouvelles entrÈes dans la base de donnÈes pour le nouveau dresseur (boite ET equipe)
+//cr√©er les nouvelles entr√©es dans la base de donn√©es pour le nouveau dresseur (boite ET equipe)
 void creerDresseurEtBoite() {
-	std::cout << "veillez saisir le nom du dresseur ‡ insÈrer" << std::endl;
+	std::cout << "veillez saisir le nom du dresseur √† ins√©rer" << std::endl;
 	std::string nomDresseurACreer;
 	std::cin.clear();
 	do
 	{
 		std::getline(std::cin, nomDresseurACreer);
 	} while (nomDresseurACreer.size() > sizemot);
-	//insÈrer le dresseur dans la db
+	//ins√©rer le dresseur dans la db
 	SQLHANDLE SQLEnvHandle = NULL;
 	SQLHANDLE SQLConnectionHandle = NULL;
 	SQLHANDLE SQLStatementHandle = NULL;
@@ -433,7 +434,7 @@ void creerDresseurEtBoite() {
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -474,7 +475,7 @@ void creerDresseurEtBoite() {
 				std::cout << "commit est un echec" << std::endl;
 			}
 			else {
-				std::cout << "Insertion du Dresseur" << nomDresseurACreer << " rÈussie !" << std::endl;
+				std::cout << "Insertion du Dresseur" << nomDresseurACreer << " r√©ussie !" << std::endl;
 			}*/
 			std::cout << "insert dresseur reussie" << std::endl;
 			//system("pause");
@@ -484,9 +485,9 @@ void creerDresseurEtBoite() {
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-	//maintenant faut retrieve son id pour crÈer les boites
-	SQLQuery = "SELECT Max(d_iddresseur) from dresseur";//le dresseur venant d'Ítre crÈer ayant l'id maximal (id ‡ increment auto), c'est le plus simple pour retrieve le name du dresseur
-	//evite le problËme de 2 dresseurs ont le meme name
+	//maintenant faut retrieve son id pour cr√©er les boites
+	SQLQuery = "SELECT Max(d_iddresseur) from dresseur";//le dresseur venant d'√™tre cr√©er ayant l'id maximal (id √† increment auto), c'est le plus simple pour retrieve le name du dresseur
+	//evite le probl√®me de 2 dresseurs ont le meme name
 	int id;
 	do
 	{
@@ -508,7 +509,7 @@ void creerDresseurEtBoite() {
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -547,7 +548,7 @@ void creerDresseurEtBoite() {
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS)
 			{
 				SQLGetData(SQLStatementHandle, 1, SQL_INTEGER, &id, sizeof(id), NULL);
-				std::cout << "j'ai rÈcupÈrÈ mon id, elle vaut : " << id << std::endl;
+				std::cout << "j'ai r√©cup√©r√© mon id, elle vaut : " << id << std::endl;
 			}
 		}
 	} while (false);
@@ -555,7 +556,7 @@ void creerDresseurEtBoite() {
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-	//maintenant je vais lui coller une equipe et une boite, pas oublier de commit ces opÈrations
+	//maintenant je vais lui coller une equipe et une boite, pas oublier de commit ces op√©rations
 	SQLQuery = "insert into boite (b_nomboite, d_iddresseur) values ('Equipe'," + std::to_string(id) + ")";
 	do
 	{
@@ -577,7 +578,7 @@ void creerDresseurEtBoite() {
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -618,9 +619,9 @@ void creerDresseurEtBoite() {
 				std::cout << "commit est un echec" << std::endl;
 			}
 			else {
-				std::cout << "Insertion de l'Èquipe  rÈussie !" << std::endl;
+				std::cout << "Insertion de l'√©quipe  r√©ussie !" << std::endl;
 			}*/
-			std::cout << "Insertion de l'Èquipe  rÈussie !" << std::endl;
+			std::cout << "Insertion de l'√©quipe  r√©ussie !" << std::endl;
 			//system("pause");
 		}
 	} while (false);
@@ -649,7 +650,7 @@ void creerDresseurEtBoite() {
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -690,36 +691,35 @@ void creerDresseurEtBoite() {
 				std::cout << "commit est un echec" << std::endl;
 			}
 			else {
-				std::cout << "Insertion de la boite rÈussie !" << std::endl;
+				std::cout << "Insertion de la boite r√©ussie !" << std::endl;
 			}*/
-			std::cout << "Insertion de la boite rÈussie !" << std::endl;
+			std::cout << "Insertion de la boite r√©ussie !" << std::endl;
 		}
 	} while (false);
-	//mnt libÈrer les ressources
-	std::system("pause");
+	//mnt lib√©rer les ressources
+	//std::system("pause");
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-
 } 
 //supprime TOUT POUR UN DRESSEUR ! 
 void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 {
 	/*pour supprimer un dresseur dans la db, il faut :
-		-vider la table de jointure attaquepokede-pokeunique des attaques possÈdÈes par les pokemon possÈdÈ par le dresseur
-		-supprimer les pokÈmons du dresseur, aussi bien dans sa boite que dans son Èquipe
-		-supprimer la boite et l'Èquipe du dresseur
+		-vider la table de jointure attaquepokede-pokeunique des attaques poss√©d√©es par les pokemon poss√©d√© par le dresseur
+		-supprimer les pok√©mons du dresseur, aussi bien dans sa boite que dans son √©quipe
+		-supprimer la boite et l'√©quipe du dresseur
 		-supprimer l'enregistrement correspondant au dresseur
-	ces 4 "Ètapes" seront gÈrÈes ‡ l'aide de 4 requÍtes,
-	le "problËme" est qu'on supprimer depuis le menu principal, du coup on a seulement accËs ‡ l'id et au nom du dresseur
-	de fait je dois d'abord charger le numÈro de sa boite et de son Èquipe pour procÈder ‡ la suppression
-	et c'est aussi pour cela que le paramËtre ‡ passer ‡ cette fonction est un entier et pas un dresseur
-	donc cette Ètape de rÈcupÈrer ces chiffres est la premiËre prioritÈ !
-	en fait non : en y rÈflÈchissant bien y'a moyen de construct d'autres query qui permettent de se passer de Á‡, voir les query que je suggËre ici
+	ces 4 "√©tapes" seront g√©r√©es √† l'aide de 4 requ√™tes,
+	le "probl√®me" est qu'on supprimer depuis le menu principal, du coup on a seulement acc√®s √† l'id et au nom du dresseur
+	de fait je dois d'abord charger le num√©ro de sa boite et de son √©quipe pour proc√©der √† la suppression
+	et c'est aussi pour cela que le param√®tre √† passer √† cette fonction est un entier et pas un dresseur
+	donc cette √©tape de r√©cup√©rer ces chiffres est la premi√®re priorit√© !
+	en fait non : en y r√©fl√©chissant bien y'a moyen de construct d'autres query qui permettent de se passer de √ß√†, voir les query que je sugg√®re ici, en n'oubliant pas que je passe l'id a supp d√©j√†
 	*/
 
-	//charger le numÈro de la boite et de l'Èquipe
+	//vider la table des attaquespokeuniques pour le dresseur consid√©r√©
 	SQLHANDLE SQLEnvHandle = NULL;
 	SQLHANDLE SQLConnectionHandle = NULL;
 	SQLHANDLE SQLStatementHandle = NULL;
@@ -745,7 +745,7 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -779,17 +779,17 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			break;
 		}
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
-			std::cout << "j'ai clean attaque pokÈunique pour le dresseur" << std::endl;
+			std::cout << "j'ai clean attaque pok√©unique pour le dresseur" << std::endl;
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-	//ici suppression de tout les pokÈuniques associÈ au dresseur ‡ supp
+	//ici suppression de tout les pok√©uniques associ√© au dresseur √† supp
 	SQLQuery = "DELETE * from pokeunique WHERE pu_idpokeunique IN (SELECT pu_idpokeunique FROM pokeunique INNER JOIN boite ON pokeunique.b_idboite=boite.b_idboite WHERE boite.d_iddresseur=" + std::to_string(idDresseurASupprimer) + ")";
 	do
 	{
@@ -811,7 +811,7 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -845,17 +845,17 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			break;
 		}
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
-			std::cout << "j'ai clean pokÈunique pour le dresseur" << std::endl;
+			std::cout << "j'ai clean pok√©unique pour le dresseur" << std::endl;
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-	//ici on supprime la boite et "l'Èquipe" du dresseur
+	//ici on supprime la boite et "l'√©quipe" du dresseur
 	SQLQuery = "DELETE * FROM boite WHERE d_iddresseur=" + std::to_string(idDresseurASupprimer);
 	do
 	{
@@ -877,7 +877,7 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -911,17 +911,17 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			break;
 		}
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
-			std::cout << "j'ai clean boite et Èquipe pour le dresseur" << std::endl;
+			std::cout << "j'ai clean boite et √©quipe pour le dresseur" << std::endl;
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-	//enfin mnt on supprime le dresseur ‡ proprement parler
+	//enfin mnt on supprime le dresseur √† proprement parler
 	SQLQuery = "DELETE * FROM dresseur WHERE d_iddresseur=" + std::to_string(idDresseurASupprimer);
 	do
 	{
@@ -943,7 +943,7 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -977,12 +977,148 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			break;
 		}
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
 			std::cout << "j'ai clean le dresseur" << std::endl;
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
+	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
+	SQLDisconnect(SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
+}
+
+void supprimerUnPokeDansDB(int idPokeASupp) {
+	//d'abord delete ses attaques
+	SQLHANDLE SQLEnvHandle = NULL;
+	SQLHANDLE SQLConnectionHandle = NULL;
+	SQLHANDLE SQLStatementHandle = NULL;
+	SQLRETURN retCode = 0;
+	std::string SQLQuery = "DELETE * from Attaquepokeunique WHERE pu_idpokeunique="+std::to_string(idPokeASupp);
+	do
+	{
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
+		{
+			break;
+		}
+
+		if (SQL_SUCCESS != SQLSetEnvAttr(SQLEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, SQLEnvHandle, &SQLConnectionHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLSetConnectAttr(SQLConnectionHandle, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0))
+		{
+			break;
+		}
+		SQLCHAR retConString[1024];
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		{
+		case SQL_SUCCESS:
+			break;
+		case SQL_SUCCESS_WITH_INFO:
+			break;
+		case SQL_NO_DATA_FOUND:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_INVALID_HANDLE:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_ERROR:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		default:
+			break;
+		}
+		if (retCode == -1)
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, SQLConnectionHandle, &SQLStatementHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
+		{
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+			break;
+		}
+		else//c'est ici que je get mes donn√©es !
+		{
+			std::cout << "j'ai clean attaque pok√©unique pour le pokemon" << std::endl;
+		}
+	} while (FALSE);//do required to break loop if pb happens*/
+	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
+	SQLDisconnect(SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
+	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
+	SQLQuery = "DELETE * from pokeunique WHERE pu_idpokeunique="+std::to_string(idPokeASupp);
+	do
+	{
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
+		{
+			break;
+		}
+
+		if (SQL_SUCCESS != SQLSetEnvAttr(SQLEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, SQLEnvHandle, &SQLConnectionHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLSetConnectAttr(SQLConnectionHandle, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0))
+		{
+			break;
+		}
+		SQLCHAR retConString[1024];
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		{
+		case SQL_SUCCESS:
+			break;
+		case SQL_SUCCESS_WITH_INFO:
+			break;
+		case SQL_NO_DATA_FOUND:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_INVALID_HANDLE:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		case SQL_ERROR:
+			showSQLError(SQL_HANDLE_DBC, SQLConnectionHandle);
+			retCode = -1;
+			break;
+		default:
+			break;
+		}
+		if (retCode == -1)
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, SQLConnectionHandle, &SQLStatementHandle))
+		{
+			break;
+		}
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
+		{
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+			break;
+		}
+		else//c'est ici que je get mes donn√©es !
+		{
+			std::cout << "j'ai supprim√© le pokemon !" << std::endl;
+		}
+	} while (FALSE);
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
@@ -991,21 +1127,21 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 
 /*void chargerPokemonDresseur(Dresseur &leDresseur)
 {
-	//va devenir 2 mÈthodes de dresseur : chargerEquipe et chargerBoite
+	//va devenir 2 m√©thodes de dresseur : chargerEquipe et chargerBoite
 }*/
 /*void chargerAttaquePokemonDresseur(Dresseur &leDresseur)
 {
-	//chaque pokÈmon aura une mÈthode chargerAttaque
-	//il suffira de l'appeler quand nÈcÈssaire, ou au chargement des pokÈmons (! de bien fermer une requete avant d'en faire une autre, donc de charger d'abord les pkmns betement, puis pour chacun load ses attaques
+	//chaque pok√©mon aura une m√©thode chargerAttaque
+	//il suffira de l'appeler quand n√©c√©ssaire, ou au chargement des pok√©mons (! de bien fermer une requete avant d'en faire une autre, donc de charger d'abord les pkmns betement, puis pour chacun load ses attaques
 } */
-// ! l'id chargÈ temporairement est celle du pokedex ! si on save ce pokemon, il recevra une nouvelle id de la part du sgbd=> sera nÈcÈssaire pour l'insertion des attaques ! 
-//faire donc trËs attention dans inserrer dans DB par la suite !!!!! 
+// ! l'id charg√© temporairement est celle du pokedex ! si on save ce pokemon, il recevra une nouvelle id de la part du sgbd=> sera n√©c√©ssaire pour l'insertion des attaques ! 
+//faire donc tr√®s attention dans inserrer dans DB par la suite !!!!! 
 //fait exactement ce que la fct dit dans son nom (avec les attaques)
 Pokemonstock creerUnPokemonRandom()
 {
 	int rarete = (rand() % 3) + 1;
 	Pokemonstock lePokemon;
-	//premiËrement get un pokemon random, le paramËtre est gÈrÈ dans le main, ou pas et il suffit de le faire ici
+	//premi√®rement get un pokemon random, le param√®tre est g√©r√© dans le main, ou pas et il suffit de le faire ici
 	//std::string SQLQuery = "Select TOP 1 * from pokemonpokedex where ppx_rarete =" + std::to_string(rarete) + " ORDER BY rnd(pokemonpokedex.ppx_idpokemon)";//old query
 	std::string SQLQuery = "Select TOP 1 * from pokemonpokedex where ppx_rarete =" + std::to_string(rarete) + " ORDER BY rnd(INT(NOW*pokemonpokedex.ppx_idpokemon) - NOW * pokemonpokedex.ppx_idpokemon)";
 	SQLHANDLE SQLEnvHandle = NULL;
@@ -1032,7 +1168,7 @@ Pokemonstock creerUnPokemonRandom()
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -1066,7 +1202,7 @@ Pokemonstock creerUnPokemonRandom()
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			break;
 		}
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
 			int const sizemot = 20;
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS)
@@ -1108,7 +1244,7 @@ Pokemonstock creerUnPokemonRandom()
 			}
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
@@ -1171,7 +1307,7 @@ Pokemonstock creerUnPokemonRandom()
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			break;
 		}
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
 			//std::cout << "je rentre ici" << std::endl;
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS && compteur < 4)
@@ -1214,14 +1350,14 @@ Pokemonstock creerUnPokemonRandom()
 			}
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 	return lePokemon;
 }  
-//charge les'Èquipe du dresseur + attaque
+//charge les'√©quipe du dresseur + attaque
 void Dresseur::d_chargerEquipe()
 {
 	//on vide toujours quand on charge
@@ -1252,7 +1388,7 @@ void Dresseur::d_chargerEquipe()
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -1288,7 +1424,7 @@ void Dresseur::d_chargerEquipe()
 		}
 
 
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
 			int const sizemot = 20;
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS)
@@ -1333,14 +1469,14 @@ void Dresseur::d_chargerEquipe()
 			}
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	std::cout << "Fin Chargement" << std::endl;
-	std::system("pause");
+	//std::system("pause");
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-	//mnt pour toutes les donnÈes chargÈes, il faut charger les attaques ! 
+	//mnt pour toutes les donn√©es charg√©es, il faut charger les attaques ! 
 	std::vector<Pokemonstock> ::iterator it;
 	for (it = d_equipe.begin(); it != d_equipe.end(); it++)
 	{
@@ -1378,7 +1514,7 @@ void Dresseur::d_chargerBoite()
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -1414,7 +1550,7 @@ void Dresseur::d_chargerBoite()
 		}
 
 
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
 			int const sizemot = 20;
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS)
@@ -1459,10 +1595,10 @@ void Dresseur::d_chargerBoite()
 			}
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	std::cout << "Fin Chargement" << std::endl;
 
-	std::system("pause");
+	//std::system("pause");
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
@@ -1470,12 +1606,12 @@ void Dresseur::d_chargerBoite()
 
 	//charger les attaques
 	std::vector<Pokemonstock> ::iterator it;
-	for (it = d_equipe.begin(); it != d_equipe.end(); it++)
+	for (it = d_boite.begin(); it != d_boite.end(); it++)
 	{
 		it->ps_chargerAttaques();
 	}
 }
-//charger les attaques pour un pokÈstock
+//charger les attaques pour un pok√©stock
 void Pokemonstock::ps_chargerAttaques()
 {
 	std::string SQLQuery = "SELECT * FROM attaquepokedex WHERE ap_nomattaque IN (SELECT a_nomattaque FROM attaquepokedex INNER JOIN attaquepokeunique ON attaquepokeunique.a_nomattaque=attaquepokedex.ap_nomattaque WHERE attaquepokeunique.pu_idpokeunique=" + std::to_string(this->p_ID) + ")";
@@ -1504,7 +1640,7 @@ void Pokemonstock::ps_chargerAttaques()
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -1538,7 +1674,7 @@ void Pokemonstock::ps_chargerAttaques()
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			break;
 		}
-		else//c'est ici que je get mes donnÈes !
+		else//c'est ici que je get mes donn√©es !
 		{
 			//std::cout << "je rentre ici" << std::endl;
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS && compteur < 4)
@@ -1548,7 +1684,7 @@ void Pokemonstock::ps_chargerAttaques()
 				char type[sizemot];
 				int valdeg;
 				char natdeg[sizemot];
-				int coefset;
+				char tempcoefset[sizemot];
 				char natset[sizemot];
 				int statut;
 				char tempprecision[sizemot];
@@ -1556,7 +1692,7 @@ void Pokemonstock::ps_chargerAttaques()
 				SQLGetData(SQLStatementHandle, 2, SQL_CHAR, &type, sizeof(type), NULL);
 				SQLGetData(SQLStatementHandle, 3, SQL_INTEGER, &valdeg, sizeof(valdeg), NULL);
 				SQLGetData(SQLStatementHandle, 4, SQL_CHAR, &natdeg, sizeof(natdeg), NULL);
-				SQLGetData(SQLStatementHandle, 5, SQL_INTEGER, &coefset, sizeof(coefset), NULL);
+				SQLGetData(SQLStatementHandle, 5, SQL_CHAR, &tempcoefset, sizeof(tempcoefset), NULL);
 				SQLGetData(SQLStatementHandle, 6, SQL_CHAR, &natset, sizeof(natset), NULL);
 				SQLGetData(SQLStatementHandle, 7, SQL_INTEGER, &statut, sizeof(statut), NULL);
 				SQLGetData(SQLStatementHandle, 8, SQL_CHAR, &tempprecision, sizeof(tempprecision), NULL);
@@ -1572,22 +1708,32 @@ void Pokemonstock::ps_chargerAttaques()
 					}
 
 				}
+				for (int i = 0; i < sizeof(tempcoefset); i++)
+				{
+					if (tempcoefset[i] == ',') {
+						tempcoefset[i] = '.';
+						break;
+					}
+
+				}
 				std::string precision(tempprecision);
+				std::string coefset(tempcoefset);
 				float fprecision = std::strtof(precision.c_str(), 0);
-				Attaque rajouter(lename, letype, valdeg, coefset, lenatdeg, lenatset, fprecision, statut);
+				float fcoefset = std::strtof(coefset.c_str(), 0);
+				Attaque rajouter(lename, letype, valdeg, fcoefset, lenatdeg, lenatset, fprecision, statut);
 				ps_listeatq[compteur] = rajouter;
 				compteur++;
 			}
 		}
 	} while (FALSE);//do required to break loop if pb happens*/
-	//mnt libÈrer les ressources
+	//mnt lib√©rer les ressources
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 } 
-//pour mettre ‡ jour un pokemon dans la db, + pensez ‡ passer si il doit aller dans boite ou Èquipe
-void Pokemonstock::ps_updateDansDB(int boiteOuEquipe)//update les caractÈristiques d'un pokemon dans la db ! 
+//pour mettre √† jour un pokemon dans la db, + pensez √† passer si il doit aller dans boite ou √©quipe
+void Pokemonstock::ps_updateDansDB(int boiteOuEquipe)//update les caract√©ristiques d'un pokemon dans la db ! 
 {
 	SQLHANDLE SQLEnvHandle = NULL;
 	SQLHANDLE SQLConnectionHandle = NULL;
@@ -1615,7 +1761,7 @@ void Pokemonstock::ps_updateDansDB(int boiteOuEquipe)//update les caractÈristiqu
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -1651,7 +1797,7 @@ void Pokemonstock::ps_updateDansDB(int boiteOuEquipe)//update les caractÈristiqu
 		}
 		else
 		{
-			std::cout << "update du pokemon rÈussie dans la DB !" << std::endl;
+			std::cout << "update du pokemon r√©ussie dans la DB !" << std::endl;
 			//system("pause");
 		}
 	} while (false);
@@ -1663,7 +1809,7 @@ void Pokemonstock::ps_updateDansDB(int boiteOuEquipe)//update les caractÈristiqu
 //
 void Pokemonstock::ps_insererDansDb(int boiteOuEquipe)
 {
-	//! id pokemonunique crÈÈ ‡ l'insertion ! => je dois la read, update le pokemon avec, puis faire la suite !
+	//! id pokemonunique cr√©√© √† l'insertion ! => je dois la read, update le pokemon avec, puis faire la suite !
 	//mais d'abord le facile : insertion ! 
 	// 
 	SQLHANDLE SQLEnvHandle = NULL;
@@ -1691,7 +1837,7 @@ void Pokemonstock::ps_insererDansDb(int boiteOuEquipe)
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -1727,16 +1873,16 @@ void Pokemonstock::ps_insererDansDb(int boiteOuEquipe)
 		}
 		else
 		{
-			std::cout << "insertion pokemon rÈussie  dans la DB!";
+			std::cout << "insertion pokemon r√©ussie  dans la DB!";
 		}
 	} while (false);
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-	//mnt rÈcupÈrer l'id du pokemon crÈÈ par la DB
+	//mnt r√©cup√©rer l'id du pokemon cr√©√© par la DB
 	std::cout << "mnt je vais chercher ma nouvelle id" << std::endl;
-	SQLQuery = "SELECT MAX(pu_idpokeunique) FROM pokeunique";//le pokÈmon qui vient d'Ítre insÈrÈ a l'id la plus haute => je cherche l'id max des pokÈunique !
+	SQLQuery = "SELECT MAX(pu_idpokeunique) FROM pokeunique";//le pok√©mon qui vient d'√™tre ins√©r√© a l'id la plus haute => je cherche l'id max des pok√©unique !
 	do
 	{
 		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
@@ -1757,7 +1903,7 @@ void Pokemonstock::ps_insererDansDb(int boiteOuEquipe)
 			break;
 		}
 		SQLCHAR retConString[1024];
-		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+		switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 		{
 		case SQL_SUCCESS:
 			break;
@@ -1800,7 +1946,7 @@ void Pokemonstock::ps_insererDansDb(int boiteOuEquipe)
 			{
 				SQLGetData(SQLStatementHandle, 1, SQL_INTEGER, &newID, sizeof(newID), NULL);
 			}
-			//std::cout << "aprËs lecture et avant allocation, mon id vaut : " << newID << std::endl;
+			//std::cout << "apr√®s lecture et avant allocation, mon id vaut : " << newID << std::endl;
 			this->ps_setID(newID);
 		}
 	} while (false);
@@ -1809,10 +1955,10 @@ void Pokemonstock::ps_insererDansDb(int boiteOuEquipe)
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-	//plus qu'‡ Ècrire les attaques => j'appelle la fct qui fait Á‡ !
+	//plus qu'√† √©crire les attaques => j'appelle la fct qui fait √ß√† !
 	this->ps_savelesattaques();
 }
-void Pokemonstock::ps_savelesattaques()//fct qui enregistre les attaques d'un pokÈmon dans la db
+void Pokemonstock::ps_savelesattaques()//fct qui enregistre les attaques d'un pok√©mon dans la db
 {
 
 	SQLHANDLE SQLEnvHandle = NULL;
@@ -1843,7 +1989,7 @@ void Pokemonstock::ps_savelesattaques()//fct qui enregistre les attaques d'un po
 				break;
 			}
 			SQLCHAR retConString[1024];
-			switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de DonnÈes\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
+			switch (SQLConnect(SQLConnectionHandle, (SQLCHAR*)"Pokelike_test", SQL_NTS, (SQLCHAR*)NULL, 0, NULL, 0))//(SQLConnect(SQLConnectionHandle, NULL, (SQLCHAR*)"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = D:\Documents\OneDrive\OneDrive - UMONS\Polytech\BAB3 IG\Big Data Base de Donn√©es\Projet\Pokelike\Pokelike\Pokelike.accdb", SQL_NTS, retConString, 1024, NULL, SQL_DRIVER_NOPROMPT))
 			{
 			case SQL_SUCCESS:
 				break;
@@ -1879,7 +2025,7 @@ void Pokemonstock::ps_savelesattaques()//fct qui enregistre les attaques d'un po
 			}
 			else
 			{
-				std::cout << "insertion attaque " << compteur << " rÈussie" << std::endl;
+				std::cout << "insertion attaque " << compteur << " r√©ussie" << std::endl;
 			}
 		} while (false);
 		SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
@@ -1887,4 +2033,5 @@ void Pokemonstock::ps_savelesattaques()//fct qui enregistre les attaques d'un po
 		SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 		SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 	}
-}
+} 
+
