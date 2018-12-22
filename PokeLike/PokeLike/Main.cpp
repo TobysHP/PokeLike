@@ -928,6 +928,9 @@ int main()
 								if (dres.d_getPokePasKO().size() == 0)
 								{
 									std::cout << "gameover" << std::endl;
+									//afficher game over
+									//soigner toute l'équipe 
+									dres.d_healequipe();
 									endcombat = false;
 								}
 								else
@@ -960,6 +963,9 @@ int main()
 								if (dres.d_getPokePasKO().size() == 0)
 								{
 									std::cout << "gameover" << std::endl;
+									//afficher game over
+									//soigner toute l'équipe 
+									dres.d_healequipe();
 									endcombat = false;
 								}
 								else
