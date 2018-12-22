@@ -185,7 +185,7 @@ void Pokemonstock::ps_setID(int newid)
 {
 	p_ID = newid;
 }
-void Pokemonstock::ps_fincombat(Pokemonstock cepokemon, Pokemonstock ciblevaincue, bool win)
+void Pokemonstock::ps_fincombat(Pokemonstock cepokemon, Pokemonstock ciblevaincue, bool win, int numeroEquipe)
 {
 	if (win == true)//ajout des evs
 	{
@@ -216,6 +216,7 @@ void Pokemonstock::ps_fincombat(Pokemonstock cepokemon, Pokemonstock ciblevaincu
 	{
 		ps_pvrestant = 0;//pas de pvs sous 0
 	}
+	//this->ps_updateDansDB(numeroEquipe);//décommenter la ligne quand on fait les tests finaux
 }
 void Pokemonstock::ps_heal()
 {

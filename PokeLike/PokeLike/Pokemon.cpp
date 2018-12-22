@@ -151,8 +151,6 @@ sf::Sprite Pokemon::p_getsprite() {
 	return p_sprite;
 }
 void Pokemon::p_setsprite(int x) {//x étant le facteur graphique
-	sf::Sprite p_sprite;
-	sf::Texture p_texture;
 	p_texture.loadFromFile("Sprite/4g_sprite_pokemon.png", sf::IntRect(p_posx, p_posy, 80, 80));
 	p_sprite.setTexture(p_texture);
 	p_sprite.setScale(2*x, 2*x);

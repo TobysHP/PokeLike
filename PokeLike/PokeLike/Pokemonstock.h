@@ -12,7 +12,7 @@ public :
 	int ps_getpvrestant();
 	Attaque ps_getattaque(int n);
 	void ps_setID(int newid);
-	void ps_fincombat(Pokemonstock cepokemon, Pokemonstock ciblevaincue, bool win);
+	void ps_fincombat(Pokemonstock cepokemon, Pokemonstock ciblevaincue, bool win, int numeroEquipe);
 	void ps_heal();
 	void ps_setatq(Attaque attaque1, Attaque attaque2, Attaque attaque3, Attaque attaque4);
 	void ps_setUneAttaque(Attaque attaque, int i);

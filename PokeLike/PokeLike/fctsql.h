@@ -113,15 +113,15 @@ void chargerIdsNomsDresseurs(int tableauDesId[], std::string tableauDesNoms[]) {
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-}
-std::vector<Pokemon> chargerLePokedex()
+} 
+std::vector<Pokemon> chargerLePokedex(std::string SQLQuery)
 {
 	std::vector<Pokemon> lePokedex;
 	SQLHANDLE SQLEnvHandle = NULL;
 	SQLHANDLE SQLConnectionHandle = NULL;
 	SQLHANDLE SQLStatementHandle = NULL;
 	SQLRETURN retCode = 0;
-	std::string SQLQuery = "SELECT * FROM pokemonpokedex";
+	//std::string SQLQuery = "SELECT * FROM pokemonpokedex";
 	do
 	{
 		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
@@ -231,7 +231,8 @@ std::vector<Pokemon> chargerLePokedex()
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 	return lePokedex;
-}
+} 
+//charge le sprite du dresseur, initialise l'id, charge le numéro boite et equipe
 Dresseur chargerDresseur(int idDresseurACharger, int facteurGraphique)
 {
 	SQLHANDLE SQLEnvHandle = NULL;
@@ -396,7 +397,8 @@ Dresseur chargerDresseur(int idDresseurACharger, int facteurGraphique)
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 	return monDresseur;
-}
+} 
+//créer les nouvelles entrées dans la base de données pour le nouveau dresseur (boite ET equipe)
 void creerDresseurEtBoite() {
 	std::cout << "veillez saisir le nom du dresseur à insérer" << std::endl;
 	std::string nomDresseurACreer;
@@ -700,7 +702,8 @@ void creerDresseurEtBoite() {
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 
-}
+} 
+//supprime TOUT POUR UN DRESSEUR ! 
 void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 {
 	/*pour supprimer un dresseur dans la db, il faut :
@@ -996,7 +999,8 @@ void supprimerUnDresseurDansDB(int idDresseurASupprimer)
 	//il suffira de l'appeler quand nécéssaire, ou au chargement des pokémons (! de bien fermer une requete avant d'en faire une autre, donc de charger d'abord les pkmns betement, puis pour chacun load ses attaques
 } */
 // ! l'id chargé temporairement est celle du pokedex ! si on save ce pokemon, il recevra une nouvelle id de la part du sgbd=> sera nécéssaire pour l'insertion des attaques ! 
-//faire donc très attention dans inserrer dans DB par la suite !!!!!
+//faire donc très attention dans inserrer dans DB par la suite !!!!! 
+//fait exactement ce que la fct dit dans son nom (avec les attaques)
 Pokemonstock creerUnPokemonRandom()
 {
 	int rarete = (rand() % 3) + 1;
@@ -1180,20 +1184,30 @@ Pokemonstock creerUnPokemonRandom()
 				int coefset;
 				char natset[sizemot];
 				int statut;
-				float precision;
+				char tempprecision[sizemot];
 				SQLGetData(SQLStatementHandle, 1, SQL_CHAR, &name, sizeof(name), NULL);
 				SQLGetData(SQLStatementHandle, 2, SQL_CHAR, &type, sizeof(type), NULL);
 				SQLGetData(SQLStatementHandle, 3, SQL_INTEGER, &valdeg, sizeof(valdeg), NULL);
 				SQLGetData(SQLStatementHandle, 4, SQL_CHAR, &natdeg, sizeof(natdeg), NULL);
 				SQLGetData(SQLStatementHandle, 5, SQL_INTEGER, &coefset, sizeof(coefset), NULL);
 				SQLGetData(SQLStatementHandle, 6, SQL_CHAR, &natset, sizeof(natset), NULL);
-				SQLGetData(SQLStatementHandle, 7, SQL_CHAR, &statut, sizeof(statut), NULL);
-				SQLGetData(SQLStatementHandle, 8, SQL_FLOAT, &precision, sizeof(precision), NULL);
+				SQLGetData(SQLStatementHandle, 7, SQL_INTEGER, &statut, sizeof(statut), NULL);
+				SQLGetData(SQLStatementHandle, 8, SQL_CHAR, &tempprecision, sizeof(tempprecision), NULL);
 				std::string lename(name);
 				std::string letype(type);
 				std::string lenatdeg(natdeg);
 				std::string lenatset(natset);
-				Attaque rajouter(lename, letype, valdeg, coefset, lenatdeg, lenatset, precision, statut);
+				for (int i = 0; i < sizeof(tempprecision); i++)
+				{
+					if (tempprecision[i] == ',') {
+						tempprecision[i] = '.';
+						break;
+					}
+
+				}
+				std::string precision(tempprecision);
+				float fprecision = std::strtof(precision.c_str(), 0);
+				Attaque rajouter=Attaque(lename, letype, valdeg, coefset, lenatdeg, lenatset, fprecision, statut);
 				lePokemon.ps_setUneAttaque(rajouter, compteur);
 				//std::cout << "l'attaque est : " << lePokemon.ps_getattaque(compteur).a_getnom() << std::endl;
 				compteur++;
@@ -1206,11 +1220,12 @@ Pokemonstock creerUnPokemonRandom()
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
 	return lePokemon;
-}
+}  
+//charge les'équipe du dresseur + attaque
 void Dresseur::d_chargerEquipe()
 {
 	//on vide toujours quand on charge
-	d_equipe.empty();
+	d_equipe.clear();
 	//puis seulement je load
 	SQLHANDLE SQLEnvHandle = NULL;
 	SQLHANDLE SQLConnectionHandle = NULL;
@@ -1310,7 +1325,7 @@ void Dresseur::d_chargerEquipe()
 				std::string leName(name);
 				std::string leType(type);
 				std::string leTypeEv(typeev);
-				Pokemonstock lePokemon(id, leName, leType, xsprite, ysprite, pvmax, atk, atkspe, def, defspe, vit, evdonne, leTypeEv, pvActifs);
+				Pokemonstock lePokemon=Pokemonstock(id, leName, leType, xsprite, ysprite, pvmax, atk, atkspe, def, defspe, vit, evdonne, leTypeEv, pvActifs);
 				d_equipe.push_back(lePokemon);
 				//SQL_C_DEFAULT
 				//SQL_VARBINARY vs SQL_C_BINARY : type dans sql vs type dans c
@@ -1331,11 +1346,12 @@ void Dresseur::d_chargerEquipe()
 	{
 		it->ps_chargerAttaques();
 	}
-}
+} 
+//charge la boite du dresseur + attaque
 void Dresseur::d_chargerBoite()
 {
 	//on vide toujours quand on charge
-	d_boite.empty();
+	d_boite.clear();
 	//puis seulement je load
 	SQLHANDLE SQLEnvHandle = NULL;
 	SQLHANDLE SQLConnectionHandle = NULL;
@@ -1435,7 +1451,7 @@ void Dresseur::d_chargerBoite()
 				std::string leName(name);
 				std::string leType(type);
 				std::string leTypeEv(typeev);
-				Pokemonstock lePokemon(id, leName, leType, xsprite, ysprite, pvmax, atk, atkspe, def, defspe, vit, evdonne, leTypeEv, pvActifs);
+				Pokemonstock lePokemon=Pokemonstock(id, leName, leType, xsprite, ysprite, pvmax, atk, atkspe, def, defspe, vit, evdonne, leTypeEv, pvActifs);
 				d_boite.push_back(lePokemon);
 				//SQL_C_DEFAULT
 				//SQL_VARBINARY vs SQL_C_BINARY : type dans sql vs type dans c
@@ -1459,7 +1475,7 @@ void Dresseur::d_chargerBoite()
 		it->ps_chargerAttaques();
 	}
 }
-
+//charger les attaques pour un pokéstock
 void Pokemonstock::ps_chargerAttaques()
 {
 	std::string SQLQuery = "SELECT * FROM attaquepokedex WHERE ap_nomattaque IN (SELECT a_nomattaque FROM attaquepokedex INNER JOIN attaquepokeunique ON attaquepokeunique.a_nomattaque=attaquepokedex.ap_nomattaque WHERE attaquepokeunique.pu_idpokeunique=" + std::to_string(this->p_ID) + ")";
@@ -1525,7 +1541,7 @@ void Pokemonstock::ps_chargerAttaques()
 		else//c'est ici que je get mes données !
 		{
 			//std::cout << "je rentre ici" << std::endl;
-			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS && compteur < 1)
+			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS && compteur < 4)
 			{
 				//std::cout << "je charge mes datas" << std::endl;
 				char name[sizemot];
@@ -1535,20 +1551,30 @@ void Pokemonstock::ps_chargerAttaques()
 				int coefset;
 				char natset[sizemot];
 				int statut;
-				float precision;
+				char tempprecision[sizemot];
 				SQLGetData(SQLStatementHandle, 1, SQL_CHAR, &name, sizeof(name), NULL);
 				SQLGetData(SQLStatementHandle, 2, SQL_CHAR, &type, sizeof(type), NULL);
 				SQLGetData(SQLStatementHandle, 3, SQL_INTEGER, &valdeg, sizeof(valdeg), NULL);
 				SQLGetData(SQLStatementHandle, 4, SQL_CHAR, &natdeg, sizeof(natdeg), NULL);
 				SQLGetData(SQLStatementHandle, 5, SQL_INTEGER, &coefset, sizeof(coefset), NULL);
 				SQLGetData(SQLStatementHandle, 6, SQL_CHAR, &natset, sizeof(natset), NULL);
-				SQLGetData(SQLStatementHandle, 7, SQL_CHAR, &statut, sizeof(statut), NULL);
-				SQLGetData(SQLStatementHandle, 8, SQL_FLOAT, &precision, sizeof(precision), NULL);
+				SQLGetData(SQLStatementHandle, 7, SQL_INTEGER, &statut, sizeof(statut), NULL);
+				SQLGetData(SQLStatementHandle, 8, SQL_CHAR, &tempprecision, sizeof(tempprecision), NULL);
 				std::string lename(name);
 				std::string letype(type);
 				std::string lenatdeg(natdeg);
 				std::string lenatset(natset);
-				Attaque rajouter(lename, letype, valdeg, coefset, lenatdeg, lenatset, precision, statut);
+				for (int i = 0; i < sizeof(tempprecision); i++)
+				{
+					if (tempprecision[i] == ',') {
+						tempprecision[i] = '.';
+						break;
+					}
+
+				}
+				std::string precision(tempprecision);
+				float fprecision = std::strtof(precision.c_str(), 0);
+				Attaque rajouter(lename, letype, valdeg, coefset, lenatdeg, lenatset, fprecision, statut);
 				ps_listeatq[compteur] = rajouter;
 				compteur++;
 			}
@@ -1559,7 +1585,8 @@ void Pokemonstock::ps_chargerAttaques()
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-}
+} 
+//pour mettre à jour un pokemon dans la db, + pensez à passer si il doit aller dans boite ou équipe
 void Pokemonstock::ps_updateDansDB(int boiteOuEquipe)//update les caractéristiques d'un pokemon dans la db ! 
 {
 	SQLHANDLE SQLEnvHandle = NULL;
@@ -1632,7 +1659,8 @@ void Pokemonstock::ps_updateDansDB(int boiteOuEquipe)//update les caractéristiqu
 	SQLDisconnect(SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_DBC, SQLConnectionHandle);
 	SQLFreeHandle(SQL_HANDLE_ENV, SQLEnvHandle);
-}
+} 
+//
 void Pokemonstock::ps_insererDansDb(int boiteOuEquipe)
 {
 	//! id pokemonunique créé à l'insertion ! => je dois la read, update le pokemon avec, puis faire la suite !

@@ -135,3 +135,32 @@ void Dresseur::d_setIDEquipe(int idequipe)
 {
 	d_idEquipe = idequipe;
 }
+/*
+const std::vector<Pokemonstock>& Dresseur::d_getRefVersEquipe() const
+{
+	return d_equipe;
+}*/
+
+std::vector<int> Dresseur::d_getPokePasKO() {
+	std::vector<int>pasKO;
+	pasKO.clear();
+	int i = 0;
+	for (std::vector<Pokemonstock>::iterator it = d_equipe.begin(); it != d_equipe.end(); it++)
+	{
+		if (it->ps_getpvrestant() > 0)
+		{
+			pasKO.push_back(i);
+			std::cout << "je boucle une fois"<<std::endl;
+		}
+		i++;
+	}
+	return pasKO;
+}
+
+int Dresseur::d_getSizeEquipe() {
+	return d_equipe.size();
+}
+
+int Dresseur::d_getSizeBoite() {
+	return d_boite.size();
+}

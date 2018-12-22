@@ -30,7 +30,10 @@ public:
 	//ces méthodes étant des fct qui font des requetes sql, elles sont définies dans fctsql.h
 	void d_chargerEquipe();
 	void d_chargerBoite();
-	
+	//const std::vector<Pokemonstock>&d_getRefVersEquipe() const;
+	std::vector<int> d_getPokePasKO();
+	int d_getSizeEquipe();
+	int d_getSizeBoite();
 private:
 	sf::Texture d_texture_down;
 	sf::Texture d_texture_down_1;

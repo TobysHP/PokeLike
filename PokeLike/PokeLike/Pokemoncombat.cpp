@@ -195,7 +195,24 @@ int Pokemoncombat::pc_getvitcombat()
 void Pokemoncombat::pc_getdegats(Attaque lattaque, float matricecoef[17][17], Pokemoncombat attaquant)
 {
 	float coef;
-	coef = matricecoef[(*this).p_getnombretype()][lattaque.a_getnombretype()];
+	float matricecoef1[17][17] = { { 1,1,1,1,1,1,2,1,1,1,1,1,1,0,1,1,1 },
+		{ 1,0.5,2,0.5,1,0.5,1,1,2,1,1,0.5,2,1,1,1,0.5 },
+		{ 1,0.5,0.5,2,2,0.5,1,1,1,1,1,1,1,1,1,1,0.5 },
+		{ 1,2,0.5,0.5,0.5,2,1,2,0.5,2,1,2,1,1,1,1,1 },
+		{ 1,1,1,1,0.5,1,1,1,2,0.5,1,1,1,1,1,1,1 },
+		{ 1,2,1,1,1,0.5,2,1,1,1,1,1,2,1,1,1,2 },
+		{ 1,1,1,1,1,1,1,1,1,2,2,0.5,0.5,1,1,0.5,1 },
+		{ 1,1,1,0.5,1,1,0.5,0.5,2,1,2,0.5,1,1,1,1,1 },
+		{ 1,1,2,2,0,2,1,0.5,1,1,1,1,0.5,1,1,1,1 },
+		{ 1,1,1,0.5,2,2,0.5,1,0,1,1,0.5,2,1,1,1,1 },
+		{ 1,1,1,1,1,1,0.5,1,1,1,0.5,2,1,2,1,2,1 },
+		{ 1,2,1,0.5,1,1,0.5,1,0.5,2,1,1,2,1,1,1,1 },
+		{ 0.5,0.5,2,2,1,1,2,0.5,2,0.5,1,1,1,1,1,1,2 },
+		{ 0,1,1,1,1,1,0,0.5,1,1,1,0.5,1,2,1,2,1 },
+		{ 1,0.5,0.5,0.5,0.5,2,1,1,1,1,1,1,1,1,2,1,1 },
+		{ 1,1,1,1,1,1,2,1,1,1,0,2,1,0.5,1,0.5,1 },
+		{ 0.5,2,1,0.5,1,0.5,2,0,2,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5 } };
+	coef = matricecoef1[(*this).p_getnombretype()][lattaque.a_getnombretype()];
 	//coef = matricecoef[1][1];
 	int pvperdu;
 	if (lattaque.a_getstataffecteeoff() == "physique")//atk phys
@@ -218,21 +235,43 @@ void Pokemoncombat::pc_setupself(Attaque lattaque)//multiplier la stat affecté p
 	if (lattaque.a_getstataffecteeset() == "atk")
 	{
 		pc_atkcombat *= lattaque.a_getpuissanceset();
+		if (pc_atkcombat <= 0)
+		{
+			pc_atkcombat = 1;
+		}
 	}
 	if (lattaque.a_getstataffecteeset() == "atkspe")
 	{
 		pc_atkspecombat *= lattaque.a_getpuissanceset();
+		if (pc_atkspecombat <= 0)
+		{
+			pc_atkspecombat = 1;
+		}
 	}
 	if (lattaque.a_getstataffecteeset() == "def")
 	{
 		pc_defcombat *= lattaque.a_getpuissanceset();
+		if (pc_defcombat <= 0)
+		{
+			pc_defcombat = 1;
+		}
 	}
 	if (lattaque.a_getstataffecteeset() == "defspe")
 	{
 		pc_defspecombat *= lattaque.a_getpuissanceset();
+		if (pc_defspecombat <= 0)
+		{
+			pc_defspecombat = 1;
+		}
+
 	}
 	if (lattaque.a_getstataffecteeset() == "vit")
 	{
 		pc_vitcombat *= lattaque.a_getpuissanceset();
+		if (pc_vitcombat <= 0)
+		{
+			pc_vitcombat = 1;
+		}
 	}
+
 }
