@@ -36,7 +36,7 @@ int main()
 									/////////ici
 	Dresseur dres/*(x)*/;
 	int pas = 0;
-
+	bool boo = TRUE;
 	bool selectData = 1;
 
 
@@ -109,7 +109,7 @@ int main()
 	sf::Texture pokeball;
 	pokeball.loadFromFile("Sprite/all_pokeballs.png", sf::IntRect(168, 4, 19, 32));
 	pokeball_sprite.setTexture(pokeball);
-	pokeball_sprite.setScale(2*x, 2*x);
+	pokeball_sprite.setScale(2 * x, 2 * x);
 	int anim_poke = 0;
 
 	// setup du centre
@@ -225,7 +225,7 @@ int main()
 		save3.setFillColor(sf::Color::White);
 		save4.setFillColor(sf::Color::White);
 
-		bool boo = TRUE;
+		//bool boo = TRUE;
 		bool endmap = TRUE;
 		bool endcombat = FALSE;
 		bool pokecentre_scene = FALSE;
@@ -236,9 +236,10 @@ int main()
 		int compt = 0;
 		bool option = 0;
 		bool play = 1;
-		selectData = 1;
+		//selectData = 1;
 		while (boo) {
 			//maFenetre.clear();
+			selectData = true;
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
 				option = 1; // play
@@ -324,7 +325,7 @@ int main()
 			profilIsCreated[2] = false;
 		}
 
-		if (tableauDesNoms[3]!="") {
+		if (tableauDesNoms[3] != "") {
 			save4text = tableauDesNoms[3] + "\n" + sf::String(std::to_string(tableauDesId[3]));
 			save4.setString(save4text);
 			save4.setPosition(x*653.5, x * 772);
@@ -378,7 +379,7 @@ int main()
 				selectData = 0;
 
 				if (save_select_tab[0] && save_select_tab[1]) {
-					if(profilIsCreated[3])
+					if (profilIsCreated[3])
 						dres = chargerDresseur(tableauDesId[3], x);
 					else {
 						creerDresseurEtBoite();
@@ -438,7 +439,7 @@ int main()
 		}
 
 		while (endmap) { // boucle liée à la map
-			
+
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
 			std::vector<bool> detectcoll;
 			// appel de la fonction membre "update" pour faire bouger l'objet
@@ -526,23 +527,23 @@ int main()
 			pressDtoDelete.setFillColor(sf::Color::White);
 
 			/*for (int i = 0; i < dres.d_getSizeEquipe(); i++) {
-				sf::Text temp(dres.d_getPokemonEquipe(i).p_getnom(), fontSave, x*66);
-				equipeText.push_back(temp);
+			sf::Text temp(dres.d_getPokemonEquipe(i).p_getnom(), fontSave, x*66);
+			equipeText.push_back(temp);
 			}
 			for (int i = 0; i < equipeText.size(); i++) {
-				equipeText[i].setPosition(x*60,x*( 35 + 188 * (i + 1) - 188 / 2));
+			equipeText[i].setPosition(x*60,x*( 35 + 188 * (i + 1) - 188 / 2));
 			}
 			for (int i = 0; i < dres.d_getSizeBoite(); i++) {
-				sf::Text temp(dres.d_getPokemonBoite(i).p_getnom(), fontSave, x * 66);
-				boiteText.push_back(temp);
+			sf::Text temp(dres.d_getPokemonBoite(i).p_getnom(), fontSave, x * 66);
+			boiteText.push_back(temp);
 			}
 			/*for (int i = 0; i < boiteText.size(); i++) {
-				boiteText[i].setPosition(80, 35 + 188 * (i + 1) - 188 / 2);
+			boiteText[i].setPosition(80, 35 + 188 * (i + 1) - 188 / 2);
 			}*/
 			int indexPokemonSelectedEquipe = 0;
 			int indexPokemonSelectedBoite = 0;
 			int positionDansLaListeBoite = 0;
-			
+
 			while (pokecentre_scene) {
 				maFenetre.display();
 				std::vector<bool> detectcoll;
@@ -613,32 +614,32 @@ int main()
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
 							if (!selection)
 								equipe = TRUE;
-							else if(dres.d_getSizeBoite()>0)
+							else if (dres.d_getSizeBoite()>0)
 								boite = TRUE;
 						}
-						while(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)){}
+						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 
 						while (equipe) {
-							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && indexPokemonSelectedEquipe<equipeText.size()-1)
+							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && indexPokemonSelectedEquipe<equipeText.size() - 1)
 								indexPokemonSelectedEquipe++;
 							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {}
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) && indexPokemonSelectedEquipe > 0)
 								indexPokemonSelectedEquipe--;
 							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {}
 							for (int i = 0; i < equipeText.size(); i++) {
-								if (i == indexPokemonSelectedEquipe) 
+								if (i == indexPokemonSelectedEquipe)
 									equipeText[i].setFillColor(sf::Color::Blue);
 								else
 									equipeText[i].setFillColor(sf::Color::White);
 							}
-							
+
 							std::string textPoke = dres.d_getPokemonEquipe(indexPokemonSelectedEquipe).ps_getAffichage();
 							Pokemonstock pokestock = dres.d_getPokemonEquipe(indexPokemonSelectedEquipe);
 							pokestock.p_setsprite(1.5*x);
 							pokestock.p_setSpritePosition(580, 950, x);
-							sf::Text textPokeText(textPoke, fontSave, 20*x);
+							sf::Text textPokeText(textPoke, fontSave, 20 * x);
 							textPokeText.setFillColor(sf::Color::White);
-							textPokeText.setPosition(x*610, x*740);
+							textPokeText.setPosition(x * 610, x * 740);
 							maFenetre.display();
 							maFenetre.draw(equipe_sprite);
 							maFenetre.draw(poke_info_sprite);
@@ -664,15 +665,15 @@ int main()
 									/*equipeText.clear();
 									boiteText.clear();
 									for (int i = 0; i < dres.d_getSizeEquipe(); i++) {
-										sf::Text temp(dres.d_getPokemonEquipe(i).p_getnom(), fontSave, x * 66);
-										equipeText.push_back(temp);
+									sf::Text temp(dres.d_getPokemonEquipe(i).p_getnom(), fontSave, x * 66);
+									equipeText.push_back(temp);
 									}
 									for (int i = 0; i < equipeText.size(); i++) {
-										equipeText[i].setPosition(x * 60, x*(35 + 188 * (i + 1) - 188 / 2));
+									equipeText[i].setPosition(x * 60, x*(35 + 188 * (i + 1) - 188 / 2));
 									}
 									for (int i = 0; i < dres.d_getSizeBoite(); i++) {
-										sf::Text temp(dres.d_getPokemonBoite(i).p_getnom(), fontSave, x * 66);
-										boiteText.push_back(temp);
+									sf::Text temp(dres.d_getPokemonBoite(i).p_getnom(), fontSave, x * 66);
+									boiteText.push_back(temp);
 									}
 									computer_sprite.setTexture(computer_boite);*/
 									indexPokemonSelectedBoite = 0;
@@ -684,7 +685,7 @@ int main()
 							}
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
 								if (dres.d_getSizeEquipe() > 1) {
-								    supprimerUnPokeDansDB(dres.d_getPokemonEquipe(indexPokemonSelectedEquipe).p_getid());
+									supprimerUnPokeDansDB(dres.d_getPokemonEquipe(indexPokemonSelectedEquipe).p_getid());
 									dres.d_chargerBoite();
 									dres.d_chargerEquipe();
 									equipe = false;
@@ -713,7 +714,7 @@ int main()
 							}
 							maFenetre.draw(pressEnterToBoite);
 							maFenetre.draw(pressDtoDelete);
-							while(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)){}
+							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 							pressEnterToBoite.setString("Appuyez sur ENTER pour\nle placer dans la boite");
 						}
 						while (boite) {
@@ -804,37 +805,37 @@ int main()
 									equipeText.clear();
 									boiteText.clear();
 									/*for (int i = 0; i < dres.d_getSizeBoite(); i++) {
-										sf::Text temp(dres.d_getPokemonBoite(i).p_getnom(), fontSave, x * 66);
-										boiteText.push_back(temp);
+									sf::Text temp(dres.d_getPokemonBoite(i).p_getnom(), fontSave, x * 66);
+									boiteText.push_back(temp);
 									}
 									for (int i = 0; i < dres.d_getSizeEquipe(); i++) {
-										sf::Text temp(dres.d_getPokemonEquipe(i).p_getnom(), fontSave, x * 66);
-										equipeText.push_back(temp);
+									sf::Text temp(dres.d_getPokemonEquipe(i).p_getnom(), fontSave, x * 66);
+									equipeText.push_back(temp);
 									}
 									for (int i = 0; i < equipeText.size(); i++) {
-										equipeText[i].setPosition(x * 60, x*(35 + 188 * (i + 1) - 188 / 2));
+									equipeText[i].setPosition(x * 60, x*(35 + 188 * (i + 1) - 188 / 2));
 									}*/
 									indexPokemonSelectedBoite = 0;
 									indexPokemonSelectedEquipe = 0;
 									positionDansLaListeBoite = 0;
-									
+
 								}
 								else {
 									pressEnterToEquipe.setString("L'Equipe est pleine!");
 								}
 							}
-							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)|| sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-									supprimerUnPokeDansDB(dres.d_getPokemonBoite(indexPokemonSelectedBoite).p_getid());
-									dres.d_chargerBoite();
-									dres.d_chargerEquipe();
-									boite = false;
-									equipe = false;
-									computer = false;
-									equipeText.clear();
-									boiteText.clear();
-									indexPokemonSelectedBoite = 0;
-									indexPokemonSelectedEquipe = 0;
-									positionDansLaListeBoite = 0;
+							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+								supprimerUnPokeDansDB(dres.d_getPokemonBoite(indexPokemonSelectedBoite).p_getid());
+								dres.d_chargerBoite();
+								dres.d_chargerEquipe();
+								boite = false;
+								equipe = false;
+								computer = false;
+								equipeText.clear();
+								boiteText.clear();
+								indexPokemonSelectedBoite = 0;
+								indexPokemonSelectedEquipe = 0;
+								positionDansLaListeBoite = 0;
 							}
 							maFenetre.draw(pressEnterToEquipe);
 							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) { maFenetre.draw(pressEnterToEquipe); }
@@ -899,15 +900,15 @@ int main()
 			// mon poke
 			int position = dres.d_getPokePasKO()[0];
 			Pokemoncombat mon_pokemon(dres.d_getPokemonEquipe(position));
-			std::cout << "le nom: " << mon_pokemon.p_getnom()<< std::endl;
-			mon_pokemon.p_setsprite(2*x);
-			mon_pokemon.p_setSpritePosition(310-40, 390, x);
+			std::cout << "le nom: " << mon_pokemon.p_getnom() << std::endl;
+			mon_pokemon.p_setsprite(2 * x);
+			mon_pokemon.p_setSpritePosition(310 - 40, 390, x);
 
 			// poke sauvage
 			Pokemoncombat pokemon_sauvage(creerUnPokemonRandom());
 			std::cout << "la nom: " << pokemon_sauvage.p_getnom() << std::endl;
-			pokemon_sauvage.p_setsprite(2*x);
-			pokemon_sauvage.p_setSpritePosition(730-70, 390, x);
+			pokemon_sauvage.p_setsprite(2 * x);
+			pokemon_sauvage.p_setSpritePosition(730 - 70, 390, x);
 
 			// interface combat selection
 			sf::Sprite combat_selection_sprite;
@@ -1096,8 +1097,8 @@ int main()
 							att4.setPosition(x * 950, x * 1105 + x * 3.5*(att4text.getSize() - 6));
 							att4.setCharacterSize(x * 300 / att4text.getSize());
 						}
-					
-						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) { }
+
+						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 					}
 
 					if (arrow_tab[0] && !arrow_tab[1]) // si on est sur équipe
@@ -1122,7 +1123,7 @@ int main()
 						anim_poke++;
 					}
 					else if (anim_poke <= 90) {
-		     			pokeball_sprite.setPosition(x * 800, x * 238 + x * 263 - x * 1 * (anim_poke - 83));
+						pokeball_sprite.setPosition(x * 800, x * 238 + x * 263 - x * 1 * (anim_poke - 83));
 						maFenetre.draw(pokeball_sprite);
 						anim_poke++;
 					}
@@ -1189,7 +1190,7 @@ int main()
 							attaquejoueur = 2;
 						atkIsSelected = false;
 					}
-					
+
 					while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 					if (!atkIsSelected) {
 						if (mon_pokemon.pc_getvitcombat() > pokemon_sauvage.pc_getvitcombat())//mon pokemon attaque donc en premier
@@ -1203,8 +1204,8 @@ int main()
 								std::cout << "pv mon poke : " << mon_pokemon.ps_getpvrestant() << "pv ennemi : " << pokemon_sauvage.ps_getpvrestant();
 								win = true;
 								/*for (int i = 0; i < 100000; i++) {
-									maFenetre.display();
-									maFenetre.draw(winSprite);
+								maFenetre.display();
+								maFenetre.draw(winSprite);
 								}*/
 								//ICI le pokemon qui s'est battu gagne des points dépendant des evs de la cible vaincue + mettre à jour les pvs ! 
 								//puis s'update dans la database ! 
@@ -1238,10 +1239,10 @@ int main()
 								}
 								else
 								{//sinon j'ai le droit de switch de pokémon ou de fuir!
-									//std::cin >> switchp;
-									//pokeequipe = rand() % dres.d_getPokePasKO().size();
-									//equipe[pokeequipe].ps_fincombat(mon_pokemon, pokemon_sauvage, win, 1);
-									//lespokemonspasko.clear();//je parcours mon équipe, je prend ceux qui sont pas ko
+								 //std::cin >> switchp;
+								 //pokeequipe = rand() % dres.d_getPokePasKO().size();
+								 //equipe[pokeequipe].ps_fincombat(mon_pokemon, pokemon_sauvage, win, 1);
+								 //lespokemonspasko.clear();//je parcours mon équipe, je prend ceux qui sont pas ko
 									position = dres.d_getPokePasKO()[0];
 									mon_pokemon = Pokemonstock(dres.d_getPokemonEquipe(position));
 									mon_pokemon.p_setsprite(2 * x);
@@ -1279,7 +1280,7 @@ int main()
 								{//sinon j'ai le droit de switch de pokémon ou de fuir!
 									position = dres.d_getPokePasKO()[0];
 									mon_pokemon = Pokemonstock(dres.d_getPokemonEquipe(position));
-									mon_pokemon.p_setsprite(2*x);
+									mon_pokemon.p_setsprite(2 * x);
 									mon_pokemon.p_setSpritePosition(310 - 40, 390, x);
 									attaque = false;
 								}
@@ -1291,8 +1292,8 @@ int main()
 									std::cout << "Pokemon vaincu !" << std::endl;
 									std::cout << "pv mon poke : " << mon_pokemon.ps_getpvrestant() << "pv ennemi : " << pokemon_sauvage.ps_getpvrestant();
 									/*for (int i = 0; i < 100000; i++) {
-										maFenetre.display();
-										maFenetre.draw(winSprite);
+									maFenetre.display();
+									maFenetre.draw(winSprite);
 									}*/
 									win = true;
 									//ICI le pokemon qui s'est battu gagne des points dépendant des evs de la cible vaincue + mettre à jour les pvs ! 
