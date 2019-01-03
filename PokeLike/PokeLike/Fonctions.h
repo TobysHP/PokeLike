@@ -3,7 +3,10 @@
 #include <iostream>
 #include <windows.h>
 #include <vector>
-
+//cette fonction gère les collisions
+//paramètre p1 : le dresseur
+//paramètre p2 : l'élément avec lequel on cherche la collision
+//return un vecteur de booléen, une colision vaut pour 1 dans le tableau, et 0 si il n'y en a pas
 std::vector<bool> Collision(sf::FloatRect p1, sf::FloatRect p2) {
 	std::vector<bool> tab; //[gauche, droite, haut, bas]
 	// on va prendre la position des 4 segments de chaques sprites

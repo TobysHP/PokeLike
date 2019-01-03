@@ -2,29 +2,42 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <windows.h>
-class Attaque {
+class Attaque {//classe des attaques, on a décrit beaucoup dans le rapport pour tout expliciter, voir là bas donc pour bien comprendre si des questions subsistent ! (identification des entités types)
 
 public:
+	//constructeur par défaut
 	Attaque();
-	Attaque(std:: string nom, std::string type, int puissanceoff, int puissanceset, std::string stataffoff, std::string stataffset, float precision, int statut);
+	//constructeur par paramètre
+	Attaque(std:: string nom, std::string type, int puissanceoff, float puissanceset, std::string stataffoff, std::string stataffset, float precision, int statut);
+	//destructeur par défaut
 	~Attaque();
+	//récupérer le nom de l'attaque
 	std::string a_getnom();
+	//récupérer le type de l'attaque
 	std::string a_gettype();
+	//récupérer la puissance offensive de l'attaque
 	int a_getpuissanceoff();
-	int a_getpuissanceset();
+	//récupérer le coefficient numérique du set de l'attaque
+	float a_getpuissanceset();
+	//récupérer la statistique affectée par l'attaque offensive (physique ou spéciale)
 	std::string a_getstataffecteeoff();
+	//récupérer la statistique affectée par le set (une des stats de combat)
 	std::string a_getstataffecteeset();
+	//récupérer la précision de l'attaque
 	float a_getprecision();
+	//récupérer le nombre associé au type de l'attaque
 	int a_getnombretype();
+	//récupérer le statut de l'attaque
 	int a_getstatut();
-
+	//récupérer l'affichage de l'attaque, sera utile pour l'affichage des pokemons dans la boite et l'équipe
+	std::string a_getAffichage();
 private:
 	//int a_id;
 	std ::string a_nom;
 	std:: string a_type;
 	int a_nombretype;
 	int a_puissanceoff;//dégats infligé
-	int a_puissanceset;//coef du set
+	float a_puissanceset;//coef du set
 	std:: string a_stataffecteeoff;//atk(spe)
 	std:: string a_stataffecteeset;//atk(spe), def(spe), vit
 	float a_precision;

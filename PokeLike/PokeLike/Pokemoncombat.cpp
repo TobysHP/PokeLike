@@ -1,10 +1,11 @@
 #pragma once
 #include "Pokemoncombat.h"
-
+//constructeur par défaut
 Pokemoncombat::Pokemoncombat()
 {
 
-}
+} 
+//constructeur de copie
 Pokemoncombat::Pokemoncombat(Pokemonstock acopier)
 {
 	/*Pokemonstock::Pokemonstock(acopier.p_getid(), acopier.p_getnom(), acopier.p_gettype(), acopier.p_getposx(), acopier.p_getposy(), acopier.p_getpvmax(), acopier.p_getatk(), acopier.p_getatkspe(),
@@ -12,7 +13,7 @@ Pokemoncombat::Pokemoncombat(Pokemonstock acopier)
 		acopier.ps_getattaque(1), acopier.ps_getattaque(2), acopier.ps_getattaque(3));*/
 	ps_pvrestant = acopier.ps_getpvrestant();
 	p_ID = acopier.p_getid();
-	std::cout << p_ID << std::endl;
+	//std::cout << p_ID << std::endl;
 	p_nom = acopier.p_getnom();
 	p_type = acopier.p_gettype();
 	p_posx = acopier.p_getposx();
@@ -27,7 +28,6 @@ Pokemoncombat::Pokemoncombat(Pokemonstock acopier)
 	p_evdonne = acopier.p_getevdonne();
 	p_typeev = acopier.p_gettypeev();
 	std::string type = acopier.p_gettype();
-	//on va le charger sur une autre fonciton pour les temps de calcul lors de chargement
 	if (type == "normal") {
 		p_nombretype = 0;
 	}
@@ -83,17 +83,20 @@ Pokemoncombat::Pokemoncombat(Pokemonstock acopier)
 	{
 		ps_listeatq[i] = acopier.ps_getattaque(i);
 	}
+	//initialisation des stats de combat, qui sont au départ les meme que les stats de "stockage" au départ
 	pc_atkcombat=p_atk;
 	pc_atkspecombat=p_atkspe;
 	pc_defcombat=p_def;
 	pc_defspecombat=p_defspe;
 	pc_vitcombat=p_vit;
-}
+} 
+//constructeur par paramètre
 Pokemoncombat::Pokemoncombat(int ID, std::string nom, std::string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int evdonne, std::string typeev, int pvrestant, Attaque atq1, Attaque atq2, Attaque atq3, Attaque atq4)
 {
+	//à nouveau le démasquage de fonction ne fonctionne pas pour une raison inconnue
 	ps_pvrestant = pvrestant;
 	p_ID = ID;
-	std::cout << p_ID << std::endl;
+	//std::cout << p_ID << std::endl;
 	p_nom = nom;
 	p_type = type;
 	p_posx = posx;
@@ -168,32 +171,41 @@ Pokemoncombat::Pokemoncombat(int ID, std::string nom, std::string type, int posx
 	}
 
 }
+//destructeur par défaut
 Pokemoncombat:: ~Pokemoncombat()
 {
 	Pokemon::~Pokemon();	
-}
+} 
+//récupérer la statistique d'attaque de combat
 int Pokemoncombat::pc_getatkcombat()
 {
 	return pc_atkcombat;
 }
+//récupérer la statistique d'attaque spéciale de combat
 int Pokemoncombat::pc_getatkspecombat()
 {
 	return pc_atkspecombat;
 }
+//récupérer la statistique de défense de combat
 int Pokemoncombat::pc_getdefcombat()
 {
 	return pc_defcombat;
 }
+//récupérer la statistique de défense spéciale de combat
 int Pokemoncombat::pc_getdefspecombat()
 {
 	return pc_defspecombat;
 }
+//récupérer la statistique de vitesse de combat
 int Pokemoncombat::pc_getvitcombat()
 {
 	return pc_vitcombat;
 }
+//fonction qui permet au pokémon qui l'appelle de subir les débats
 void Pokemoncombat::pc_getdegats(Attaque lattaque, float matricecoef[17][17], Pokemoncombat attaquant)
 {
+	//pour une raison étrange, la matrice qu'on passait en paramètre avait un comportement bizarre et causait des bugs, nous en avons donc redéclaré une copie ici
+	//pour des raisons de stabilité, vu que le jeu tourne correctement, nous ne voulons pas prendre le risque d'enlever les paramètres et de causer des bugs inutiles
 	float coef;
 	float matricecoef1[17][17] = { { 1,1,1,1,1,1,2,1,1,1,1,1,1,0,1,1,1 },
 		{ 1,0.5,2,0.5,1,0.5,1,1,2,1,1,0.5,2,1,1,1,0.5 },
@@ -212,9 +224,9 @@ void Pokemoncombat::pc_getdegats(Attaque lattaque, float matricecoef[17][17], Po
 		{ 1,0.5,0.5,0.5,0.5,2,1,1,1,1,1,1,1,1,2,1,1 },
 		{ 1,1,1,1,1,1,2,1,1,1,0,2,1,0.5,1,0.5,1 },
 		{ 0.5,2,1,0.5,1,0.5,2,0,2,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5 } };
-	coef = matricecoef1[(*this).p_getnombretype()][lattaque.a_getnombretype()];
-	//coef = matricecoef[1][1];
+	coef = matricecoef1[(*this).p_getnombretype()][lattaque.a_getnombretype()];//on récupère le coefficient amplificateur ou réducteur de dégats en fonction du type du pokémon qui subit et du type de l'attaque du pokémon attaquant, voir rapport pour détails
 	int pvperdu;
+	//on calcule les dégats en fonction de attaque spéciale ou physique, formule légèrement simplifié par rapport au jeu original
 	if (lattaque.a_getstataffecteeoff() == "physique")//atk phys
 	{
 		pvperdu = coef*(attaquant.pc_getatkcombat()* lattaque.a_getpuissanceoff() / ((*this).pc_getdefcombat()));//float to int ok car valeur arrondies ! 
@@ -223,15 +235,18 @@ void Pokemoncombat::pc_getdegats(Attaque lattaque, float matricecoef[17][17], Po
 	{
 		pvperdu = coef*(attaquant.pc_getatkspecombat() * lattaque.a_getpuissanceoff() / ((*this).pc_getdefspecombat()));
 	}
-	ps_pvrestant -= pvperdu;
+	ps_pvrestant -= pvperdu;//on applique les dégats
 	if (ps_pvrestant < 0)
 	{
 		ps_pvrestant = 0;//pas de pv sous 0
 	}
 	//std::cout<<"pv restant :"<<ps_pvrestant<<std::endl;
-}
-void Pokemoncombat::pc_setupself(Attaque lattaque)//multiplier la stat affecté par le boost par le coef
+} 
+//fonction qui multiplie la stat affecté par la valeur du coefficient, on s'en sert aussi bien pour augmenter que réduire les statistiques, voir dans déroulement combat
+void Pokemoncombat::pc_setupself(Attaque lattaque)
 {
+	//on dépend naturellement de la statistique affectee par l'attaque, on a des paramètres qui sont en adéquation avec ceux de notre base de données pour les if
+	//aussi, aucune statistique ne peux passer sous 0 ! le minimum est donc 1, voir pourquoi dans le calcul des dégats (pas de division par 0)
 	if (lattaque.a_getstataffecteeset() == "atk")
 	{
 		pc_atkcombat *= lattaque.a_getpuissanceset();

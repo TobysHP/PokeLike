@@ -2,15 +2,16 @@
 #include "Pokemon.h"
 
 
-
+//constructeur par défaut
 Pokemon::Pokemon()
 {
-
+	
 }
-Pokemon::Pokemon(int ID, std::string nom, std::string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int evdonne, std::string typeev)
+//constructeur par paramètre
+Pokemon::Pokemon(int ID, std:: string nom, std:: string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit,  int evdonne, std:: string typeev)
 {
 	p_ID = ID;
-	std::cout << p_ID << std::endl;
+	//std::cout << p_ID << std::endl;
 	p_nom = nom;
 	p_type = type;
 	p_posx = posx;
@@ -23,13 +24,15 @@ Pokemon::Pokemon(int ID, std::string nom, std::string type, int posx, int posy, 
 	p_vit = vit;
 	//p_rare = 1;//on en aura pas besoin
 	p_evdonne = evdonne;
-	p_typeev = typeev;
+	p_typeev = typeev; 
 	/*sf::Sprite p_sprite;
 	sf::Texture p_texture;
 	p_texture.loadFromFile("Sprite/4g_sprite_pokemon.png", sf::IntRect(p_posx, p_posy, 80, 80));
 	p_sprite.setTexture(p_texture);*/
 	//on va le charger sur une autre fonciton pour les temps de calcul lors de chargement
-	if (type == "normal") {
+
+	//on exploite le nombre plus loin, on transpose donc le nom du type en nombre équivalent, on aurait aussi pu le gérer dans la base de données et charger cette donnée supplémentaire (il aurait fallut rajouter une colonne)
+	if (type=="normal") {
 		p_nombretype = 0;
 	}
 	if (type == "feu") {
@@ -81,85 +84,99 @@ Pokemon::Pokemon(int ID, std::string nom, std::string type, int posx, int posy, 
 		p_nombretype = 16;
 	}
 }
-
+//destructeur par défaut
 Pokemon::~Pokemon()
 {
 
 }
-
-std::string Pokemon::p_getnom()
+//récupérer le nom
+std:: string Pokemon::p_getnom()
 {
 	return p_nom;
-}
-std::string Pokemon::p_gettype()
+} 
+//récupérer le type
+std:: string Pokemon::p_gettype()
 {
 	return p_type;
 }
+//récupérer la position en x sur la grille
 int Pokemon::p_getposx()
 {
 	return p_posx;
-}
+} 
+//récupérer la position en y sur la grille
 int Pokemon::p_getposy()
 {
 	return p_posy;
-}
+} 
+//récupérer les pvs max
 int Pokemon::p_getpvmax()
 {
 	return p_pvmax;
-}
+} 
+//récupérer l'attaque d'un pokémon
 int Pokemon::p_getatk()
 {
 	return p_atk;
-}
+} 
+//récupérer l'attaque spéciale d'un pokémon
 int Pokemon::p_getatkspe()
 {
 	return p_atkspe;
-}
+} 
+//récupérer la défense du pokémon
 int Pokemon::p_getdef()
 {
 	return p_def;
-}
+} 
+//récupérer la défense spéciale du pokémon 
 int Pokemon::p_getdefspe()
 {
 	return p_defspe;
-}
+} 
+//récupérer la vitesse du pokémon
 int Pokemon::p_getvit()
 {
 	return p_vit;
 }
-/*int Pokemon::p_getrare()
-{
-return p_rare;
-}*/
+//récupérer les ev donné par le pokémon (la valeur numérique)
 int Pokemon::p_getevdonne()
 {
 	return p_evdonne;
 }
-std::string Pokemon::p_gettypeev()
+//récupérer les ev donné par le pokémon (la statistique affectée)
+std:: string Pokemon::p_gettypeev()
 {
 	return p_typeev;
-}
+} 
+//récupérer le nombre associé au type
 int Pokemon::p_getnombretype()
 {
 	return p_nombretype;
 }
+//récupérer l'id du pokémon
 int Pokemon::p_getid()
 {
 	return p_ID;
-}
+} 
+//récupérer le sprite du pokémon
 sf::Sprite Pokemon::p_getsprite() {
 	return p_sprite;
 }
-void Pokemon::p_setsprite(int x) {//x Ã©tant le facteur graphique
+//initialiser le sprite du pokémon
+//x étant le facteur graphique
+void Pokemon::p_setsprite(int x) {
 	p_texture.loadFromFile("Sprite/4g_sprite_pokemon.png", sf::IntRect(p_posx, p_posy, 80, 80));
 	p_sprite.setTexture(p_texture);
-	p_sprite.setScale(2 * x, 2 * x);
+	p_sprite.setScale(2*x, 2*x);
 }
+//initialiser la position du sprite du pokémon
+//x et y sont l'abscisse et l'ordonnée, facteurG le facteur graphique
 void Pokemon::p_setSpritePosition(float x, float y, float facteurG)
 {
 	p_sprite.setPosition(facteurG*x, facteurG*y);
-}
-
+} 
+//récupérer l'affichage d'un pokémon, on s'en sert pour le pokédex
 std::string Pokemon::p_getAffichage()
 {
 	std::string textString;
@@ -170,8 +187,12 @@ std::string Pokemon::p_getAffichage()
 		+ "\nVitesse:\t" + std::to_string(p_vit) + "\tPV:\t" + std::to_string(p_pvmax)
 		+ "\nPress S to sort options";
 	/*sf::Text text((sf::String) textString, font, 20);
-
 	text.setPosition(610, 740);
 	text.setFillColor(sf::Color::White);*/
 	return textString;
 }
+
+/*int Pokemon::p_getrare()
+{
+	return p_rare;
+}*/

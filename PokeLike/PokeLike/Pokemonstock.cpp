@@ -1,14 +1,15 @@
 #pragma once
 #include "Pokemonstock.h"
 #include "Pokemon.h"
-
+//constructeur par défaut
 Pokemonstock::Pokemonstock()
 {
 
-}
+} 
+//constructeur par paramètre, avec les attaques comme paramètres, nous ne nous en servons plus je pense dans la version finale
 Pokemonstock::Pokemonstock(int ID, std:: string nom, std :: string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int evdonne, std:: string typeev, int pvrestant, Attaque attaque1, Attaque attaque2, Attaque attaque3, Attaque attaque4)
 {
-	
+	//le démasquage de la fonction parent ne voulait pas fonctionner pour une raison inconnue, et cette remarque est valable PARTOUT (donc dans tout les constructeurs des classes qui héritent de pokémon au départ (inclus donc les pokémoncombat)
 	//Pokemon::Pokemon(ID, nom, type, posx, posy, pvmax, atk, atkspe, def, defspe, vit, evdonne, typeev);
 	ps_pvrestant = pvrestant;
 	p_ID = ID;
@@ -82,14 +83,14 @@ Pokemonstock::Pokemonstock(int ID, std:: string nom, std :: string type, int pos
 	ps_listeatq[1] = attaque2;
 	ps_listeatq[2] = attaque3;
 	ps_listeatq[3] = attaque4;
-}
+} 
+//constructeur par paramètre, sans les attaques
 Pokemonstock::Pokemonstock(int ID, std::string nom, std::string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int evdonne, std::string typeev, int pvrestant)
 {
 	//Pokemon::Pokemon(ID, nom, type, posx, posy, pvmax, atk, atkspe, def, defspe, vit, evdonne, typeev);//çà marche pas pour une raison inconnue
-	//ps_pvrestant = pvmax;
 	ps_pvrestant = pvrestant;
 	p_ID = ID;
-	std::cout << p_ID << std::endl;
+	//std::cout << p_ID << std::endl;
 	p_nom = nom;
 	p_type = type;
 	p_posx = posx;
@@ -155,37 +156,46 @@ Pokemonstock::Pokemonstock(int ID, std::string nom, std::string type, int posx, 
 	if (type == "acier") {
 		p_nombretype = 16;
 	}
-}
+} 
+//constructeur de copie
 Pokemonstock::Pokemonstock(Pokemon acopier)
 {
 	Pokemon::Pokemon(acopier.p_getid(), acopier.p_getnom(), acopier.p_gettype(), acopier.p_getposx(), acopier.p_getposy(), acopier.p_getpvmax(), acopier.p_getatk(), acopier.p_getatkspe(),
 		acopier.p_getdef(), acopier.p_getdefspe(), acopier.p_getvit(), acopier.p_getevdonne(), acopier.p_gettypeev());
 	ps_pvrestant = acopier.p_getpvmax();
-}
+} 
+//pour initialiser toutes lesattaques d'un coup, chaque paramètre est une attaque
 void Pokemonstock::ps_setatq(Attaque attaque1, Attaque attaque2, Attaque attaque3, Attaque attaque4)
 {
 	ps_listeatq[0] = attaque1;
 	ps_listeatq[1] = attaque2;
 	ps_listeatq[2] = attaque3;
 	ps_listeatq[3] = attaque4;
-}
+} 
+//destructeur par défaut
 Pokemonstock :: ~Pokemonstock()
 {
 
-}
+} 
+//récupérer les pvs restant
 int Pokemonstock::ps_getpvrestant()
 {
 	return ps_pvrestant;
-}
+} 
+//récupérer l'attaque à la position n
 Attaque Pokemonstock::ps_getattaque(int n)
 {
 	return ps_listeatq[n];
 }
+//changer l'id, utile à la capture, car l'id temporaire des pokémons est celle du pokédex, on crée une nouvelle id à l'insertion dans boite, donc il faut la changer
 void Pokemonstock::ps_setID(int newid)
 {
 	p_ID = newid;
 }
-void Pokemonstock::ps_fincombat(Pokemonstock cepokemon, Pokemonstock ciblevaincue, bool win, int numeroEquipe)
+//opération de fin de combat
+//si le pokémon a gagné (mis les pvs du pokémon sauvage à 0) alors il gagne des evs dépendant de son ennemi
+//mettre les pvs à 0 si il est ko
+void Pokemonstock::ps_fincombat(Pokemonstock cepokemon, Pokemonstock ciblevaincue, bool win)
 {
 	if (win == true)//ajout des evs
 	{
@@ -216,13 +226,30 @@ void Pokemonstock::ps_fincombat(Pokemonstock cepokemon, Pokemonstock ciblevaincu
 	{
 		ps_pvrestant = 0;//pas de pvs sous 0
 	}
-	//this->ps_updateDansDB(numeroEquipe);//décommenter la ligne quand on fait les tests finaux
-}
+} 
+//soigner le pokémon (n'actualise PAS dans la base de données)
 void Pokemonstock::ps_heal()
 {
 	ps_pvrestant = p_pvmax;
-}
+} 
+//initialiser une attaque donné à la position i
 void Pokemonstock::ps_setUneAttaque(Attaque attaque, int i)
 {
 	ps_listeatq[i] = attaque;
+}
+//affichage du pokémon avec ses attaques, pour l'affichage dans la boite et l'équipe dans le pc
+std::string Pokemonstock::ps_getAffichage()
+{
+	std::string textString;
+	textString = "ID: " + std::to_string(p_ID)
+		+ "\nType:\t" + p_type
+		+ "\nAttaque:\t" + std::to_string(p_atk) + "\tAttaque Speciale:\t" + std::to_string(p_atkspe)
+		+ "\nDefense:\t" + std::to_string(p_def) + "\tDefense Speciale:\t" + std::to_string(p_defspe)
+		+ "\nVitesse:\t" + std::to_string(p_vit) + "\tPV:\t" + std::to_string(ps_pvrestant)+"/"+std::to_string(p_pvmax)
+		+ "\nAttaques:\n" + ps_listeatq[0].a_getAffichage() + "\n" + ps_listeatq[1].a_getAffichage() + "\n" + ps_listeatq[2].a_getAffichage() + "\n" + ps_listeatq[3].a_getAffichage();
+	/*sf::Text text((sf::String) textString, font, 20);
+
+	text.setPosition(610, 740);
+	text.setFillColor(sf::Color::White);*/
+	return textString;
 }
