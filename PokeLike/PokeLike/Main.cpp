@@ -28,7 +28,7 @@
 
 int main()
 {
-	float x = 1.5; // facteur graphique
+	float x = 0.75; // facteur graphique
 	sf::RenderWindow maFenetre(sf::VideoMode(x * 1200, x * 1200), "PokeLike", sf::Style::Default);
 	maFenetre.setFramerateLimit(60);// nombre de frames par seconde
 
@@ -370,7 +370,6 @@ int main()
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
 				save_select_tab[1] = 0;
 			}
-
 
 			// on dessine la séléction de sélection au bon endroit
 
@@ -748,7 +747,7 @@ int main()
 							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {}
 							for (int i = 0; i < equipeText.size(); i++) {
 								if (i == indexPokemonSelectedEquipe)
-									equipeText[i].setFillColor(sf::Color::Blue);
+									equipeText[i].setFillColor(sf::Color::Cyan);
 								else
 									equipeText[i].setFillColor(sf::Color::White);
 							}
@@ -843,7 +842,7 @@ int main()
 							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {}
 							for (int i = 0; i < boiteText.size(); i++) {
 								if (i == indexPokemonSelectedBoite)
-									boiteText[i].setFillColor(sf::Color::Blue);
+									boiteText[i].setFillColor(sf::Color::Cyan);
 								else
 									boiteText[i].setFillColor(sf::Color::White);
 							}
@@ -969,7 +968,7 @@ int main()
 							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {}
 							for (int i = 0; i < pokedexText.size(); i++) {
 								if (i == indexPokemonSelectedBoite)
-									pokedexText[i].setFillColor(sf::Color::Blue);
+									pokedexText[i].setFillColor(sf::Color::Cyan);
 								else
 									pokedexText[i].setFillColor(sf::Color::White);
 							}
@@ -1060,7 +1059,7 @@ int main()
 									while (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {}
 									for (int i = 0; i < sortedMetod.size(); i++) {
 										if (i == sortSelected)
-											sortedMetod[i].setFillColor(sf::Color::Blue);
+											sortedMetod[i].setFillColor(sf::Color::Cyan);
 										else
 											sortedMetod[i].setFillColor(sf::Color::White);
 										sortedMetod[i].setPosition(sf::Vector2f(x * 140, x*(46 + 188 * (i + 1) - 188 / 2)));
@@ -1117,7 +1116,7 @@ int main()
 												while (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {}
 												for (int i = 0; i < types.size(); i++) {
 													if (i == typeSelected)
-														types[i].setFillColor(sf::Color::Blue);
+														types[i].setFillColor(sf::Color::Cyan);
 													else
 														types[i].setFillColor(sf::Color::White);
 													types[i].setPosition(sf::Vector2f(x * 140, x*(116 + (190 * (i + 1) - 188 / 2)/4)));
@@ -1249,51 +1248,63 @@ int main()
 			pokemon_sauvage.p_setSpritePosition(730 - 70, 390, x);
 
 			// interface combat selection
-			sf::Sprite combat_selection_sprite;
+			/*sf::Sprite combat_selection_sprite;
 			sf::Texture combat_selection;
 			combat_selection.loadFromFile("Sprite/combat_selection.png", sf::IntRect(0, 0, 600, 242));
 			combat_selection_sprite.setTexture(combat_selection);
 			combat_selection_sprite.setPosition(x * 600, x * 958);
-			combat_selection_sprite.setScale(x, x);
+			combat_selection_sprite.setScale(x, x);*/
 
 			// interface attaque
-			sf::Sprite combat_attaque_sprite;
+			/*sf::Sprite combat_attaque_sprite;
 			sf::Texture combat_attaque;
 			combat_attaque.loadFromFile("Sprite/menu_combat_attaques.png", sf::IntRect(0, 0, 600, 242));
 			combat_attaque_sprite.setTexture(combat_attaque);
 			combat_attaque_sprite.setPosition(x * 600, x * 958);
-			combat_attaque_sprite.setScale(x, x);
+			combat_attaque_sprite.setScale(x, x);*/
 			bool attaque = 0;
+			sf::Text attaquer("Attaquer", fontSave, x * 50);
+			sf::Text capturer("Capturer", fontSave, x * 50);
+			sf::Text fuir("Fuir", fontSave, x * 50);
+			attaquer.setFillColor(sf::Color::White);
+			attaquer.setPosition(x * 640, x * 1000);
+			capturer.setFillColor(sf::Color::White);
+			capturer.setPosition(x * 920, x * 1000);
+			fuir.setFillColor(sf::Color::White);
+			fuir.setPosition(x * 920, x * 1100);
 
 			// flèche de sélection
-			float xa, ya;
+			/*float xa, ya;
 			sf::Sprite arrow_sprite;
 			sf::Texture arrow;
 			arrow.loadFromFile("Sprite/arrow.png", sf::IntRect(0, 0, 17, 66));
 			arrow_sprite.setTexture(arrow);
-			arrow_sprite.setScale(x, x);
+			arrow_sprite.setScale(x, x);*/
 			std::vector<bool> arrow_tab = { 0,0 };
 
 			// attaques
-			sf::String atttext = "CHAR";
-			sf::Font font;
-			if (!font.loadFromFile("arial.ttf"))
-			{
-				std::cout << "ERROR" << std::endl;
-			}
-
 			sf::String att1text;
-			sf::Text att1(att1text, font, x * 50);
+			sf::Text att1(att1text, fontSave, x * 40);
 			sf::String att2text;
-			sf::Text att2(att2text, font, x * 50);
+			sf::Text att2(att2text, fontSave, x * 40);
 			sf::String att3text;
-			sf::Text att3(att3text, font, x * 50);
+			sf::Text att3(att3text, fontSave, x * 40);
 			sf::String att4text;
-			sf::Text att4(att4text, font, x * 50);
-			att1.setFillColor(sf::Color::Black);
-			att2.setFillColor(sf::Color::Black);
-			att3.setFillColor(sf::Color::Black);
-			att4.setFillColor(sf::Color::Black);
+			sf::Text att4(att4text, fontSave, x * 40);
+			att1.setFillColor(sf::Color::Cyan);
+			att1.setPosition(x*640, x*1010);
+			att2.setFillColor(sf::Color::White);
+			att2.setPosition(x*920, x*1010);
+			att3.setFillColor(sf::Color::White);
+			att3.setPosition(x*640, x*1090);
+			att4.setFillColor(sf::Color::White);
+			att4.setPosition(x*920, x*1090);
+
+			// log
+			std::string logString = "";
+			sf::Text logText(logString, fontSave, 20);
+			logText.setPosition(x * 40, x * 1000);
+			logText.setFillColor(sf::Color::White);
 
 			// win
 			sf::Texture winTexture;
@@ -1310,24 +1321,28 @@ int main()
 			gameOverSprite.setScale(x, x);
 
 			// barres de vies
-			sf::RectangleShape bdv1(sf::Vector2f(x * 470, x * 79));
-			sf::RectangleShape bdv2(sf::Vector2f(x * 470, x * 79));
-			bdv1.setPosition(x * 67, x * 150);
-			bdv2.setPosition(x * 665, x * 150);
-			bdv1.setFillColor(sf::Color::Red);
-			bdv2.setFillColor(sf::Color::Red);
+			sf::RectangleShape bdv1(sf::Vector2f(x * 400, x * 40));
+			sf::RectangleShape bdv2(sf::Vector2f(x * 400, x * 40));
+			bdv1.setPosition(x * 100, x * 100);
+			bdv2.setPosition(x * 700, x * 100);
+			bdv1.setFillColor(sf::Color::White);
+			bdv2.setFillColor(sf::Color::White);
 
 			while (endcombat) { // boucle lié à un combat
-				bdv1.setSize(sf::Vector2f(x * 470 * mon_pokemon.ps_getpvrestant() / mon_pokemon.p_getpvmax(), x * 79));
-				bdv2.setSize(sf::Vector2f(x * 470 * pokemon_sauvage.ps_getpvrestant() / pokemon_sauvage.p_getpvmax(), x * 79));
+				bdv1.setSize(sf::Vector2f(x * 400 * mon_pokemon.ps_getpvrestant() / mon_pokemon.p_getpvmax(), x * 42.4));
+				bdv2.setSize(sf::Vector2f(x * 400* pokemon_sauvage.ps_getpvrestant() / pokemon_sauvage.p_getpvmax(), x * 42.4));
 				maFenetre.display();
 
 				maFenetre.draw(backcombat_sprite); //pour l'arene
 				maFenetre.draw(pokemon_sauvage.p_getsprite());
 				maFenetre.draw(mon_pokemon.p_getsprite());
-				maFenetre.draw(combat_selection_sprite);
+				//maFenetre.draw(combat_selection_sprite);
+				maFenetre.draw(attaquer);
+				maFenetre.draw(fuir);
+				maFenetre.draw(capturer);
 				maFenetre.draw(bdv1);
 				maFenetre.draw(bdv2);
+				maFenetre.draw(logText);
 
 				if (win) {
 					endcombat = false;
@@ -1337,10 +1352,13 @@ int main()
 						maFenetre.draw(backcombat_sprite); //pour l'arene
 						maFenetre.draw(pokemon_sauvage.p_getsprite());
 						maFenetre.draw(mon_pokemon.p_getsprite());
-						maFenetre.draw(combat_selection_sprite);
+						maFenetre.draw(attaquer);
+						maFenetre.draw(fuir);
+						maFenetre.draw(capturer);
 						maFenetre.draw(bdv1);
 						maFenetre.draw(bdv2);
 						maFenetre.draw(winSprite);
+						maFenetre.draw(logText);
 					}
 				}
 				// on regarde la sélection
@@ -1357,10 +1375,36 @@ int main()
 					arrow_tab[1] = 0;
 				}
 
+				if (arrow_tab[0] && arrow_tab[1]) { // si on est sur fuite
+					fuir.setFillColor(sf::Color::Cyan);
+					attaquer.setFillColor(sf::Color::White);
+					capturer.setFillColor(sf::Color::White);
+				}
+				if (!arrow_tab[0] && arrow_tab[1]) { // si on est sur capturer
+					fuir.setFillColor(sf::Color::White);
+					attaquer.setFillColor(sf::Color::White);
+					capturer.setFillColor(sf::Color::Cyan);
+				}
+				if (!arrow_tab[0] && !arrow_tab[1]) // si on est sur attaquer
+				{
+					fuir.setFillColor(sf::Color::White);
+					attaquer.setFillColor(sf::Color::Cyan);
+					capturer.setFillColor(sf::Color::White);
+				}
+
+				if (arrow_tab[0] && !arrow_tab[1]) // si on est sur équipe
+				{
+					fuir.setFillColor(sf::Color::White);
+					attaquer.setFillColor(sf::Color::White);
+					capturer.setFillColor(sf::Color::White);
+				}
+
 				// on dessine la flèche de sélection au bon endroit
 
-				if (arrow_tab[0])
+				/*if (arrow_tab[0]) {
 					xa = 1107;
+
+				}
 				else
 					xa = 986;
 				if (arrow_tab[1])
@@ -1369,7 +1413,7 @@ int main()
 					ya = 610;
 				arrow_sprite.setPosition(x*ya, x*xa);
 				maFenetre.draw(arrow_sprite);
-
+				*/
 
 				// si on appuie sur enter
 
@@ -1387,54 +1431,24 @@ int main()
 						attaque = 1;
 						capture = 0;
 
-
-						sf::String att1text;
 						//att1text = "CHARGE";
 						att1text = mon_pokemon.ps_getattaque(0).a_getnom();
 						att1.setString(att1text);
-						if (att1text.getSize() <= 6) {
-							att1.setPosition(x*(635 + 25 * (6 - att1text.getSize())), x * 985);
-						}
-						if (att1text.getSize() > 6) {
-							att1.setPosition(x * 635, x * (985 + 3.5*(att1text.getSize() - 6)));
-							att1.setCharacterSize(x * 300 / att1text.getSize());
-						}
 
 						//att2text = mon_pokemon.p_getnomattaques[1];
 						//att2text = "RUGISSEMENT";
 						att2text = mon_pokemon.ps_getattaque(1).a_getnom();
-						att2.setString(att2text);
-						if (att2text.getSize() <= 6) {
-							att2.setPosition(x * (950 + 25 * (6 - att2text.getSize())), x * 985);
-						}
-						if (att2text.getSize() > 6) {
-							att2.setPosition(x * 950, x * (985 + 3.5*(att2text.getSize() - 6)));
-							att2.setCharacterSize(x * 300 / att2text.getSize());
-						}
+						att2.setString(att2text);						
 
 						//att3text = mon_pokemon.p_getnomattaques[2];
 						//att3text = "SURF";
 						att3text = mon_pokemon.ps_getattaque(2).a_getnom();
 						att3.setString(att3text);
-						if (att3text.getSize() <= 6) {
-							att3.setPosition(x * 635 + x * 25 * (6 - att3text.getSize()), x * 1105);
-						}
-						if (att3text.getSize() > 6) {
-							att3.setPosition(x * 635, x * 1105 + x * 3.5*(att3text.getSize() - 6));
-							att3.setCharacterSize(x * 300 / att3text.getSize());
-						}
 
 						//att4text = mon_pokemon.p_getnomattaques[3];
 						//att4text = "BITE";
 						att4text = mon_pokemon.ps_getattaque(3).a_getnom();
 						att4.setString(att4text);
-						if (att4text.getSize() <= 6) {
-							att4.setPosition(x * 950 + x * 25 * (6 - att4text.getSize()), x * 1105);
-						}
-						if (att4text.getSize() > 6) {
-							att4.setPosition(x * 950, x * 1105 + x * 3.5*(att4text.getSize() - 6));
-							att4.setCharacterSize(x * 300 / att4text.getSize());
-						}
 
 						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 					}
@@ -1476,11 +1490,14 @@ int main()
 							endcombat = false;
 							mon_pokemon.ps_fincombat(mon_pokemon, pokemon_sauvage, win);
 							dres.d_setPokemonEquipe(mon_pokemon, position);
+							logString = "Pokemon capturé !";
+							logText.setString(logString);
 						}
 						else {
+							logString = "La capture a échouée!\n";
 							nombre = (rand() % 4);//l'autre pokémon doit sélectionner une attaque
-							deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef);//degats s'infligent
-							std::cout << "pv mon poke : " << mon_pokemon.ps_getpvrestant() << "pv ennemi : " << pokemon_sauvage.ps_getpvrestant();
+							logString += deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef);//degats s'infligent
+							logText.setString(logString);
 							if (mon_pokemon.ps_getpvrestant() == 0)
 							{
 								bdv1.setSize(sf::Vector2f(0, x * 79));
@@ -1510,13 +1527,44 @@ int main()
 					}
 				}
 				if (attaque) {
-					maFenetre.draw(combat_attaque_sprite);
+					//maFenetre.draw(combat_attaque_sprite);
+					maFenetre.draw(backcombat_sprite); //pour l'arene
+					maFenetre.draw(pokemon_sauvage.p_getsprite());
+					maFenetre.draw(mon_pokemon.p_getsprite());
+					maFenetre.draw(bdv1);
+					maFenetre.draw(bdv2);
 					maFenetre.draw(att1);
 					maFenetre.draw(att2);
 					maFenetre.draw(att3);
 					maFenetre.draw(att4);
-					maFenetre.draw(arrow_sprite);
+					maFenetre.draw(logText);
+					//maFenetre.draw(arrow_sprite);
 					bool atkIsSelected = true;
+					if (arrow_tab[0] && arrow_tab[1]) { // si on est sur ATT 4
+						att1.setFillColor(sf::Color::White);
+						att2.setFillColor(sf::Color::White);
+						att3.setFillColor(sf::Color::White);
+						att4.setFillColor(sf::Color::Cyan);
+					}
+					if (!arrow_tab[0] && arrow_tab[1]){ // si on est sur ATT 2
+						att1.setFillColor(sf::Color::White);
+						att2.setFillColor(sf::Color::Cyan);
+						att3.setFillColor(sf::Color::White);
+						att4.setFillColor(sf::Color::White);
+					}
+					if (!arrow_tab[0] && !arrow_tab[1]){ // si on est sur ATT 1
+						att1.setFillColor(sf::Color::Cyan);
+						att2.setFillColor(sf::Color::White);
+						att3.setFillColor(sf::Color::White);
+						att4.setFillColor(sf::Color::White);
+					}
+					if (arrow_tab[0] && !arrow_tab[1]){ // si on est sur ATT 3
+						att1.setFillColor(sf::Color::White);
+						att2.setFillColor(sf::Color::White);
+						att3.setFillColor(sf::Color::Cyan);
+						att4.setFillColor(sf::Color::White);
+					}
+					
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
 						if (arrow_tab[0] && arrow_tab[1]) // si on est sur ATT 4
 							attaquejoueur = 3;
@@ -1531,30 +1579,26 @@ int main()
 
 					while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 					if (!atkIsSelected) {
+						logString = "";
+						logText.setString(logString);
 						if (mon_pokemon.pc_getvitcombat() > pokemon_sauvage.pc_getvitcombat())//mon pokemon attaque donc en premier
 						{
-							deroulementattaque(mon_pokemon, pokemon_sauvage, attaquejoueur, matricecoef);//degats s'infligent
-																										 //bdv2.setSize(sf::Vector2f((pokemon_sauvage.ps_getpvrestant() / pokemon_sauvage.p_getpvmax()) * 470, 150));
+							logString+=deroulementattaque(mon_pokemon, pokemon_sauvage, attaquejoueur, matricecoef)+"\n";//degats s'infligent
+							logText.setString(logString);																			 //bdv2.setSize(sf::Vector2f((pokemon_sauvage.ps_getpvrestant() / pokemon_sauvage.p_getpvmax()) * 470, 150));
 							if (pokemon_sauvage.ps_getpvrestant() == 0)
 							{
 								bdv2.setSize(sf::Vector2f(0, x * 79));
 								std::cout << "Pokemon vaincu !" << std::endl;
 								std::cout << "pv mon poke : " << mon_pokemon.ps_getpvrestant() << "pv ennemi : " << pokemon_sauvage.ps_getpvrestant();
 								win = true;
-								/*for (int i = 0; i < 100000; i++) {
-								maFenetre.display();
-								maFenetre.draw(winSprite);
-								}*/
-								//ICI le pokemon qui s'est battu gagne des points dépendant des evs de la cible vaincue + mettre à jour les pvs ! 
-								//puis s'update dans la database ! 
 								mon_pokemon.ps_fincombat(mon_pokemon, pokemon_sauvage, win);
 								dres.d_setPokemonEquipe(mon_pokemon, position);
-								//endcombat = false;
 							}
 							//si encore en vie, l'autre pokémon contre attaque ! 
 							else {//l'autre pokémon doit sélectionner une attaque et doit attaquer
 								nombre = (rand() % 4);
-								deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef);
+								logString+=deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef) + "\n";
+								logText.setString(logString);
 							}
 							if (mon_pokemon.ps_getpvrestant() == 0)//on n'a pas de risque de rentrer ici si j'ai déjà battu le pokemon car l'autre n'attaque pas et je ne perd pas de pvs ! 
 							{
@@ -1592,7 +1636,8 @@ int main()
 						else//ici c'est le pokémon sauvage qui attaque en premier
 						{
 							nombre = (rand() % 4);//l'autre pokémon doit sélectionner une attaque
-							deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef);//degats s'infligent
+							logString += deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef) + "\n";//degats s'infligent
+							logText.setString(logString);
 							std::cout << "pv mon poke : " << mon_pokemon.ps_getpvrestant() << "pv ennemi : " << pokemon_sauvage.ps_getpvrestant();
 							if (mon_pokemon.ps_getpvrestant() == 0)
 							{
@@ -1624,7 +1669,8 @@ int main()
 								}
 							}
 							else {//mon pokemon peut attaquer si il n'est pas ko 
-								deroulementattaque(mon_pokemon, pokemon_sauvage, attaquejoueur, matricecoef);//degats s'infligent
+								logString += deroulementattaque(mon_pokemon, pokemon_sauvage, attaquejoueur, matricecoef) + "\n";//degats s'infligent
+								logText.setString(logString);
 								if (pokemon_sauvage.ps_getpvrestant() == 0)
 								{
 									std::cout << "Pokemon vaincu !" << std::endl;
