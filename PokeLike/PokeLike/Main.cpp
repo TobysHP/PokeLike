@@ -387,11 +387,11 @@ int main()
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
 				selectData = 0;
+				while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 				if (save_select_tab[0] && save_select_tab[1]) {
 					if (profilIsCreated[3])
 						dres = chargerDresseur(tableauDesId[3], x);
 					else {
-						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 						bool loop = true;
 						std::string nom = "";
 						sf::Text nomText(nom, fontSave, 80);
@@ -410,6 +410,9 @@ int main()
 									nom.pop_back();
 								}
 								while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace)) {}
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+									loop = false;
+								}
 								nomText.setString(nom);
 								maFenetre.draw(nomText);
 							}
@@ -425,7 +428,6 @@ int main()
 					if (profilIsCreated[2])
 						dres = chargerDresseur(tableauDesId[2], x);
 					else {
-						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 						bool loop = true;
 						std::string nom = "";
 						sf::Text nomText(nom, fontSave, 80);
@@ -444,6 +446,9 @@ int main()
 									nom.pop_back();
 								}
 								while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace)) {}
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+									loop = false;
+								}
 								nomText.setString(nom);
 								maFenetre.draw(nomText);
 							}
@@ -459,7 +464,6 @@ int main()
 					if (profilIsCreated[1])
 						dres = chargerDresseur(tableauDesId[1], x);
 					else {
-						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 						bool loop = true;
 						std::string nom = "";
 						sf::Text nomText(nom, fontSave, 80);
@@ -478,6 +482,9 @@ int main()
 									nom.pop_back();
 								}
 								while(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace)){}
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+									loop = false;
+								}
 								nomText.setString(nom);
 								maFenetre.draw(nomText);
 							}
@@ -493,7 +500,6 @@ int main()
 					if (profilIsCreated[0])
 						dres = chargerDresseur(tableauDesId[0], x);
 					else {
-						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 						bool loop = true;
 						std::string nom = "";
 						sf::Text nomText(nom, fontSave, 80);
@@ -512,6 +518,9 @@ int main()
 									nom.pop_back();
 								}
 								while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace)) {}
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+									loop = false;
+								}
 								nomText.setString(nom);
 								maFenetre.draw(nomText);
 							}
@@ -549,7 +558,10 @@ int main()
 
 		while (endmap) { // boucle liée à la map
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) break;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+				endmap = 0;
+				boo = 1;
+			}
 			std::vector<bool> detectcoll;
 			// appel de la fonction membre "update" pour faire bouger l'objet
 			/////ici
