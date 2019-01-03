@@ -391,21 +391,28 @@ int main()
 					if (profilIsCreated[3])
 						dres = chargerDresseur(tableauDesId[3], x);
 					else {
+						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 						bool loop = true;
 						std::string nom = "";
-						sf::Text nomText (nom, fontSave, 80);
-						nomText.setPosition(600, 600);
+						sf::Text nomText(nom, fontSave, 80);
+						nomText.setPosition(x * 140, x * 500);
 						nomText.setFillColor(sf::Color::White);
-						while (loop) {
-							maFenetre.display();
-							maFenetre.draw(sortBackSprite);
-							maFenetre.draw(nomText);
-							if (Saisie() != NULL)
-								nom += Saisie();
-							while(sf::Keyboard::isKeyPressed(sf::Keyboard::Unknown)){}
-							nomText.setString(nom);
-							//nomText.setOrigin(600, 600);
-							//maFenetre.draw(nomText);
+						while (loop && nom.size()<20) {
+							while (maFenetre.pollEvent(event)) {
+								maFenetre.display();
+								maFenetre.draw(sortBackSprite);
+								if (event.type == sf::Event::TextEntered)
+								{
+									if (event.text.unicode < 128 && isalpha(event.text.unicode))
+										nom += static_cast<char>(event.text.unicode);
+								}
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace) && nom.size()>0) {
+									nom.pop_back();
+								}
+								while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace)) {}
+								nomText.setString(nom);
+								maFenetre.draw(nomText);
+							}
 						}
 						creerDresseurEtBoite(nom);
 						chargerIdsNomsDresseurs(tableauDesId, tableauDesNoms);
@@ -418,21 +425,28 @@ int main()
 					if (profilIsCreated[2])
 						dres = chargerDresseur(tableauDesId[2], x);
 					else {
+						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 						bool loop = true;
 						std::string nom = "";
 						sf::Text nomText(nom, fontSave, 80);
-						nomText.setPosition(600, 600);
+						nomText.setPosition(x * 140, x * 500);
 						nomText.setFillColor(sf::Color::White);
-						while (loop) {
-							maFenetre.display();
-							maFenetre.draw(sortBackSprite);
-							maFenetre.draw(nomText);
-							if (Saisie() != NULL)
-								nom += Saisie();
-							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Unknown)) {}
-							nomText.setString(nom);
-							//nomText.setOrigin(600, 600);
-							//maFenetre.draw(nomText);
+						while (loop && nom.size()<20) {
+							while (maFenetre.pollEvent(event)) {
+								maFenetre.display();
+								maFenetre.draw(sortBackSprite);
+								if (event.type == sf::Event::TextEntered)
+								{
+									if (event.text.unicode < 128 && isalpha(event.text.unicode))
+										nom += static_cast<char>(event.text.unicode);
+								}
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace) && nom.size()>0) {
+									nom.pop_back();
+								}
+								while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace)) {}
+								nomText.setString(nom);
+								maFenetre.draw(nomText);
+							}
 						}
 						creerDresseurEtBoite(nom);
 						chargerIdsNomsDresseurs(tableauDesId, tableauDesNoms);
@@ -455,14 +469,6 @@ int main()
 							while (maFenetre.pollEvent(event)) {
 								maFenetre.display();
 								maFenetre.draw(sortBackSprite);
-								/*if (Saisie() != NULL) {
-									nom += Saisie();
-								}*/
-								/*while (sf::Keyboard::isKeyPressed) {
-									maFenetre.display();
-									maFenetre.draw(sortBackSprite);
-									maFenetre.draw(nomText);
-								}*/
 								if (event.type == sf::Event::TextEntered)
 								{
 									if (event.text.unicode < 128 && isalpha(event.text.unicode))
@@ -487,21 +493,28 @@ int main()
 					if (profilIsCreated[0])
 						dres = chargerDresseur(tableauDesId[0], x);
 					else {
+						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
 						bool loop = true;
 						std::string nom = "";
 						sf::Text nomText(nom, fontSave, 80);
-						nomText.setPosition(600, 600);
+						nomText.setPosition(x * 140, x * 500);
 						nomText.setFillColor(sf::Color::White);
-						while (loop) {
-							maFenetre.display();
-							maFenetre.draw(sortBackSprite);
-							maFenetre.draw(nomText);
-							if (Saisie() != NULL)
-								nom += Saisie();
-							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Unknown)) {}
-							nomText.setString(nom);
-							//nomText.setOrigin(600, 600);
-							//maFenetre.draw(nomText);
+						while (loop && nom.size()<20) {
+							while (maFenetre.pollEvent(event)) {
+								maFenetre.display();
+								maFenetre.draw(sortBackSprite);
+								if (event.type == sf::Event::TextEntered)
+								{
+									if (event.text.unicode < 128 && isalpha(event.text.unicode))
+										nom += static_cast<char>(event.text.unicode);
+								}
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace) && nom.size()>0) {
+									nom.pop_back();
+								}
+								while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace)) {}
+								nomText.setString(nom);
+								maFenetre.draw(nomText);
+							}
 						}
 						creerDresseurEtBoite(nom);
 						chargerIdsNomsDresseurs(tableauDesId, tableauDesNoms);
