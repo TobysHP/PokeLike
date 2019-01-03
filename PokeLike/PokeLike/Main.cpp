@@ -39,7 +39,12 @@ int main()
 	bool boo = TRUE;
 	bool selectData = 1;
 
-
+	sf::Sprite logoSprite;
+	sf::Texture logoTexture;
+	logoTexture.loadFromFile("Sprite/pokelike.png");
+	logoSprite.setTexture(logoTexture);
+	logoSprite.setPosition(373 * x, 900 * x);
+	logoSprite.setScale(x, x);
 	// setup de la carte
 	sf::Sprite background_sprite;
 	sf::Texture background;
@@ -251,6 +256,9 @@ int main()
 			//maFenetre.clear();
 			selectData = true;
 
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+				return -1;
+
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
 				option = 1; // play
 			}
@@ -290,6 +298,7 @@ int main()
 			menu_sprite.setScale(x, x);
 
 			maFenetre.draw(menu_sprite);
+			maFenetre.draw(logoSprite);
 
 			maFenetre.display();
 		}
@@ -561,6 +570,7 @@ int main()
 				endmap = 0;
 				boo = 1;
 			}
+			while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)){}
 			std::vector<bool> detectcoll;
 			// appel de la fonction membre "update" pour faire bouger l'objet
 			/////ici
