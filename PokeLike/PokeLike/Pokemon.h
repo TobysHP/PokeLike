@@ -8,7 +8,7 @@ class Pokemon
 {
 public:
 	Pokemon();
-	Pokemon(int ID, std:: string nom, std:: string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int evdonne, std::string typeev);
+	Pokemon(int ID, std::string nom, std::string type, int posx, int posy, int pvmax, int atk, int atkspe, int def, int defspe, int vit, int evdonne, std::string typeev);
 	~Pokemon();
 	std::string p_getnom();
 	std::string p_gettype();
@@ -28,12 +28,13 @@ public:
 	void p_setsprite(int x);
 	void p_setSpritePosition(float x, float y, float facteurG);
 	sf::Sprite p_getsprite();
+	std::string p_getAffichage();
 	//friend class Attaque;
 
 protected:
 	int p_ID;
-	std:: string p_nom;
-	std:: string p_type;
+	std::string p_nom;
+	std::string p_type;
 	int p_posx;
 	int p_posy;
 	int p_nombretype;
@@ -45,7 +46,7 @@ protected:
 	int p_vit;
 	//int p_rare;
 	int p_evdonne;
-	std :: string p_typeev;
+	std::string p_typeev;
 	sf::Sprite p_sprite;
 	sf::Texture p_texture;
 };
