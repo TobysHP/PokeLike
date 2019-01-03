@@ -747,7 +747,8 @@ int main()
 								boite = TRUE;
 						}
 						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
-
+						pressEnterToBoite.setString("Appuyez sur ENTER pour\nle placer dans la boite");
+						pressEnterToEquipe.setString("Appuyez sur ENTER pour\nle placer dans l'equipe");
 						while (equipe) {
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && indexPokemonSelectedEquipe<equipeText.size() - 1)
 								indexPokemonSelectedEquipe++;
@@ -810,7 +811,7 @@ int main()
 									positionDansLaListeBoite = 0;
 								}
 								else
-									pressEnterToBoite.setString("Vous devez garder un Pokemon");
+									pressEnterToBoite.setString("Vous devez garder un\n Pokemon");
 							}
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
 								if (dres.d_getSizeEquipe() > 1) {
@@ -825,12 +826,12 @@ int main()
 									positionDansLaListeBoite = 0;
 								}
 								else
-									pressEnterToBoite.setString("Vous devez garder un Pokemon");
+									pressEnterToBoite.setString("Vous devez garder un\nPokemon");
 							}
 							maFenetre.draw(pressEnterToBoite);
 							maFenetre.draw(pressDtoDelete);
-							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
-							pressEnterToBoite.setString("Appuyez sur ENTER pour\nle placer dans la boite");
+							//while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
+							//pressEnterToBoite.setString("Appuyez sur ENTER pour\nle placer dans la boite");
 						}
 						while (boite) {
 							maFenetre.display();
@@ -838,14 +839,25 @@ int main()
 							maFenetre.draw(equipe_sprite);
 							maFenetre.draw(poke_info_sprite);
 							maFenetre.draw(pressDtoDelete);
+							std::string textPoke = dres.d_getPokemonBoite(indexPokemonSelectedBoite).ps_getAffichage();
+							Pokemonstock pokestock = dres.d_getPokemonBoite(indexPokemonSelectedBoite);
+							pokestock.p_setsprite(1.5*x);
+							pokestock.p_setSpritePosition(580, 950, x);
+							sf::Text textPokeText(textPoke, fontSave, 20 * x);
+							textPokeText.setFillColor(sf::Color::White);
+							textPokeText.setPosition(x * 610, x * 740);
+							maFenetre.draw(textPokeText);
+							maFenetre.draw(pokestock.p_getsprite());
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && indexPokemonSelectedBoite < boiteText.size() - 1) {
 								indexPokemonSelectedBoite++;
+								pressEnterToEquipe.setString("Appuyez sur ENTER pour\nle placer dans l'equipe");
 								if (positionDansLaListeBoite < 5)
 									positionDansLaListeBoite++;
 							}
 							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {}
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) && indexPokemonSelectedBoite > 0) {
 								indexPokemonSelectedBoite--;
+								pressEnterToEquipe.setString("Appuyez sur ENTER pour\nle placer dans l'equipe");
 								if (positionDansLaListeBoite > 0)
 									positionDansLaListeBoite--;
 							}
@@ -943,16 +955,7 @@ int main()
 							}
 							maFenetre.draw(pressEnterToEquipe);
 							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) { maFenetre.draw(pressEnterToEquipe); }
-							pressEnterToEquipe.setString("Appuyez sur ENTER pour\nle placer dans l'equipe");
-							std::string textPoke = dres.d_getPokemonBoite(indexPokemonSelectedBoite).ps_getAffichage();
-							Pokemonstock pokestock = dres.d_getPokemonBoite(indexPokemonSelectedBoite);
-							pokestock.p_setsprite(1.5*x);
-							pokestock.p_setSpritePosition(580, 950, x);
-							sf::Text textPokeText(textPoke, fontSave, 20 * x);
-							textPokeText.setFillColor(sf::Color::White);
-							textPokeText.setPosition(x * 610, x * 740);
-							maFenetre.draw(textPokeText);
-							maFenetre.draw(pokestock.p_getsprite());
+
 
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
 								boite = FALSE;
@@ -1493,7 +1496,7 @@ int main()
 						anim_poke = 0;
 						capture = false;
 						int nbrandom = rand() % 100;
-						float seuil = 100 * (1 - pokemon_sauvage.ps_getpvrestant() / pokemon_sauvage.p_getpvmax());
+						float seuil = 100 * (1 - (float) pokemon_sauvage.ps_getpvrestant() / (float) pokemon_sauvage.p_getpvmax());
 						if (nbrandom < seuil) {
 							pokemon_sauvage.ps_insererDansDb(dres.d_getIDBoite());
 							dres.d_chargerBoite();
@@ -1506,7 +1509,12 @@ int main()
 						else {
 							logString = "La capture a échouée!\n";
 							nombre = (rand() % 4);//l'autre pokémon doit sélectionner une attaque
-							logString += deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef);//degats s'infligent
+							float precision = (rand() % 1);
+							if (precision <= pokemon_sauvage.ps_getattaque(nombre).a_getprecision()) {
+								logString += deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef);//degats s'infligent
+							}
+							else
+								logString += pokemon_sauvage.p_getnom() + " a raté son attaque\n";
 							logText.setString(logString);
 							if (mon_pokemon.ps_getpvrestant() == 0)
 							{
@@ -1593,7 +1601,12 @@ int main()
 						logText.setString(logString);
 						if (mon_pokemon.pc_getvitcombat() > pokemon_sauvage.pc_getvitcombat())//mon pokemon attaque donc en premier
 						{
-							logString+=deroulementattaque(mon_pokemon, pokemon_sauvage, attaquejoueur, matricecoef)+"\n";//degats s'infligent
+							float precision = (rand() % 1);
+							if (precision <= pokemon_sauvage.ps_getattaque(attaquejoueur).a_getprecision()) {
+								logString += deroulementattaque(mon_pokemon, pokemon_sauvage, attaquejoueur, matricecoef) + "\n";//degats s'infligent
+							}
+							else
+								logString += mon_pokemon.p_getnom() + " a raté son attaque\n";
 							logText.setString(logString);																			 //bdv2.setSize(sf::Vector2f((pokemon_sauvage.ps_getpvrestant() / pokemon_sauvage.p_getpvmax()) * 470, 150));
 							if (pokemon_sauvage.ps_getpvrestant() == 0)
 							{
@@ -1607,7 +1620,11 @@ int main()
 							//si encore en vie, l'autre pokémon contre attaque ! 
 							else {//l'autre pokémon doit sélectionner une attaque et doit attaquer
 								nombre = (rand() % 4);
-								logString+=deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef) + "\n";
+								float precision = (rand() % 1);
+								if (precision <= pokemon_sauvage.ps_getattaque(nombre).a_getprecision())
+									logString+=deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef) + "\n";
+								else
+									logString += pokemon_sauvage.p_getnom() + " a raté son attaque\n";
 								logText.setString(logString);
 							}
 							if (mon_pokemon.ps_getpvrestant() == 0)//on n'a pas de risque de rentrer ici si j'ai déjà battu le pokemon car l'autre n'attaque pas et je ne perd pas de pvs ! 
@@ -1646,7 +1663,11 @@ int main()
 						else//ici c'est le pokémon sauvage qui attaque en premier
 						{
 							nombre = (rand() % 4);//l'autre pokémon doit sélectionner une attaque
-							logString += deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef) + "\n";//degats s'infligent
+							float precision = (rand() % 1);
+							if (precision <= pokemon_sauvage.ps_getattaque(nombre).a_getprecision())
+							    logString += deroulementattaque(pokemon_sauvage, mon_pokemon, nombre, matricecoef) + "\n";//degats s'infligent
+							else
+								logString += pokemon_sauvage.p_getnom() + " a raté son attaque\n";
 							logText.setString(logString);
 							std::cout << "pv mon poke : " << mon_pokemon.ps_getpvrestant() << "pv ennemi : " << pokemon_sauvage.ps_getpvrestant();
 							if (mon_pokemon.ps_getpvrestant() == 0)
@@ -1679,7 +1700,11 @@ int main()
 								}
 							}
 							else {//mon pokemon peut attaquer si il n'est pas ko 
-								logString += deroulementattaque(mon_pokemon, pokemon_sauvage, attaquejoueur, matricecoef) + "\n";//degats s'infligent
+								float precision = (rand() % 1);
+								if (precision <= pokemon_sauvage.ps_getattaque(attaquejoueur).a_getprecision())
+								    logString += deroulementattaque(mon_pokemon, pokemon_sauvage, attaquejoueur, matricecoef) + "\n";//degats s'infligent
+								else
+									logString += mon_pokemon.p_getnom() + " a raté son attaque\n";
 								logText.setString(logString);
 								if (pokemon_sauvage.ps_getpvrestant() == 0)
 								{
