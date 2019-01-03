@@ -119,7 +119,17 @@ int main()
 	centre_sprite.setTexture(centre);
 	centre_sprite.setScale(x, x);
 
+	// setup d'un fond noir
+	sf::Sprite sortBackSprite;
+	sf::Texture sortBackTexture;
+	sortBackTexture.loadFromFile("Sprite/new_saisie.png");
+	sortBackSprite.setTexture(sortBackTexture);
+	sortBackSprite.setScale(x, x);
 
+	sf::RectangleShape blackScreen;
+	blackScreen.setSize(sf::Vector2f(x * 1200, x * 1200));
+	blackScreen.setPosition(0, 0);
+	blackScreen.setFillColor(sf::Color::Black);
 	// setup des menus
 
 	sf::Sprite menu_sprite;
@@ -184,7 +194,7 @@ int main()
 
 	while (maFenetre.isOpen()) // première boucle
 	{
-
+		sf::Event event;
 		int tableauDesId[4];
 		std::string tableauDesNoms[4];
 		bool profilIsCreated[4];
@@ -377,41 +387,127 @@ int main()
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
 				selectData = 0;
-
 				if (save_select_tab[0] && save_select_tab[1]) {
 					if (profilIsCreated[3])
 						dres = chargerDresseur(tableauDesId[3], x);
 					else {
-						creerDresseurEtBoite();
+						bool loop = true;
+						std::string nom = "";
+						sf::Text nomText (nom, fontSave, 80);
+						nomText.setPosition(600, 600);
+						nomText.setFillColor(sf::Color::White);
+						while (loop) {
+							maFenetre.display();
+							maFenetre.draw(sortBackSprite);
+							maFenetre.draw(nomText);
+							if (Saisie() != NULL)
+								nom += Saisie();
+							while(sf::Keyboard::isKeyPressed(sf::Keyboard::Unknown)){}
+							nomText.setString(nom);
+							//nomText.setOrigin(600, 600);
+							//maFenetre.draw(nomText);
+						}
+						creerDresseurEtBoite(nom);
 						chargerIdsNomsDresseurs(tableauDesId, tableauDesNoms);
 						dres = chargerDresseur(tableauDesId[3], x);
+						Pokemonstock aInsert = creerUnPokemonRandom();
+						aInsert.ps_insererDansDb(dres.d_getIDEquipe());
 					}
 				}
 				else if (save_select_tab[0] && !save_select_tab[1]) {
 					if (profilIsCreated[2])
 						dres = chargerDresseur(tableauDesId[2], x);
 					else {
-						creerDresseurEtBoite();
+						bool loop = true;
+						std::string nom = "";
+						sf::Text nomText(nom, fontSave, 80);
+						nomText.setPosition(600, 600);
+						nomText.setFillColor(sf::Color::White);
+						while (loop) {
+							maFenetre.display();
+							maFenetre.draw(sortBackSprite);
+							maFenetre.draw(nomText);
+							if (Saisie() != NULL)
+								nom += Saisie();
+							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Unknown)) {}
+							nomText.setString(nom);
+							//nomText.setOrigin(600, 600);
+							//maFenetre.draw(nomText);
+						}
+						creerDresseurEtBoite(nom);
 						chargerIdsNomsDresseurs(tableauDesId, tableauDesNoms);
 						dres = chargerDresseur(tableauDesId[2], x);
+						Pokemonstock aInsert = creerUnPokemonRandom();
+						aInsert.ps_insererDansDb(dres.d_getIDEquipe());
 					}
 				}
 				if (!save_select_tab[0] && save_select_tab[1]) {
 					if (profilIsCreated[1])
 						dres = chargerDresseur(tableauDesId[1], x);
 					else {
-						creerDresseurEtBoite();
+						while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {}
+						bool loop = true;
+						std::string nom = "";
+						sf::Text nomText(nom, fontSave, 80);
+						nomText.setPosition(x*140, x*500);
+						nomText.setFillColor(sf::Color::White);
+						while (loop && nom.size()<20) {
+							while (maFenetre.pollEvent(event)) {
+								maFenetre.display();
+								maFenetre.draw(sortBackSprite);
+								/*if (Saisie() != NULL) {
+									nom += Saisie();
+								}*/
+								/*while (sf::Keyboard::isKeyPressed) {
+									maFenetre.display();
+									maFenetre.draw(sortBackSprite);
+									maFenetre.draw(nomText);
+								}*/
+								if (event.type == sf::Event::TextEntered)
+								{
+									if (event.text.unicode < 128 && isalpha(event.text.unicode))
+										nom += static_cast<char>(event.text.unicode);
+								}
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace)&&nom.size()>0) {
+									nom.pop_back();
+								}
+								while(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace)){}
+								nomText.setString(nom);
+								maFenetre.draw(nomText);
+							}
+						}
+						creerDresseurEtBoite(nom);
 						chargerIdsNomsDresseurs(tableauDesId, tableauDesNoms);
 						dres = chargerDresseur(tableauDesId[1], x);
+						Pokemonstock aInsert = creerUnPokemonRandom();
+						aInsert.ps_insererDansDb(dres.d_getIDEquipe());
 					}
 				}
 				else if (!save_select_tab[0] && !save_select_tab[1]) {
 					if (profilIsCreated[0])
 						dres = chargerDresseur(tableauDesId[0], x);
 					else {
-						creerDresseurEtBoite();
+						bool loop = true;
+						std::string nom = "";
+						sf::Text nomText(nom, fontSave, 80);
+						nomText.setPosition(600, 600);
+						nomText.setFillColor(sf::Color::White);
+						while (loop) {
+							maFenetre.display();
+							maFenetre.draw(sortBackSprite);
+							maFenetre.draw(nomText);
+							if (Saisie() != NULL)
+								nom += Saisie();
+							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Unknown)) {}
+							nomText.setString(nom);
+							//nomText.setOrigin(600, 600);
+							//maFenetre.draw(nomText);
+						}
+						creerDresseurEtBoite(nom);
 						chargerIdsNomsDresseurs(tableauDesId, tableauDesNoms);
 						dres = chargerDresseur(tableauDesId[0], x);
+						Pokemonstock aInsert = creerUnPokemonRandom();
+						aInsert.ps_insererDansDb(dres.d_getIDEquipe());
 					}
 				}
 				dres.d_chargerEquipe();
@@ -513,6 +609,13 @@ int main()
 			dres.d_sprite.setPosition(x * 800, x * 620);
 			std::vector<sf::Text> equipeText;
 			std::vector<sf::Text> boiteText;
+			std::vector<sf::Text> pokedexText;
+			std::string query = "SELECT * FROM pokemonpokedex ORDER BY ppx_idpokemon";
+			std::vector<Pokemon> lePokedex = chargerLePokedex(query);
+			for (int i = 0; i < lePokedex.size(); i++) {
+				sf::Text temp(lePokedex[i].p_getnom(), fontSave, x * 66);
+				pokedexText.push_back(temp);
+			}
 
 			sf::Text pressEnterToBoite("Appuyez sur ENTER pour\nle placer dans la boite", fontSave, x * 20);
 			pressEnterToBoite.setPosition(sf::Vector2f(x * 800, x * 1020));
@@ -526,20 +629,7 @@ int main()
 			pressDtoDelete.setPosition(sf::Vector2f(x * 800, x * 1080));
 			pressDtoDelete.setFillColor(sf::Color::White);
 
-			/*for (int i = 0; i < dres.d_getSizeEquipe(); i++) {
-			sf::Text temp(dres.d_getPokemonEquipe(i).p_getnom(), fontSave, x*66);
-			equipeText.push_back(temp);
-			}
-			for (int i = 0; i < equipeText.size(); i++) {
-			equipeText[i].setPosition(x*60,x*( 35 + 188 * (i + 1) - 188 / 2));
-			}
-			for (int i = 0; i < dres.d_getSizeBoite(); i++) {
-			sf::Text temp(dres.d_getPokemonBoite(i).p_getnom(), fontSave, x * 66);
-			boiteText.push_back(temp);
-			}
-			/*for (int i = 0; i < boiteText.size(); i++) {
-			boiteText[i].setPosition(80, 35 + 188 * (i + 1) - 188 / 2);
-			}*/
+
 			int indexPokemonSelectedEquipe = 0;
 			int indexPokemonSelectedBoite = 0;
 			int positionDansLaListeBoite = 0;
@@ -580,7 +670,9 @@ int main()
 					bool computer = TRUE;
 					bool boite = FALSE;
 					bool equipe = FALSE;
+					bool pokedex = FALSE;
 					bool selection = 0;
+					dres.d_healequipe();
 					computer_sprite.setTexture(computer_equipe);
 					selection = 0;
 					while (computer) {
@@ -610,6 +702,9 @@ int main()
 						}
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
 							computer = FALSE;
+						}
+						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && sf::Keyboard::isKeyPressed(sf::Keyboard:: P)) {
+							pokedex = TRUE;
 						}
 						if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
 							if (!selection)
@@ -691,20 +786,6 @@ int main()
 									equipe = false;
 									boite = false;
 									computer = false;
-									/*equipeText.clear();
-									boiteText.clear();
-									for (int i = 0; i < dres.d_getSizeEquipe(); i++) {
-									sf::Text temp(dres.d_getPokemonEquipe(i).p_getnom(), fontSave, x * 66);
-									equipeText.push_back(temp);
-									}
-									for (int i = 0; i < equipeText.size(); i++) {
-									equipeText[i].setPosition(x * 60, x*(35 + 188 * (i + 1) - 188 / 2));
-									}
-									for (int i = 0; i < dres.d_getSizeBoite(); i++) {
-									sf::Text temp(dres.d_getPokemonBoite(i).p_getnom(), fontSave, x * 66);
-									boiteText.push_back(temp);
-									}
-									computer_sprite.setTexture(computer_boite);*/
 									indexPokemonSelectedBoite = 0;
 									indexPokemonSelectedEquipe = 0;
 									positionDansLaListeBoite = 0;
@@ -804,17 +885,6 @@ int main()
 									computer = false;
 									equipeText.clear();
 									boiteText.clear();
-									/*for (int i = 0; i < dres.d_getSizeBoite(); i++) {
-									sf::Text temp(dres.d_getPokemonBoite(i).p_getnom(), fontSave, x * 66);
-									boiteText.push_back(temp);
-									}
-									for (int i = 0; i < dres.d_getSizeEquipe(); i++) {
-									sf::Text temp(dres.d_getPokemonEquipe(i).p_getnom(), fontSave, x * 66);
-									equipeText.push_back(temp);
-									}
-									for (int i = 0; i < equipeText.size(); i++) {
-									equipeText[i].setPosition(x * 60, x*(35 + 188 * (i + 1) - 188 / 2));
-									}*/
 									indexPokemonSelectedBoite = 0;
 									indexPokemonSelectedEquipe = 0;
 									positionDansLaListeBoite = 0;
@@ -852,6 +922,249 @@ int main()
 
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
 								boite = FALSE;
+							}
+						}
+						while (pokedex) {
+							maFenetre.display();
+							maFenetre.draw(blackScreen);
+							//maFenetre.draw(computer_sprite);
+							maFenetre.draw(equipe_sprite);
+							maFenetre.draw(poke_info_sprite);
+							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) && indexPokemonSelectedBoite < pokedexText.size() - 1) {
+								indexPokemonSelectedBoite++;
+								if (positionDansLaListeBoite < 5)
+									positionDansLaListeBoite++;
+							}
+							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {}
+							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) && indexPokemonSelectedBoite > 0) {
+								indexPokemonSelectedBoite--;
+								if (positionDansLaListeBoite > 0)
+									positionDansLaListeBoite--;
+							}
+							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {}
+							for (int i = 0; i < pokedexText.size(); i++) {
+								if (i == indexPokemonSelectedBoite)
+									pokedexText[i].setFillColor(sf::Color::Blue);
+								else
+									pokedexText[i].setFillColor(sf::Color::White);
+							}
+							if (pokedexText.size() > 6) {
+								int j = 0;
+								switch (positionDansLaListeBoite) {
+								case 0:
+									for (int i = indexPokemonSelectedBoite; i < indexPokemonSelectedBoite + 6; i++) {
+										pokedexText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(pokedexText[i]);
+									}
+									break;
+								case 1:
+									for (int i = indexPokemonSelectedBoite - 1; i < indexPokemonSelectedBoite + 5; i++) {
+										pokedexText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(pokedexText[i]);
+									}
+									break;
+								case 2:
+									for (int i = indexPokemonSelectedBoite - 2; i < indexPokemonSelectedBoite + 4; i++) {
+										pokedexText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(pokedexText[i]);
+									}
+									break;
+								case 3:
+									for (int i = indexPokemonSelectedBoite - 3; i < indexPokemonSelectedBoite + 3; i++) {
+										pokedexText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(pokedexText[i]);
+									}
+									break;
+								case 4:
+									for (int i = indexPokemonSelectedBoite - 4; i < indexPokemonSelectedBoite + 2; i++) {
+										pokedexText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(pokedexText[i]);
+									}
+									break;
+								case 5:
+									for (int i = indexPokemonSelectedBoite - 5; i < indexPokemonSelectedBoite + 1; i++) {
+										pokedexText[i].setPosition(x * 60, x*(35 + 188 * (j + 1) - 188 / 2));
+										j++;
+										maFenetre.draw(pokedexText[i]);
+									}
+									break;
+								}
+							}
+							else {
+								for (int i = 0; i < pokedexText.size(); i++) {
+									pokedexText[i].setPosition(x * 60, x*(35 + 188 * (i + 1) - 188 / 2));
+									maFenetre.draw(pokedexText[i]);
+								}
+							}
+							while (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) { maFenetre.draw(pressEnterToEquipe); }
+							pressEnterToEquipe.setString("Appuyez sur ENTER pour\nle placer dans l'equipe");
+							std::string textPoke =lePokedex[indexPokemonSelectedBoite].p_getAffichage();
+
+							Pokemon pokestock = lePokedex[indexPokemonSelectedBoite];
+							pokestock.p_setsprite(1.5*x);
+							pokestock.p_setSpritePosition(580, 950, x);
+
+							sf::Text textPokeText(textPoke, fontSave, 20 * x);
+							textPokeText.setFillColor(sf::Color::White);
+							textPokeText.setPosition(x * 610, x * 740);
+							maFenetre.draw(textPokeText);
+							maFenetre.draw(pokestock.p_getsprite());
+
+							if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+								bool sortOptions = true;
+								std::vector <sf::Text> sortedMetod;
+								sortedMetod.push_back(sf::Text("sort by ID", fontSave, 66));   // 0
+								sortedMetod.push_back(sf::Text("sort by NAME", fontSave, 66)); // 1
+								sortedMetod.push_back(sf::Text("sort by TYPE", fontSave, 66)); // 2
+								int sortSelected = 0;
+								while (sortOptions) {
+									positionDansLaListeBoite = 0;
+									indexPokemonSelectedBoite = 0;
+									maFenetre.display();
+									maFenetre.draw(sortBackSprite);
+									if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sortSelected > 0)
+										sortSelected--;
+									while (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {}
+									if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sortSelected < sortedMetod.size()-1)
+										sortSelected++;
+									while (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {}
+									for (int i = 0; i < sortedMetod.size(); i++) {
+										if (i == sortSelected)
+											sortedMetod[i].setFillColor(sf::Color::Blue);
+										else
+											sortedMetod[i].setFillColor(sf::Color::White);
+										sortedMetod[i].setPosition(sf::Vector2f(x * 140, x*(46 + 188 * (i + 1) - 188 / 2)));
+										maFenetre.draw(sortedMetod[i]);
+									}
+									if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+										while(sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)){}
+										switch (sortSelected) {
+										case 0: 
+											pokedexText.clear();
+											lePokedex = chargerLePokedex("SELECT * FROM pokemonpokedex ORDER BY ppx_idpokemon");
+											for (int i = 0; i < lePokedex.size(); i++) {
+												sf::Text temp(lePokedex[i].p_getnom(), fontSave, x * 66);
+												pokedexText.push_back(temp);
+											}
+											sortOptions = false;
+											break;
+										case 1:
+											pokedexText.clear();
+											lePokedex = chargerLePokedex("SELECT * FROM pokemonpokedex ORDER BY ppx_nompokedex");
+											for (int i = 0; i < lePokedex.size(); i++) {
+												sf::Text temp(lePokedex[i].p_getnom(), fontSave, x * 66);
+												pokedexText.push_back(temp);
+											}
+											sortOptions = false;
+											break;
+										case 2:
+											std::vector <sf::Text> types;
+											types.push_back(sf::Text("Combat", fontSave, 40));   // 0
+											types.push_back(sf::Text("Dragon", fontSave, 40)); // 1
+											types.push_back(sf::Text("Eau", fontSave, 40)); // 2
+											types.push_back(sf::Text("Electrique", fontSave, 40)); // 3
+											types.push_back(sf::Text("Feu", fontSave, 40)); // 4
+											types.push_back(sf::Text("Glace", fontSave, 40)); // 5
+											types.push_back(sf::Text("Insecte", fontSave, 40)); // 6
+											types.push_back(sf::Text("Normal", fontSave, 40)); // 7
+											types.push_back(sf::Text("Plante", fontSave, 40)); // 8
+											types.push_back(sf::Text("Poison", fontSave, 40)); // 9
+											types.push_back(sf::Text("Psy", fontSave, 40)); // 10
+											types.push_back(sf::Text("Roche", fontSave, 40)); // 11
+											types.push_back(sf::Text("Sol", fontSave, 40)); // 12
+											types.push_back(sf::Text("Spectre", fontSave, 40)); // 13
+											types.push_back(sf::Text("Vol", fontSave, 40)); // 14
+											int typeSelected = 0;
+											while (sortOptions) {
+												maFenetre.display();
+												maFenetre.draw(sortBackSprite);
+												std::cout << typeSelected << std::endl;
+												if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && typeSelected > 0)
+													typeSelected--;
+												while (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {}
+												if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && typeSelected < types.size() - 1)
+													typeSelected++;
+												while (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {}
+												for (int i = 0; i < types.size(); i++) {
+													if (i == typeSelected)
+														types[i].setFillColor(sf::Color::Blue);
+													else
+														types[i].setFillColor(sf::Color::White);
+													types[i].setPosition(sf::Vector2f(x * 140, x*(116 + (190 * (i + 1) - 188 / 2)/4)));
+													maFenetre.draw(types[i]);
+												}
+												if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+													while (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {}
+													std::string leType;
+													switch (typeSelected) {
+													case 0: // combat
+														leType = "combat";
+														break;
+													case 1: // dragon
+														leType = "dragon";
+														break;
+													case 2: // eau
+														leType = "eau";
+														break;
+													case 3: // electrik
+														leType = "electrik";
+														break;
+													case 4: // feu
+														leType = "feu";
+														break;
+													case 5: // glace
+														leType = "glace";
+														break;
+													case 6: // insecte
+														leType = "insecte";
+														break;
+													case 7: // normal
+														leType = "normal";
+														break;
+													case 8: // plante
+														leType = "plante";
+														break;
+													case 9: // poison
+														leType = "poison";
+														break;
+													case 10: // psy
+														leType = "psy";
+														break;
+													case 11: // roche
+														leType = "roche";
+														break;
+													case 12: // sol
+														leType = "sol";
+														break;
+													case 13: // spectre
+														leType = "spectre";
+														break;
+													case 14: // vol
+														leType = "vol";
+														break;
+													}
+													pokedexText.clear();
+													lePokedex = chargerLePokedex("SELECT * FROM pokemonpokedex WHERE ppx_type = \'" + leType + "\' ");
+													for (int i = 0; i < lePokedex.size(); i++) {
+														sf::Text temp(lePokedex[i].p_getnom(), fontSave, x * 66);
+														pokedexText.push_back(temp);
+													}
+													sortOptions = false;
+												}
+											}
+											break;
+										}
+									}
+								}
+							}
+
+							if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+								pokedex = FALSE;
 							}
 						}
 					}
